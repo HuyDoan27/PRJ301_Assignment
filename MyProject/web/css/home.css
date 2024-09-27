@@ -1,0 +1,419 @@
+/* Reset margin and padding for all elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Màu nền nhẹ cho trang */
+}
+
+/* Container styles */
+.container {
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Header styles */
+header {
+    background: #35424a; /* Màu nền cho header */
+    color: #ffffff;
+    padding: 20px 0;
+}
+
+/* Logo styles */
+.logo {
+    float: left;
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+/* Navigation styles */
+/* Navbar styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* CSS cho biểu tượng đăng nhập */
+.login-container {
+    position: relative;
+    margin-right: 20px;
+}
+
+.login-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #fff; /* Màu nền của biểu tượng tròn */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.login-icon i {
+    color: #333;
+    font-size: 18px;
+}
+
+.login-icon:hover i {
+    color: #000; /* Đổi màu khi hover */
+}
+
+/* CSS cho dropdown menu */
+.dropdown-menu {
+    display: none; /* Ẩn mặc định */
+    position: absolute; /* Đặt vị trí tương đối với login-icon */
+    top: 50px; /* Đặt dưới icon đăng nhập */
+    left: 50%;
+    transform: translateX(-50%); /* Căn giữa dropdown với biểu tượng đăng nhập */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    width: 120px;
+    z-index: 999;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    text-align: center;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f1f1f1;
+}
+nav {
+    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử */
+    justify-content: space-between; /* Giữa logo và các phần tử khác */
+    align-items: center; /* Canh giữa theo chiều dọc */
+    background-color: #24313a; /* Màu nền cho navbar */
+    padding: 10px 20px; /* Padding cho navbar */
+    box-shadow: 0 2px 5px rgba(228, 192, 192, 0.2); /* Thêm bóng đổ */
+}
+
+nav h1.logo {
+    font-size: 28px; /* Kích thước chữ cho logo */
+    color: #ffffff; /* Màu chữ cho logo */
+    margin-right: 20px; /* Khoảng cách giữa logo và menu */
+}
+
+nav ul {
+    display: flex; /* Sử dụng flexbox cho các mục menu */
+    list-style: none; /* Bỏ gạch chân */
+}
+
+nav ul li {
+    margin: 0 15px; /* Khoảng cách giữa các mục menu */
+}
+
+nav ul li a {
+    color: #ffffff; /* Màu chữ cho các liên kết */
+    text-decoration: none; /* Bỏ gạch chân */
+    font-size: 16px; /* Kích thước chữ cho các liên kết */
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+}
+
+nav ul li a:hover {
+    color: #e8491d; /* Thay đổi màu khi hover */
+}
+
+/* Social icons styles */
+.social-icons {
+    display: flex; /* Sử dụng flexbox cho biểu tượng mạng xã hội */
+    align-items: center; /* Canh giữa theo chiều dọc */
+}
+
+.social-icons a {
+    color: #ffffff; /* Màu của biểu tượng */
+    margin-left: 15px; /* Khoảng cách giữa các biểu tượng */
+    font-size: 18px; /* Kích thước biểu tượng */
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+}
+
+.social-icons a:hover {
+    color: #e8491d; /* Thay đổi màu khi hover */
+}
+
+
+/* Banner styles */
+.banner {
+    position: relative; /* Để chứa các thành phần bên trong */
+    text-align: center;
+    padding: 50px 0; /* Khoảng cách trên và dưới */
+    overflow: hidden; /* Ẩn phần thừa nếu cần */
+}
+
+.main-image {
+    width: 90%; /* Chiếm toàn bộ chiều ngang của phần tử cha */
+    height: 90%; /* Chiều cao tự động */
+    max-height: 70vh; /* Giới hạn chiều cao tối đa của ảnh (70% chiều cao viewport) */
+    object-fit: cover; /* Giúp ảnh không bị biến dạng */
+    display: block; /* Đảm bảo không có khoảng trắng bên dưới ảnh */
+    margin: 0 auto; /* Căn giữa ảnh lớn */
+}
+
+.btn {
+    display: block; /* Để nút chiếm toàn bộ chiều rộng */
+    margin: 20px auto; /* Căn giữa nút và tạo khoảng cách trên và dưới */
+    padding: 12px 20px; /* Khoảng cách bên trong nút */
+    background-color: #e74c3c; /* Màu nền cho nút */
+    color: #fff; /* Màu chữ trắng */
+    border: none; /* Bỏ viền */
+    border-radius: 5px; /* Bo góc cho nút */
+    font-size: 18px; /* Kích thước chữ trong nút */
+    text-decoration: none; /* Bỏ gạch chân cho chữ */
+    text-align: center; /* Căn giữa chữ trong nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu */
+}
+
+.btn:hover {
+    background-color: #c0392b; /* Màu nền khi hover */
+}
+
+.banner p {
+    font-size: 28px; /* Kích thước chữ lớn hơn */
+    font-weight: bold; /* Đậm chữ */
+    color: white; /* Màu chữ trắng */
+    text-align: center; /* Căn giữa chữ */
+    margin: 20px auto; /* Khoảng cách phía trên và dưới, căn giữa tự động */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Đổ bóng cho chữ để nổi bật hơn */
+    max-width: 80%; /* Giới hạn chiều rộng của văn bản */
+    line-height: 1.6; /* Tăng khoảng cách giữa các dòng */
+    font-family: 'Arial', sans-serif; /* Chọn kiểu chữ */
+    padding: 10px; /* Khoảng cách bên trong cho chữ */
+    border-radius: 8px; /* Bo góc cho thẻ */
+    background-color: rgba(240, 212, 212, 0.5); /* Thêm nền mờ để chữ nổi bật hơn */
+}
+
+
+/* Gallery styles */
+.gallery {
+    text-align: center;
+    padding: 10px 0; /* Khoảng cách trên và dưới cho gallery */
+    background-color: #f9f9f9; /* Nền sáng cho gallery */
+}
+
+.image-grid {
+    display: flex; /* Sử dụng flexbox cho ảnh nhỏ */
+    justify-content: center; /* Canh giữa ảnh nhỏ */
+    flex-wrap: wrap; /* Cho phép ảnh nhỏ xuống dòng nếu không đủ chỗ */
+    margin: 0 auto; /* Căn giữa toàn bộ grid */
+    max-width: 1200px; /* Đặt chiều rộng tối đa cho gallery */
+}
+
+.image-item {
+    width: calc(33.33% - 20px); /* Đặt kích thước cho 3 ảnh mỗi hàng với khoảng cách */
+    margin: 10px; /* Khoảng cách giữa các ảnh nhỏ */
+    border-radius: 5px; /* Bo góc cho ảnh nhỏ */
+    overflow: hidden; /* Ẩn phần thừa */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Thêm bóng đổ cho ảnh nhỏ */
+    position: relative; /* Để chứa ảnh bên trong */
+    height: auto; /* Đặt chiều cao cố định cho ảnh nhỏ */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+}
+
+.image-item {
+    position: relative; /* Để overlay có thể vị trí tuyệt đối */
+    overflow: hidden; /* Ẩn phần thừa */
+}
+
+.overlay {
+    position: absolute; /* Đặt overlay ở vị trí tuyệt đối */
+    top: 10px; /* Cách phía trên 10px */
+    right: 10px; /* Cách phía bên phải 10px */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+    display: flex; /* Sử dụng flexbox để căn giữa icon */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    opacity: 0; /* Ẩn overlay mặc định */
+    transition: opacity 0.3s ease; /* Hiệu ứng chuyển màu cho overlay */
+    border-radius: 5px; /* Bo góc cho overlay */
+}
+
+.image-item:hover .overlay {
+    opacity: 1; /* Hiện overlay khi hover vào ảnh */
+}
+
+.overlay i {
+    color: white; /* Màu icon trắng */
+    font-size: 24px; /* Kích thước icon */
+    cursor: pointer; /* Con trỏ khi hover lên icon */
+}
+
+.image-item img {
+    width: 100%; /* Đảm bảo ảnh nhỏ sử dụng toàn bộ chiều rộng của item */
+    height: 100%; /* Đảm bảo chiều cao ảnh nhỏ bằng với chiều cao của item */
+    object-fit: cover; /* Giúp ảnh không bị biến dạng */
+    transition: transform 0.3s ease; /* Hiệu ứng chuyển động cho ảnh */
+}
+
+.image-item:hover {
+    transform: scale(1.05); /* Phóng to ảnh nhỏ khi hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Tăng bóng đổ khi hover */
+}
+
+.image-item:hover img {
+    transform: scale(1.1); /* Phóng to ảnh bên trong khi hover */
+    opacity: 0.5; /* Đổi độ mờ cho ảnh khi hover */
+}
+
+.popup {
+    display: none; /* Ẩn popup mặc định */
+    position: fixed; /* Đặt vị trí cố định */
+    z-index: 1000; /* Đặt trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    height: 100%; /* Chiếm toàn bộ chiều cao */
+    background-color: rgba(0, 0, 0, 0.7); /* Nền mờ tối */
+}
+
+.popup-content {
+    background-color: white; /* Nền trắng cho nội dung */
+    margin: 15% auto; /* Giữa trong cửa sổ */
+    padding: 20px; /* Khoảng cách bên trong */
+    border-radius: 5px; /* Bo góc cho popup */
+    width: 80%; /* Chiều rộng của popup */
+}
+
+.close {
+    color: #aaa; /* Màu xám cho nút đóng */
+    float: right; /* Đưa nút đóng sang bên phải */
+    font-size: 28px; /* Kích thước nút đóng */
+    font-weight: bold; /* Đậm nút đóng */
+}
+
+.close:hover,
+.close:focus {
+    color: black; /* Màu đen khi hover vào nút đóng */
+    text-decoration: none; /* Không có gạch chân */
+    cursor: pointer; /* Con trỏ khi hover */
+}
+
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #e8491d; /* Màu nền cho nút */
+    color: #ffffff; /* Màu chữ cho nút */
+    text-decoration: none;
+    border-radius: 5px; /* Bo góc cho nút */
+}
+
+/* Footer styles (optional) */
+footer {
+    background-color: #2c3e50; /* Màu nền footer */
+    color: #ecf0f1; /* Màu chữ */
+    padding: 40px 20px; /* Khoảng cách bên trong */
+    font-family: 'Arial', sans-serif; /* Font chữ */
+}
+
+.footer-container {
+    width: 80%; /* Sử dụng 80% chiều rộng của footer */
+    margin: 0 auto; /* Căn giữa footer */
+    display: flex; /* Sử dụng Flexbox để chia cột */
+    justify-content: space-between; /* Căn giữa các cột */
+    align-items: center; /* Căn giữa dọc */
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    flex: 1; /* Mỗi cột chiếm 1 phần đều nhau */
+    padding: 0 10px; /* Khoảng cách bên trái và bên phải cho mỗi cột */
+}
+
+.footer-left h3 {
+    margin: 0; /* Bỏ margin cho tiêu đề */
+    font-size: 28px; /* Kích thước chữ tiêu đề */
+    font-weight: bold; /* Chữ in đậm */
+}
+
+.footer-left p {
+    margin: 5px 0; /* Khoảng cách cho các đoạn chữ */
+    font-size: 16px; /* Kích thước chữ cho địa chỉ */
+}
+
+.footer-center {
+    text-align: center; /* Căn giữa chữ */
+}
+
+.social-icons {
+    margin-right: 18%;
+    display: flex; /* Sử dụng Flexbox cho icon */
+    justify-content: center; /* Căn giữa icon */
+    gap: 40px; /* Khoảng cách giữa các icon */
+    margin-top: 10px; /* Khoảng cách phía trên */
+}
+
+.social-icon {
+    font-size: 40px; /* Kích thước icon */
+    color: #ecf0f1; /* Màu icon */
+    transition: transform 0.3s, color 0.3s; /* Hiệu ứng chuyển màu và phóng to */
+}
+
+.social-icon:hover {
+    color: #3498db; /* Màu khi hover vào icon */
+    transform: scale(1.2); /* Phóng to khi hover */
+}
+
+.footer-right {
+    text-align: right; /* Căn phải cho ảnh */
+}
+
+.map-image {
+    max-width: 70%; /* Chiều rộng tối đa 100% */
+    height: auto; /* Chiều cao tự động */
+    border-radius: 5px; /* Bo góc cho ảnh */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ cho ảnh */
+}
+
+
+
+
+
+/* ------------- */
+
+.social-icons {
+    float: right; /* Đặt biểu tượng bên phải của navbar */
+}
+
+.social-icons a {
+    color: #ffffff; /* Màu của biểu tượng */
+    margin-left: 15px; /* Khoảng cách giữa các biểu tượng */
+    text-decoration: none; /* Bỏ gạch chân */
+    font-size: 18px; /* Kích thước biểu tượng */
+}
+
+.social-icons a:hover {
+    color: #e8491d; /* Thay đổi màu khi hover */
+}
+
+.products{
+    margin-top: 10px;
+    text-align: center;
+}
