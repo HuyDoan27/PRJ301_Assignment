@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <div class="form-container">
         <h2 id="form-title">Đăng Nhập</h2>
-        <form id="auth-form">
+        <form id="auth-form" action="login" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="username" required>
@@ -26,6 +26,6 @@
         </form>
         <p id="toggle-form">Chưa có tài khoản? <a href="#" id="switch-to-register">Đăng ký</a></p>
     </div>
-    <script src="../js/login.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>
