@@ -17,6 +17,17 @@ public class User {
     private boolean isLocked;
     private ArrayList<Department> depts = new ArrayList<>();
     private ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<Feature> features = new ArrayList<>(); 
+
+    public ArrayList<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(ArrayList<Feature> features) {
+        this.features = features;
+    }
+    
+    
 
     public ArrayList<Department> getDepts() {
         return depts;

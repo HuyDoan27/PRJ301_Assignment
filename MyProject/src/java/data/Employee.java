@@ -14,9 +14,18 @@ public class Employee {
 
     private int eid;
     private String ename;
+    private String salaryLevel;
     private int did;
     private ArrayList<User> user = new ArrayList<>();
     private ArrayList<Department> departments = new ArrayList<>();
+
+    public String getSalaryLevel() {
+        return salaryLevel;
+    }
+
+    public void setSalaryLevel(String salaryLevel) {
+        this.salaryLevel = salaryLevel;
+    }
 
     public ArrayList<Department> getDepartments() {
         return departments;

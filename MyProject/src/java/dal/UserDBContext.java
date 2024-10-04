@@ -5,6 +5,7 @@
 package dal;
 
 import data.Department;
+import data.Employee;
 import data.Feature;
 import data.User;
 import java.sql.PreparedStatement;
@@ -19,6 +20,83 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class UserDBContext extends DBContext<User> {
+
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "SELECT e.eid,e.ename,e.salaryLevel,u.uid, u.username,u.[password], d.dname,f.fid,f.fname, u.isLocked FROM [dbo].[User] u\n"
+                + " inner join [dbo].[Employee_User] eu on eu.uid = u.uid\n"
+                + " inner join [dbo].[Employee] e on e.eid = eu.eid\n"
+                + " inner join [dbo].[Department] d on d.did = e.did\n"
+                + " inner join [dbo].[DepartmentFeature] df on df.did = d.did\n"
+                + " inner join [dbo].[Feature] f on  f.fid = df.fid\n"
+                + " order by d.did asc , f.fid asc";
+
+        PreparedStatement stm = null;
+        try {
+            stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int uid = rs.getInt("uid");
+                User cUser = findUserById(users, uid);
+
+                if (cUser == null) {
+                    cUser = new User();
+                    cUser.setUid(uid);
+                    cUser.setUsername(rs.getString("username"));
+                    cUser.setPassword(rs.getString("password"));
+                    cUser.setIsLocked(rs.getBoolean("isLocked"));
+                    cUser.setDepts(new ArrayList<>());  // Khởi tạo danh sách Departments
+                    cUser.setFeatures(new ArrayList<>());  // Khởi tạo danh sách Features
+                    cUser.setEmployees(new ArrayList<>());  // Khởi tạo danh sách Employees
+                    users.add(cUser);
+                }
+
+                // Thêm Department cho người dùng
+                Department cDept = new Department();
+                cDept.setDid(rs.getInt("did"));
+                cDept.setDname(rs.getString("dname"));
+                cUser.getDepts().add(cDept);
+
+                // Thêm Feature cho người dùng
+                Feature cFeature = new Feature();
+                cFeature.setFid(rs.getInt("fid"));
+                cFeature.setFname(rs.getString("fname"));
+                cUser.getFeatures().add(cFeature);
+
+                // Thêm Employee cho người dùng
+                Employee cEmployee = new Employee();
+                cEmployee.setEid(rs.getInt("eid"));
+                cEmployee.setEname(rs.getString("ename"));
+                cEmployee.setSalaryLevel(rs.getString("salaryLevel"));
+                cUser.getEmployees().add(cEmployee);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return users;
+    }
+
+    private User findUserById(ArrayList<User> users, int uid) {
+        for (User user : users) {
+            if (user.getUid() == uid) {
+                return user;
+            }
+        }
+        return null;
+    }
 
     public ArrayList<Department> getDepts(String username) {
         ArrayList<Department> depts = new ArrayList<>();
