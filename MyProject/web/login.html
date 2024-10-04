@@ -24,8 +24,18 @@
             </div>
             <button type="submit" id="submit-btn">Đăng Nhập</button>
         </form>
-        <p id="toggle-form">Chưa có tài khoản? <a href="#" id="switch-to-register">Đăng ký</a></p>
+        
+        <div id="error-message" style="color: red;"></div>
+        
+<!--        <p id="toggle-form">Chưa có tài khoản? <a href="#" id="switch-to-register">Đăng ký</a></p>-->
     </div>
-    <script src="js/login.js"></script>
+<!--    <script src="js/login.js"></script>-->
+    <script>
+        // Kiểm tra tham số 'error' trong URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            document.getElementById('error-message').innerText = "Đăng nhập thất bại. Vui lòng kiểm tra lại tài khoản và mật khẩu.";
+        }
+    </script>
 </body>
 </html>

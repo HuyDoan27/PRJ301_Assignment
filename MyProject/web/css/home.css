@@ -27,10 +27,15 @@ header {
 
 /* Logo styles */
 .logo {
-    float: left;
-    font-size: 24px;
-    margin-left: 20px;
+    width: 10vw; /* Chiều rộng tương ứng với 10% chiều rộng viewport */
+    height: 80vh; /* Chiều cao tự động để giữ tỉ lệ */
+    max-width: 70px; /* Kích thước tối đa để không quá lớn */
+    max-height: 70px; /* Kích thước tối đa để không quá lớn */
+    border-radius: 50%; /* Làm tròn hình ảnh */
+    object-fit: cover; /* Cắt ảnh để không bị biến dạng */
+    margin-right: 20px; /* Khoảng cách giữa logo và menu */
 }
+
 
 /* Navigation styles */
 /* Navbar styles */
@@ -41,6 +46,10 @@ nav {
     padding: 10px;
     background-color: #333;
     color: #fff;
+}
+
+nav li{
+    font-size: 20px;
 }
 
 nav ul {
@@ -122,24 +131,67 @@ nav h1.logo {
 }
 
 nav ul {
-    display: flex; /* Sử dụng flexbox cho các mục menu */
-    list-style: none; /* Bỏ gạch chân */
+    display: flex;
+    list-style: none;
+    justify-content: flex-start; /* Căn đều các phần tử trong menu */
+    padding: 0;
+    margin: 0;
 }
 
 nav ul li {
-    margin: 0 15px; /* Khoảng cách giữa các mục menu */
+    margin: 0 10px;
+    position: relative; /* Đặt vị trí tương đối để tránh bị đè */
 }
 
 nav ul li a {
-    color: #ffffff; /* Màu chữ cho các liên kết */
-    text-decoration: none; /* Bỏ gạch chân */
-    font-size: 16px; /* Kích thước chữ cho các liên kết */
-    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 20px; /* Điều chỉnh padding đều cho các mục */
+    display: inline-block; /* Đảm bảo chiều cao của tất cả các mục là như nhau */
+    transition: background-color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #e8491d; /* Thay đổi màu khi hover */
+    background-color: #3498db;
+    color: #fff;
 }
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff; /* Màu chữ mặc định */
+    padding: 10px 15px;
+    transition: background-color 0.3s ease; /* Hiệu ứng mượt */
+}
+
+nav ul li a:hover {
+    background-color: #3498db; /* Màu nền khi hover */
+}
+
+nav ul li a.active {
+    background-color: #e74c3c; /* Màu nền cho mục active */
+    color: #fff; /* Màu chữ khi active */
+    border-radius: 5px; /* Bo góc nhẹ cho nút active */
+}
+
+@media (max-width: 870px) {
+    nav ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Chia menu thành 2 cột */
+        gap: 10px; /* Khoảng cách giữa các cột */
+        justify-items: center; /* Căn giữa các mục trong mỗi cột */
+    }
+
+    nav ul li {
+        margin: 5px 0; /* Tạo khoảng cách giữa các mục */
+    }
+
+    nav ul li a {
+        padding: 10px;
+        text-align: center;
+        width: 100%; /* Đảm bảo mỗi mục chiếm đủ không gian */
+    }
+}
+
 
 /* Social icons styles */
 .social-icons {
@@ -333,6 +385,7 @@ footer {
 }
 
 .footer-container {
+    height: 110px;
     width: 80%; /* Sử dụng 80% chiều rộng của footer */
     margin: 0 auto; /* Căn giữa footer */
     display: flex; /* Sử dụng Flexbox để chia cột */
@@ -392,10 +445,6 @@ footer {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ cho ảnh */
 }
 
-
-
-
-
 /* ------------- */
 
 .social-icons {
@@ -417,3 +466,89 @@ footer {
     margin-top: 10px;
     text-align: center;
 }
+
+
+
+/* CSS Đặt hàng */
+/* Đặt thuộc tính cho phần main */
+#mainContent {
+    max-width: 800px; /* Chiều rộng tối đa của form */
+    margin: 40px auto; /* Căn giữa */
+    padding: 20px; /* Khoảng cách bên trong */
+    background-color: #ffffff; /* Màu nền trắng */
+    border-radius: 12px; /* Bo góc */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Đổ bóng mềm mại */
+}
+
+/* Đặt thuộc tính cho form-container */
+.form-container {
+    display: flex; /* Sử dụng flexbox để chia thành 2 cột */
+    justify-content: space-between; /* Khoảng cách giữa 2 cột */
+    gap: 20px; /* Khoảng cách giữa các cột */
+}
+
+/* Đặt thuộc tính cho các cột */
+.personal-info, .product-info {
+    width: 48%; /* Chiếm 48% chiều rộng của container */
+    background-color: #f2f2f2; /* Màu nền nhẹ cho cột */
+    padding: 15px; /* Khoảng cách bên trong cột */
+    border-radius: 8px; /* Bo góc cột */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho cột */
+}
+
+/* Đặt thuộc tính cho các label */
+.personal-info label, .product-info label {
+    margin-bottom: 10px; /* Khoảng cách dưới mỗi label */
+    font-weight: bold; /* Chữ đậm */
+    color: #333; /* Màu chữ */
+    font-size: 16px; /* Kích thước chữ */
+}
+
+/* Đặt thuộc tính cho các input */
+.personal-info input, .product-info input {
+    padding: 15px; /* Tăng khoảng cách bên trong */
+    margin-bottom: 15px; /* Khoảng cách dưới mỗi input */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 4px; /* Bo góc */
+    font-size: 16px; /* Kích thước chữ */
+    transition: border-color 0.3s; /* Hiệu ứng chuyển màu viền */
+    width: 100%; /* Chiếm 100% chiều rộng */
+    box-sizing: border-box; /* Tính cả đường viền và padding vào chiều rộng */
+}
+
+/* Hiệu ứng khi focus vào input */
+.personal-info input:focus, .product-info input:focus {
+    border-color: #007bff; /* Màu viền khi focus */
+    outline: none; /* Bỏ viền mặc định */
+}
+
+/* Đặt thuộc tính cho nút gửi */
+form button {
+    display: block; /* Chế độ hiển thị block */
+    width: 100%; /* Chiếm 100% chiều rộng */
+    padding: 12px; /* Khoảng cách bên trong */
+    background-color: #007bff; /* Màu nền của nút */
+    color: #ffffff; /* Màu chữ */
+    border: none; /* Không có đường viền */
+    border-radius: 6px; /* Bo góc */
+    font-size: 18px; /* Kích thước chữ */
+    cursor: pointer; /* Con trỏ khi di chuột qua nút */
+    transition: background-color 0.3s, transform 0.3s; /* Hiệu ứng chuyển màu nền và phóng to */
+}
+
+/* Hiệu ứng khi di chuột vào nút */
+form button:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
+    transform: translateY(-2px); /* Nâng lên khi hover */
+}
+
+/* Hiệu ứng khi nhấn nút */
+form button:active {
+    transform: translateY(0); /* Trở về vị trí khi nhấn */
+}
+
+
+
+
+
+
