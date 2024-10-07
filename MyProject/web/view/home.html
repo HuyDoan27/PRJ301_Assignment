@@ -1,119 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ABC Company</title>
-    <link rel="stylesheet" href="../css/home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <nav>
-                <img class="logo" src="https://www.shutterstock.com/image-vector/3d-abc-cubes-multicolored-vector-600nw-2374071877.jpg" alt="ABC">
-                <ul>
-                    <li><a href="#" class="active">Home</a></li>
-                    <li><a href="order.html">Đặt hàng</a></li>
-                    <li><a href="#">Đơn hàng</a></li>
-                    <li><a href="#">KHSX</a></li>
-                    <li><a href="#">Xưởng</a></li>                   
-                    <li><a href="#">Nhân sự</a></li>
-                </ul>
-                <div onclick="toggleDropdown()" class="login-container" onmouseover="showDropdown()" onmouseout="hideDropdown()"> <!-- Biểu tượng đăng nhập -->
-                    <div class="login-icon">
-                        <i class="fas fa-sign-in-alt"></i>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ABC Company</title>
+        <link rel="stylesheet" href="../css/home.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <nav>
+                    <img class="logo" src="https://www.shutterstock.com/image-vector/3d-abc-cubes-multicolored-vector-600nw-2374071877.jpg" alt="ABC">
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="order.html">Đặt hàng</a></li>
+                        <li><a href="#">Đơn hàng</a></li>
+                        <li><a href="#">KHSX</a></li>
+                        <li><a href="#">Xưởng</a></li>                   
+                        <li><a href="../planning/list">Nhân sự</a></li>
+                    </ul>
+                    <div class="login-container" onclick="showDropdown()" onclick="hideDropdown()"> 
+                        <div class="login-icon">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </div>
+                        <div id="myDropdown" class="dropdown-menu">
+                            <form action="../logout" method="GET">
+                                <button type="submit" class="logout-btn">Đăng xuất</button>
+                            </form>
+                        </div>
                     </div>
-                    <!-- Dropdown hiển thị khi click vào icon đăng nhập -->
-                    <div class="dropdown-menu">
-                        <a href="#">Đăng xuất</a>
-                    </div>
-                </div>
-            </nav>
-            
-            <div class="banner">                
-                <img src="https://cdn.openart.ai/uploads/image_7bLCmb-A_1727433661948_raw.jpg" alt="Main Image" class="main-image">
-                <p>"Nét đẹp mây tre - Gắn kết yêu thương."</p>
-            </div>
-        </div>
-    </header>
-    
-    <h1 class="products">PRODUCTS</h1>
+                </nav>
 
-    <section class="gallery">
-        <div class="container">
-            <div class="image-grid">
-                <div class="image-item">
-                    <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/401/675/products/anh-chinh-279faf12-ef49-4a91-8d8c-ef55b68a9587.jpg?v=1611133867243" alt="Image 1">
-                    <div class="overlay">
-                        <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 1')"></i>
-                    </div>
-                </div>
-                <div class="image-item">
-                    <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/401/675/products/gio-may-ac-dan-thua.jpg?v=1668129323490" alt="Image 2">
-                    <div class="overlay">
-                        <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 2')"></i>
-                    </div>
-                </div>
-                <div class="image-item">
-                    <img src="https://sovhtt.hanoi.gov.vn/wp-content/uploads/2020/09/6-9-may-tre-dan-phu-vinh.jpg" alt="Image 3">
-                    <div class="overlay">
-                        <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 3')"></i>
-                    </div>
-                </div>
-                <div class="image-item">
-                    <img src="https://pic.trangvangvietnam.com/395737612/mam%20(8).jpg" alt="Image 4">
-                    <div class="overlay">
-                        <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 4')"></i>
-                    </div>
-                </div>
-                <div class="image-item">
-                    <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/487/338/products/gio-may-tre-dan-quai-cam-vietnamoi-02-compressed.jpg?v=1688024996177" alt="Image 5">
-                    <div class="overlay">
-                        <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 5')"></i>
-                    </div>
-                </div>
-                <div class="image-item">
-                    <img src="https://amd-vn.com/images/sanpham/201911250831_dg046-2.png" alt="Image 6">
-                    <div class="overlay">
-                        <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 6')"></i>
-                    </div>
+                <div class="banner">                
+                    <img src="https://cdn.openart.ai/uploads/image_7bLCmb-A_1727433661948_raw.jpg" alt="Main Image" class="main-image">
+                    <p>"Nét đẹp mây tre - Gắn kết yêu thương."</p>
                 </div>
             </div>
-        </div>
-        <a href="#" class="btn">Book Now!</a>
-    
-        <!-- Popup thông tin sản phẩm -->
-        <div id="infoPopup" class="popup">
-            <div class="popup-content">
-                <span class="close" onclick="closeInfo()">&times;</span>
-                <p id="productInfo"></p>
-            </div>
-        </div>
-    </section>
+        </header>
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-left">
-                <h3>ABC Company</h3>
-                <p>123 Main Street, City Name, Country</p>
-            </div>
-            <div class="footer-center">
-                <div class="social-icons">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <h1 class="products">PRODUCTS</h1>
+
+        <section class="gallery">
+            <div class="container">
+                <div class="image-grid">
+                    <div class="image-item">
+                        <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/401/675/products/anh-chinh-279faf12-ef49-4a91-8d8c-ef55b68a9587.jpg?v=1611133867243" alt="Image 1">
+                        <div class="overlay">
+                            <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 1')"></i>
+                        </div>
+                    </div>
+                    <div class="image-item">
+                        <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/401/675/products/gio-may-ac-dan-thua.jpg?v=1668129323490" alt="Image 2">
+                        <div class="overlay">
+                            <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 2')"></i>
+                        </div>
+                    </div>
+                    <div class="image-item">
+                        <img src="https://sovhtt.hanoi.gov.vn/wp-content/uploads/2020/09/6-9-may-tre-dan-phu-vinh.jpg" alt="Image 3">
+                        <div class="overlay">
+                            <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 3')"></i>
+                        </div>
+                    </div>
+                    <div class="image-item">
+                        <img src="https://pic.trangvangvietnam.com/395737612/mam%20(8).jpg" alt="Image 4">
+                        <div class="overlay">
+                            <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 4')"></i>
+                        </div>
+                    </div>
+                    <div class="image-item">
+                        <img src="https://bizweb.dktcdn.net/thumb/1024x1024/100/487/338/products/gio-may-tre-dan-quai-cam-vietnamoi-02-compressed.jpg?v=1688024996177" alt="Image 5">
+                        <div class="overlay">
+                            <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 5')"></i>
+                        </div>
+                    </div>
+                    <div class="image-item">
+                        <img src="https://amd-vn.com/images/sanpham/201911250831_dg046-2.png" alt="Image 6">
+                        <div class="overlay">
+                            <i class="fa fa-eye" onclick="showInfo('Thông tin sản phẩm 6')"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-right">
-                <img src="https://cdn.wccftech.com/wp-content/uploads/2017/03/Google-Maps.jpg" alt="Map" class="map-image">
+            <a href="#" class="btn">Book Now!</a>
+
+            <!-- Popup thông tin sản phẩm -->
+            <div id="infoPopup" class="popup">
+                <div class="popup-content">
+                    <span class="close" onclick="closeInfo()">&times;</span>
+                    <p id="productInfo"></p>
+                </div>
             </div>
-        </div>
-    </footer>
-    
-    <script src="../js/home.js"></script>
-</body>
+        </section>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-left">
+                    <h3>ABC Company</h3>
+                    <p>123 Main Street, City Name, Country</p>
+                </div>
+                <div class="footer-center">
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <img src="https://cdn.wccftech.com/wp-content/uploads/2017/03/Google-Maps.jpg" alt="Map" class="map-image">
+                </div>
+            </div>
+        </footer>
+
+        <script src="../js/home.js"></script>
+    </body>
 </html>

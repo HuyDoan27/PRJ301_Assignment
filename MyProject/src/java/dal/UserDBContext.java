@@ -37,39 +37,33 @@ public class UserDBContext extends DBContext<User> {
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
-                int uid = rs.getInt("uid");
-                User cUser = findUserById(users, uid);
-
-                if (cUser == null) {
-                    cUser = new User();
-                    cUser.setUid(uid);
-                    cUser.setUsername(rs.getString("username"));
-                    cUser.setPassword(rs.getString("password"));
-                    cUser.setIsLocked(rs.getBoolean("isLocked"));
-                    cUser.setDepts(new ArrayList<>());  // Khởi tạo danh sách Departments
-                    cUser.setFeatures(new ArrayList<>());  // Khởi tạo danh sách Features
-                    cUser.setEmployees(new ArrayList<>());  // Khởi tạo danh sách Employees
-                    users.add(cUser);
-                }
+                // Tạo một đối tượng User mới cho mỗi dòng dữ liệu
+                User cUser = new User();
+                cUser.setUid(rs.getInt("uid"));
+                cUser.setUsername(rs.getString("username"));
+                cUser.setPassword(rs.getString("password"));
+                cUser.setIsLocked(rs.getBoolean("isLocked"));
 
                 // Thêm Department cho người dùng
                 Department cDept = new Department();
-                cDept.setDid(rs.getInt("did"));
                 cDept.setDname(rs.getString("dname"));
-                cUser.getDepts().add(cDept);
+                cUser.setDepts(cDept);
 
                 // Thêm Feature cho người dùng
                 Feature cFeature = new Feature();
                 cFeature.setFid(rs.getInt("fid"));
                 cFeature.setFname(rs.getString("fname"));
-                cUser.getFeatures().add(cFeature);
+                cUser.setFeatures(cFeature);
 
                 // Thêm Employee cho người dùng
                 Employee cEmployee = new Employee();
                 cEmployee.setEid(rs.getInt("eid"));
                 cEmployee.setEname(rs.getString("ename"));
                 cEmployee.setSalaryLevel(rs.getString("salaryLevel"));
-                cUser.getEmployees().add(cEmployee);
+                cUser.setEmployees(cEmployee);
+
+                // Thêm người dùng vào danh sách
+                users.add(cUser);
             }
 
         } catch (SQLException ex) {
@@ -87,15 +81,6 @@ public class UserDBContext extends DBContext<User> {
             }
         }
         return users;
-    }
-
-    private User findUserById(ArrayList<User> users, int uid) {
-        for (User user : users) {
-            if (user.getUid() == uid) {
-                return user;
-            }
-        }
-        return null;
     }
 
     public ArrayList<Department> getDepts(String username) {

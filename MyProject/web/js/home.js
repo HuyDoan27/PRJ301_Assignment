@@ -1,30 +1,14 @@
-// Toggle hiển thị dropdown menu khi click vào icon đăng nhập
-function toggleDropdown() {
-    // Điều hướng về trang login.html khi nhấn vào icon
-    window.location.href = "../login.html";
-}
 
 function showDropdown() {
     var dropdown = document.querySelector(".dropdown-menu");
     dropdown.style.display = "block";
 }
 
-// Ẩn dropdown khi chuột rời khỏi
 function hideDropdown() {
     var dropdown = document.querySelector(".dropdown-menu");
     dropdown.style.display = "none";
 }
 
-
-// Ẩn dropdown khi click ra ngoài
-window.onclick = function (event) {
-    if (!event.target.matches('.login-icon')) {
-        var dropdown = document.querySelector(".dropdown-menu");
-        if (dropdown.style.display === "block") {
-            dropdown.style.display = "none";
-        }
-    }
-}
 
 function showInfo(info) {
     document.getElementById('productInfo').innerText = info; // Hiển thị thông tin sản phẩm

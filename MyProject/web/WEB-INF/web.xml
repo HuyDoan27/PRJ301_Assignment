@@ -13,8 +13,12 @@
         <servlet-class>feature.PlanningCreate</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>listAllUserController</servlet-name>
-        <servlet-class>controller.listAllUserController</servlet-class>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>listAllUser</servlet-name>
+        <servlet-class>feature.listAllUser</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -25,7 +29,11 @@
         <url-pattern>/planning/create</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>listAllUserController</servlet-name>
-        <url-pattern>/listalluser</url-pattern>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>listAllUser</servlet-name>
+        <url-pattern>/planning/list</url-pattern>
     </servlet-mapping>
 </web-app>

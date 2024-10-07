@@ -15,27 +15,35 @@ public class User {
     private String username;
     private String password;
     private boolean isLocked;
-    private ArrayList<Department> depts = new ArrayList<>();
-    private ArrayList<Employee> employees = new ArrayList<>();
-    private ArrayList<Feature> features = new ArrayList<>(); 
+    private Department depts = new Department();
+    private Employee employees = new Employee();
+    private Feature features = new Feature(); 
 
-    public ArrayList<Feature> getFeatures() {
-        return features;
-    }
-
-    public void setFeatures(ArrayList<Feature> features) {
-        this.features = features;
-    }
-    
-    
-
-    public ArrayList<Department> getDepts() {
+    public Department getDepts() {
         return depts;
     }
 
-    public void setDepts(ArrayList<Department> depts) {
+    public void setDepts(Department depts) {
         this.depts = depts;
     }
+
+    public Employee getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Employee employees) {
+        this.employees = employees;
+    }
+
+    public Feature getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Feature features) {
+        this.features = features;
+    }
+
+    
 
     public int getUid() {
         return uid;
@@ -67,14 +75,6 @@ public class User {
 
     public void setIsLocked(boolean isLocked) {
         this.isLocked = isLocked;
-    }
-
-    public ArrayList<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(ArrayList<Employee> employees) {
-        this.employees = employees;
     }
 
     

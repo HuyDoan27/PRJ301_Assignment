@@ -5,21 +5,19 @@
 
 package controller;
 
-import dal.UserDBContext;
-import data.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-public class listAllUserController extends HttpServlet {
+public class LogoutController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,12 +28,9 @@ public class listAllUserController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        UserDBContext db = new UserDBContext();
-        ArrayList<User> users = db.getUsers();
-        
-        request.getSession().setAttribute("users", users);
-        request.getRequestDispatcher("view/users.jsp").forward(request, response);
+        request.getSession().setAttribute("account", null);
+        // Chuyển hướng về trang đăng nhập
+        response.sendRedirect("login.html");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
