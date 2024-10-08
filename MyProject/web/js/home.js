@@ -1,13 +1,26 @@
 
-function showDropdown() {
-    var dropdown = document.querySelector(".dropdown-menu");
-    dropdown.style.display = "block";
-}
+// Hiện dropdown khi click vào icon
+document.addEventListener("DOMContentLoaded", function() {
+    // Lấy phần tử dropdown
+    const dropdown = document.getElementById("myDropdown");
+    const loginIcon = document.querySelector(".login-icon");
 
-function hideDropdown() {
-    var dropdown = document.querySelector(".dropdown-menu");
-    dropdown.style.display = "none";
-}
+    // Hiện dropdown khi click vào icon
+    loginIcon.addEventListener("click", function(event) {
+        event.stopPropagation(); // Ngăn không cho sự kiện lan truyền ra ngoài
+        dropdown.classList.toggle("show");
+    });
+
+    // Ẩn dropdown khi click ra ngoài
+    document.addEventListener("click", function(event) {
+        if (!dropdown.contains(event.target) && !loginIcon.contains(event.target)) {
+            if (dropdown.classList.contains("show")) {
+                dropdown.classList.remove("show");
+            }
+        }
+    });
+});
+
 
 
 function showInfo(info) {

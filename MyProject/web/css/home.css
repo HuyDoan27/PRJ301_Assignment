@@ -91,25 +91,37 @@ nav ul li a {
 
 /* CSS cho dropdown menu */
 .dropdown-menu {
-    display: none; /* Ẩn mặc định */
-    position: absolute; /* Đặt vị trí tương đối với login-icon */
-    top: 50px; /* Đặt dưới icon đăng nhập */
-    left: 50%;
-    transform: translateX(-50%); /* Căn giữa dropdown với biểu tượng đăng nhập */
-    background-color: #fff;
-    border: 1px solid #ccc;
+    display: none; /* Mặc định ẩn */
+    position: absolute; /* Cho phép định vị dropdown */
+    background-color: #f9f9f9;
+    min-width: 160px; /* Chiều rộng tối thiểu */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Đổ bóng */
+    z-index: 1000; /* Đảm bảo dropdown nằm trên các phần tử khác */
+    padding: 12px 16px;
     border-radius: 5px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    width: 120px;
-    z-index: 999;
 }
 
-.dropdown-menu a {
+/* Khi dropdown được hiển thị */
+.show {
     display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
+}
+
+/* Nút đăng xuất trong dropdown */
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
     text-align: center;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
 }
 
 .dropdown-menu a:hover {
@@ -377,13 +389,30 @@ nav ul li a.active {
 }
 
 /* Footer styles (optional) */
+/* Đặt chiều cao tối thiểu cho body và html */
+html, body {
+    height: 100%; /* Đảm bảo body và html có chiều cao 100% */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+}
+
+/* Main content sẽ chiếm tất cả chiều cao trừ footer */
+.main-content {
+    flex: 1; /* Đẩy footer xuống dưới */
+}
+
+/* Footer styles */
 footer {
     background-color: #2c3e50; /* Màu nền footer */
     color: #ecf0f1; /* Màu chữ */
     padding: 40px 20px; /* Khoảng cách bên trong */
     font-family: 'Arial', sans-serif; /* Font chữ */
+    width: 100%; /* Đảm bảo footer luôn chiếm toàn bộ chiều rộng */
 }
 
+/* Container cho nội dung footer */
 .footer-container {
     height: 110px;
     width: 80%; /* Sử dụng 80% chiều rộng của footer */
@@ -444,6 +473,7 @@ footer {
     border-radius: 5px; /* Bo góc cho ảnh */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Thêm bóng đổ cho ảnh */
 }
+
 
 /* ------------- */
 

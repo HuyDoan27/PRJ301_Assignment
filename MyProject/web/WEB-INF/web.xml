@@ -9,10 +9,6 @@
         </init-param>
     </servlet>
     <servlet>
-        <servlet-name>PlanningCreate</servlet-name>
-        <servlet-class>feature.PlanningCreate</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.LogoutController</servlet-class>
     </servlet>
@@ -20,13 +16,13 @@
         <servlet-name>listAllUser</servlet-name>
         <servlet-class>feature.listAllUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InsertPlan</servlet-name>
+        <servlet-class>feature.InsertPlan</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PlanningCreate</servlet-name>
-        <url-pattern>/planning/create</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
@@ -34,6 +30,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>listAllUser</servlet-name>
-        <url-pattern>/planning/list</url-pattern>
+        <url-pattern>/user/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertPlan</servlet-name>
+        <url-pattern>/plan/insert</url-pattern>
     </servlet-mapping>
 </web-app>
