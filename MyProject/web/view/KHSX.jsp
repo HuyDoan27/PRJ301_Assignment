@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -9,52 +10,57 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
         <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f9f9f9;
-            }
-
-            h2 {
-                color: #333;
-                text-align: center;
-            }
-
-            form {
-                max-width: 500px; /* Giới hạn chiều rộng của form */
-                margin: 0 auto; /* Đặt form vào giữa trang */
-                padding: 20px;
-                background-color: #fff;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            .info {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 120px ;
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             }
 
             label {
-                display: block; /* Đặt label thành khối để tạo khoảng cách */
-                margin: 10px 0 5px; /* Tạo khoảng cách trên và dưới */
+                font-weight: bold;
+                margin: 10px 0 5px;
+                color: #333;
             }
 
             input[type="text"],
-            input[type="datetime-local"] {
-                width: 100%; /* Chiều rộng 100% */
-                padding: 10px; /* Thêm padding cho input */
-                border: 1px solid #ccc; /* Đường viền cho input */
-                border-radius: 4px; /* Bo góc cho input */
-                margin-bottom: 15px; /* Khoảng cách dưới mỗi input */
-                box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+            input[type="date"] {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                margin-bottom: 20px;
+                font-size: 16px;
+                box-sizing: border-box;
+                transition: border-color 0.3s;
+            }
+
+            input[type="text"]:focus,
+            input[type="date"]:focus {
+                border-color: #4CAF50;
+                outline: none;
             }
 
             input[type="submit"] {
-                background-color: #4CAF50; /* Màu nền của nút */
-                color: white; /* Màu chữ trên nút */
-                padding: 10px 15px; /* Padding cho nút */
-                border: none; /* Không có đường viền */
-                border-radius: 4px; /* Bo góc cho nút */
-                cursor: pointer; /* Con trỏ thay đổi khi hover */
-                font-size: 16px; /* Kích thước chữ */
+                width: 100%;
+                background-color: #4CAF50;
+                color: white;
+                padding: 12px;
+                font-size: 18px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s;
             }
 
             input[type="submit"]:hover {
-                background-color: #45a049; /* Màu nền khi hover */
+                background-color: #45a049;
+            }
+
+            input[type="submit"]:active {
+                background-color: #3e8e41;
             }
         </style>
 
@@ -68,11 +74,11 @@
                         <li><a href="home.html">Home</a></li>
                         <li><a href="order.html">Đặt hàng</a></li>
                         <li><a href="#">Đơn hàng</a></li>
-                        <li><a href="#" class="active">KHSX</a></li>
+                        <li><a href="KHSX.jsp" class="active">KHSX</a></li>
                         <li><a href="#">Xưởng</a></li>                   
                         <li><a href="../user/list">Nhân sự</a></li>
                     </ul>
-                    <div class="login-container" onclick="showDropdown()" onclick="hideDropdown()"> 
+                    <div class="login-container" onclick="toggleDropdown()"> 
                         <div class="login-icon">
                             <i class="fas fa-sign-in-alt"></i>
                         </div>
@@ -88,30 +94,29 @@
 
         <main>
             <h2>Nhập Thông Tin Kế Hoạch Sản Xuất</h2>
-
-            <%-- Hiển thị thông báo nếu có --%>
-            <% if (request.getAttribute("message") != null) { %>
-            <div class="alert success"><%= request.getAttribute("message") %></div>
-            <% } %>
-
-            <% if (request.getAttribute("error") != null) { %>
-            <div class="alert error"><%= request.getAttribute("error") %></div>
-            <% } %>
-
-            <form action="../plan/insert" method="post">
+            <form class="info" action="../plan/insert" method="post">
 
                 <label for="start">Thời Gian Bắt Đầu (start):</label>
-                <input type="datetime-local" id="start" name="start" required>
+                <input type="date" id="start" name="start" required>
 
                 <label for="end">Thời Gian Kết Thúc (end):</label>
-                <input type="datetime-local" id="end" name="end" required>
+                <input type="date" id="end" name="end" required>
 
                 <label for="did">Mã Phòng Ban (did):</label>
                 <input type="text" id="did" name="did" required>
 
-                <input type="submit" value="Lưu">
+                <input type="submit" value="Save">
             </form>
         </main>
+
+        <c:set var="insertedPlan" value="${sessionScope.insertedPlan}" />
+
+        <c:if test="${not empty insertedPlan}">
+            <script>
+                alert("Plan inserted successfully!\nplid: ${insertedPlan.plid}\nStart Day: ${insertedPlan.start_day}\nEnd Day: ${insertedPlan.end_day}\nDepartment ID: ${insertedPlan.did.did}");
+            </script>
+            <c:remove var="insertedPlan" scope="session" /> <!-- Xóa đối tượng khỏi session sau khi đã hiển thị -->
+        </c:if>
 
         <footer>
             <div class="footer-container">

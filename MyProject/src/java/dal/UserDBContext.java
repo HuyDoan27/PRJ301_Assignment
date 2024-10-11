@@ -8,6 +8,7 @@ import data.Department;
 import data.Employee;
 import data.Feature;
 import data.User;
+import java.beans.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -129,7 +130,8 @@ public class UserDBContext extends DBContext<User> {
 
         return depts;
     }
-
+    
+    
     public User get(String username, String password) {
         String sql = "SELECT [uid]\n"
                 + "      ,[username]\n"
@@ -162,6 +164,57 @@ public class UserDBContext extends DBContext<User> {
         }
         return user;
     }
+
+//    public void insertUser(User user) {
+//        String sql = "INSERT INTO [dbo].[User]\n"
+//                + "           ([username]\n"
+//                + "           ,[password]\n"
+//                + "           ,[isLocked])\n"
+//                + "     VALUES\n"
+//                + "           (?>\n"
+//                + "           ,?>\n"
+//                + "           ,?)";
+//        
+//        PreparedStatement stm = null;
+//        try {
+//            connection.setAutoCommit(false);
+//            stm = connection.prepareStatement(sql);
+//            stm.setString(1, user.getUsername());
+//            stm.setString(2, user.getPassword());
+//            stm.setInt(3, plan.getDid().getDid()); // Sử dụng trực tiếp getDid() để lấy giá trị int
+//            stm.executeUpdate();
+//
+//            // Lấy khóa tự động sinh ra
+//            try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
+//                if (generatedKeys.next()) {
+//                    plan.setPlid(generatedKeys.getInt(1)); // Giả sử bạn có một phương thức setPlid trong Plan
+//                } else {
+//                    throw new SQLException("Inserting plan failed, no ID obtained.");
+//                }
+//            }
+//
+//            connection.commit(); // Commit transaction
+//
+//        } catch (SQLException ex) {
+//            try {
+//                connection.rollback(); // Rollback transaction nếu có lỗi
+//            } catch (SQLException rollbackEx) {
+//                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Rollback failed: " + rollbackEx.getMessage(), rollbackEx);
+//            }
+//            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Error inserting plan: " + ex.getMessage(), ex);
+//        } finally {
+//            try {
+//                if (stm != null) {
+//                    stm.close();
+//                }
+//                if (connection != null) {
+//                    connection.close();
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
 
     @Override
     public void create(User model) {

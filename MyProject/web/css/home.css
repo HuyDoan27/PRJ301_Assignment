@@ -11,197 +11,185 @@ body {
     background-color: #f4f4f4; /* Màu nền nhẹ cho trang */
 }
 
-/* Container styles */
+/* Tổng quát */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    width: 100%;
+    background-color: #2C3E50; /* Màu nền tối cho navbar */
+    padding: 15px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Đổ bóng mạnh hơn */
+    position: relative;
+    z-index: 1000;
+}
+
 .container {
     width: 90%;
     margin: auto;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Header styles */
-header {
-    background: #35424a; /* Màu nền cho header */
-    color: #ffffff;
-    padding: 20px 0;
-}
-
-/* Logo styles */
-.logo {
-    width: 10vw; /* Chiều rộng tương ứng với 10% chiều rộng viewport */
-    height: 80vh; /* Chiều cao tự động để giữ tỉ lệ */
-    max-width: 70px; /* Kích thước tối đa để không quá lớn */
-    max-height: 70px; /* Kích thước tối đa để không quá lớn */
-    border-radius: 50%; /* Làm tròn hình ảnh */
-    object-fit: cover; /* Cắt ảnh để không bị biến dạng */
-    margin-right: 20px; /* Khoảng cách giữa logo và menu */
-}
-
-
-/* Navigation styles */
-/* Navbar styles */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-}
-
-nav li{
-    font-size: 20px;
-}
-
-nav ul {
-    list-style-type: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-/* CSS cho biểu tượng đăng nhập */
-.login-container {
-    position: relative;
-    margin-right: 20px;
-}
-
-.login-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #fff; /* Màu nền của biểu tượng tròn */
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.login-icon i {
-    color: #333;
-    font-size: 18px;
-}
-
-.login-icon:hover i {
-    color: #000; /* Đổi màu khi hover */
-}
-
-/* CSS cho dropdown menu */
-.dropdown-menu {
-    display: none; /* Mặc định ẩn */
-    position: absolute; /* Cho phép định vị dropdown */
-    background-color: #f9f9f9;
-    min-width: 160px; /* Chiều rộng tối thiểu */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Đổ bóng */
-    z-index: 1000; /* Đảm bảo dropdown nằm trên các phần tử khác */
-    padding: 12px 16px;
-    border-radius: 5px;
-}
-
-/* Khi dropdown được hiển thị */
-.show {
-    display: block;
-}
-
-/* Nút đăng xuất trong dropdown */
-.logout-btn {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
+    background-color: #2f3e4e;
     padding: 10px 20px;
-    text-align: center;
-    display: block;
-    width: 100%;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
 }
 
-.logout-btn:hover {
-    background-color: #c0392b;
+.logo {
+    width: 80px; /* Điều chỉnh kích thước logo */
+    height: 80px;
+    border-radius: 50%; 
+    transition: transform 0.3s ease;
 }
 
-.dropdown-menu a:hover {
-    background-color: #f1f1f1;
-}
-nav {
-    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử */
-    justify-content: space-between; /* Giữa logo và các phần tử khác */
-    align-items: center; /* Canh giữa theo chiều dọc */
-    background-color: #24313a; /* Màu nền cho navbar */
-    padding: 10px 20px; /* Padding cho navbar */
-    box-shadow: 0 2px 5px rgba(228, 192, 192, 0.2); /* Thêm bóng đổ */
+.logo:hover {
+    transform: scale(1.1); /* Phóng to nhẹ khi hover */
 }
 
-nav h1.logo {
-    font-size: 28px; /* Kích thước chữ cho logo */
-    color: #ffffff; /* Màu chữ cho logo */
-    margin-right: 20px; /* Khoảng cách giữa logo và menu */
-}
-
-nav ul {
+ul {
     display: flex;
+    justify-content: space-around; /* Căn đều khoảng cách giữa các mục */
+    align-items: center;
     list-style: none;
-    justify-content: flex-start; /* Căn đều các phần tử trong menu */
     padding: 0;
     margin: 0;
+    margin-left: 15%;
+}
+
+ul li {
+    text-align: center;
+    margin: 0 15px; /* Tạo khoảng cách giữa các mục */
+    padding: 10px 20px;
+    white-space: nowrap;
 }
 
 nav ul li {
-    margin: 0 10px;
-    position: relative; /* Đặt vị trí tương đối để tránh bị đè */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2f3e4e; /* Màu nền của các mục */
+    border-radius: 5px;
 }
 
-nav ul li a {
+nav ul li:hover {
+    background-color: #3f5063; /* Đổi màu khi hover */
+}
+
+ul li a {
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
     text-decoration: none;
-    color: #fff;
-    padding: 10px 20px; /* Điều chỉnh padding đều cho các mục */
-    display: inline-block; /* Đảm bảo chiều cao của tất cả các mục là như nhau */
-    transition: background-color 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-nav ul li a:hover {
-    background-color: #3498db;
-    color: #fff;
+nav ul li:hover {
+    background-color: #3f5063;
+    border-radius: 5px;
 }
 
-nav ul li a {
-    text-decoration: none;
-    color: #fff; /* Màu chữ mặc định */
-    padding: 10px 15px;
-    transition: background-color 0.3s ease; /* Hiệu ứng mượt */
+ul li a.active {
+    background-color: #E74C3C; /* Màu nền nổi bật khi hover */
+    color: #fff; /* Màu chữ khi hover */
+    transform: scale(1.05);
 }
 
-nav ul li a:hover {
-    background-color: #3498db; /* Màu nền khi hover */
+.login-container {
+    position: relative;
+    cursor: pointer;
+    margin-left: auto;
 }
 
-nav ul li a.active {
-    background-color: #e74c3c; /* Màu nền cho mục active */
-    color: #fff; /* Màu chữ khi active */
-    border-radius: 5px; /* Bo góc nhẹ cho nút active */
+.login-icon {
+    font-size: 24px;
+    color: white;
+    padding: 10px;
+    transition: color 0.3s;
+    margin-left: 100px;
 }
 
-@media (max-width: 870px) {
-    nav ul {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Chia menu thành 2 cột */
-        gap: 10px; /* Khoảng cách giữa các cột */
-        justify-items: center; /* Căn giữa các mục trong mỗi cột */
+.login-icon:hover {
+    color: #E74C3C; /* Màu nổi bật khi hover */
+}
+
+.dropdown-menu {
+    display: none; /* Mặc định ẩn dropdown */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    z-index: 1000; /* Đảm bảo dropdown hiện trên các phần tử khác */
+    padding: 10px;
+}
+
+.dropdown-menu.show {
+    display: block; /* Hiển thị dropdown khi có class 'show' */
+}
+
+.dropdown-menu form {
+    margin: 0;
+}
+
+.logout-btn {
+    padding: 10px;
+    width: 100%;
+    background-color: #E74C3C; /* Màu nền cho nút Đăng xuất */
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #2C3E50; /* Màu nền khi hover */
+    color: #E74C3C; /* Màu chữ khi hover */
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    nav {
+        flex-direction: column; /* Chuyển đổi thành cột cho màn hình nhỏ */
+        align-items: stretch;
     }
 
-    nav ul li {
-        margin: 5px 0; /* Tạo khoảng cách giữa các mục */
+      /* Đặt logo và icon login thành hàng trên cùng */
+    .logo, .login-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
     }
+    
+    ul {
+        flex-direction: column; /* Danh sách trở thành cột */
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+    }   
 
-    nav ul li a {
-        padding: 10px;
+    ul li {
+         width: 50%; /* Chia mỗi mục thành 50% chiều rộng */
         text-align: center;
-        width: 100%; /* Đảm bảo mỗi mục chiếm đủ không gian */
+        box-sizing: border-box;
     }
+
 }
 
 
@@ -225,11 +213,13 @@ nav ul li a.active {
 
 /* Banner styles */
 .banner {
-    position: relative; /* Để chứa các thành phần bên trong */
     text-align: center;
-    padding: 50px 0; /* Khoảng cách trên và dưới */
-    overflow: hidden; /* Ẩn phần thừa nếu cần */
+    margin-top: 20px;
+    padding: 50px 0; /* Padding cho banner */
+    background: linear-gradient(to right, #2C3E50, #E74C3E); /* Gradient */
+    color: white; /* Màu chữ cho nội dung */
 }
+
 
 .main-image {
     width: 90%; /* Chiếm toàn bộ chiều ngang của phần tử cha */

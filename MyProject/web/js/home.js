@@ -1,27 +1,19 @@
+function toggleDropdown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
 
-// Hiện dropdown khi click vào icon
-document.addEventListener("DOMContentLoaded", function() {
-    // Lấy phần tử dropdown
-    const dropdown = document.getElementById("myDropdown");
-    const loginIcon = document.querySelector(".login-icon");
-
-    // Hiện dropdown khi click vào icon
-    loginIcon.addEventListener("click", function(event) {
-        event.stopPropagation(); // Ngăn không cho sự kiện lan truyền ra ngoài
-        dropdown.classList.toggle("show");
-    });
-
-    // Ẩn dropdown khi click ra ngoài
-    document.addEventListener("click", function(event) {
-        if (!dropdown.contains(event.target) && !loginIcon.contains(event.target)) {
-            if (dropdown.classList.contains("show")) {
-                dropdown.classList.remove("show");
+/* Ẩn dropdown nếu click ra ngoài vùng dropdown */
+window.onclick = function(event) {
+    if (!event.target.matches('.login-icon') && !event.target.closest('.dropdown-menu')) {
+        var dropdowns = document.getElementsByClassName("dropdown-menu");
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
             }
         }
-    });
-});
-
-
+    }
+};
 
 function showInfo(info) {
     document.getElementById('productInfo').innerText = info; // Hiển thị thông tin sản phẩm

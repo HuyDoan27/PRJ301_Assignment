@@ -15,61 +15,73 @@ import java.util.logging.Logger;
  */
 public class PlanDBContext extends DBContext<Plan> {
 
-    public void insertPlan(Plan plan) {
-        String sql_insert = "INSERT INTO Plan ( start, end, did) VALUES ( ?, ?, ?)";
-        String sql_get = "SELECT * FROM Plan WHERE plid = ?";
-
-        PreparedStatement stm_insert = null;
-        PreparedStatement stm_select = null;
-        ResultSet generatedKeys = null;
-        try {
-            connection.setAutoCommit(false);
-            stm_insert = connection.prepareStatement(sql_insert, Statement.RETURN_GENERATED_KEYS);
-
-            stm_insert.setDate(1, plan.getStart_day());
-            stm_insert.setDate(2, plan.getEnd_day());
-            stm_insert.setInt(3, plan.getDid().getDid());
-            stm_insert.executeUpdate();
-
-            generatedKeys = stm_insert.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int generatedId = generatedKeys.getInt(1); // Lấy plid
-                plan.setPlid(generatedId); // Cập nhật plid cho đối tượng plan
-            }
-
-            stm_select = connection.prepareStatement(sql_get);
-            stm_select.setInt(1, plan.getPlid());
-
-            ResultSet rs = stm_select.executeQuery();
-            connection.commit();
-        } catch (SQLException ex) {
-            Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
-            try {
-                connection.rollback();
-            } catch (SQLException ex1) {
-                Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        } finally {
-            try {
-                if (generatedKeys != null) {
-                    generatedKeys.close();
-                }
-                if (stm_insert != null) {
-                    stm_insert.close();
-                }
-                if (stm_select != null) {
-                    stm_select.close();
-                }
-                connection.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
     @Override
     public void create(Plan model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean isDidExists(int did) {
+        String sql = "SELECT COUNT(*) FROM Department WHERE did = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, did);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Trả về true nếu did tồn tại
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false; // Trả về false nếu did không tồn tại
+    }
+
+    public void insertPlan(Plan plan) {
+        String sql = "INSERT INTO [dbo].[Plan]\n"
+                + "           ([start]\n"
+                + "           ,[end]\n"
+                + "           ,[did])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?)";
+        PreparedStatement stm = null;
+        try {
+            connection.setAutoCommit(false);
+            stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stm.setDate(1, plan.getStart_day());
+            stm.setDate(2, plan.getEnd_day());
+            stm.setInt(3, plan.getDid().getDid()); // Sử dụng trực tiếp getDid() để lấy giá trị int
+            stm.executeUpdate();
+
+            // Lấy khóa tự động sinh ra
+            try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    plan.setPlid(generatedKeys.getInt(1)); // Giả sử bạn có một phương thức setPlid trong Plan
+                } else {
+                    throw new SQLException("Inserting plan failed, no ID obtained.");
+                }
+            }
+
+            connection.commit(); // Commit transaction
+
+        } catch (SQLException ex) {
+            try {
+                connection.rollback(); // Rollback transaction nếu có lỗi
+            } catch (SQLException rollbackEx) {
+                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Rollback failed: " + rollbackEx.getMessage(), rollbackEx);
+            }
+            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Error inserting plan: " + ex.getMessage(), ex);
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }

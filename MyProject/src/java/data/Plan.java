@@ -5,6 +5,7 @@
 package data;
 
 import java.sql.*;
+
 /**
  *
  * @author Admin
@@ -46,7 +47,5 @@ public class Plan {
     public void setDid(Department did) {
         this.did = did;
     }
-    
-    
-    
+
 }

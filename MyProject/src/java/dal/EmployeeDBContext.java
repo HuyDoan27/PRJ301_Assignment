@@ -67,6 +67,38 @@ public class EmployeeDBContext extends DBContext<Employee> {
         return depts;
     }
 
+    public Employee getAEmployee(int eid, String ename) {
+        String sql = "SELECT [eid]\n"
+                + "      ,[ename]\n"
+                + "  FROM [dbo].[Employee]\n"
+                + "  WHERE eid = ? AND ename like ?";
+
+        // Đối tượng Employee để lưu kết quả
+        Employee employee = null;
+        PreparedStatement stm = null;
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, eid);
+            stm.setString(2, "%" + ename + "%");
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                employee = new Employee();
+                employee.setEid(rs.getInt("eid"));
+                employee.setEname(rs.getString("ename"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stm.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return employee;
+    }
+
     @Override
     public void create(Employee model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
