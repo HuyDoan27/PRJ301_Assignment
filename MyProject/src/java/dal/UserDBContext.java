@@ -264,6 +264,36 @@ public class UserDBContext extends DBContext<User> {
         return false; // Trả về false nếu Feature ID không tồn tại
     }
 
+    public void deleteUserFeature(int uid) throws SQLException {
+        String sql = "DELETE FROM UserFeature WHERE uid = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, uid);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException("Lỗi khi xóa UserFeature: " + ex.getMessage(), ex);
+        }
+    }
+
+    public void deleteEmployeeUser(int uid) throws SQLException {
+        String sql = "DELETE FROM Employee_User WHERE uid = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, uid);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException("Lỗi khi xóa Employee_User: " + ex.getMessage(), ex);
+        }
+    }
+
+    public void deleteUser(int uid) throws SQLException {
+        String sql = "DELETE FROM User WHERE uid = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, uid);
+            stm.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException("Lỗi khi xóa User: " + ex.getMessage(), ex);
+        }
+    }
+
     @Override
     public void create(User model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
