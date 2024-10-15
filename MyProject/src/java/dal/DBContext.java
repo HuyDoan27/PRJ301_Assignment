@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public abstract class DBContext<T> {
 
-    protected Connection connection;
+    public Connection connection;
 
     public DBContext() {
         String user = "huydq";
@@ -30,6 +30,8 @@ public abstract class DBContext<T> {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 
     public abstract void create(T model);
+
 }

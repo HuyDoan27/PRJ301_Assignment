@@ -29,7 +29,8 @@ public class listAllUser extends BaseRBACController {
         ArrayList<User> users = db.getUsers();
 
         req.getSession().setAttribute("users", users);
-        req.getRequestDispatcher("/view/listalluser.jsp").forward(req, resp);
+        resp.sendRedirect("../view/listalluser.jsp");
+        //req.getRequestDispatcher("../view/listalluser.jsp").forward(req, resp);
     }
 
     @Override
@@ -39,7 +40,8 @@ public class listAllUser extends BaseRBACController {
         ArrayList<User> users = db.getUsers();
 
         req.getSession().setAttribute("users", users);
-        req.getRequestDispatcher("/view/listalluser.jsp").forward(req, resp);
+        resp.sendRedirect("../view/listalluser.jsp");
+        //req.getRequestDispatcher("../view/listalluser.jsp").forward(req, resp);
     }
 
 }

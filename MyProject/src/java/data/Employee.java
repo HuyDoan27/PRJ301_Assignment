@@ -18,6 +18,15 @@ public class Employee {
     private int did;
     private ArrayList<User> user = new ArrayList<>();
     private ArrayList<Department> departments = new ArrayList<>();
+    private ArrayList<Feature> features = new ArrayList<>();
+
+    public ArrayList<Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(ArrayList<Feature> features) {
+        this.features = features;
+    }
 
     public String getSalaryLevel() {
         return salaryLevel;

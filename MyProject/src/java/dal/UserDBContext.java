@@ -24,13 +24,13 @@ public class UserDBContext extends DBContext<User> {
 
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
-        String sql = "SELECT e.eid,e.ename,e.salaryLevel,u.uid, u.username,u.[password], d.dname,f.fid,f.fname, u.isLocked FROM [dbo].[User] u\n"
-                + " inner join [dbo].[Employee_User] eu on eu.uid = u.uid\n"
-                + " inner join [dbo].[Employee] e on e.eid = eu.eid\n"
-                + " inner join [dbo].[Department] d on d.did = e.did\n"
-                + " inner join [dbo].[DepartmentFeature] df on df.did = d.did\n"
-                + " inner join [dbo].[Feature] f on  f.fid = df.fid\n"
-                + " order by d.did asc , f.fid asc";
+        String sql = "SELECT e.eid,e.ename,e.salaryLevel,u.[uid], u.username,u.[password], d.dname,f.fid,f.fname, u.isLocked FROM [dbo].[User] u\n"
+                + "                left join [dbo].[Employee_User] eu on eu.uid = u.uid\n"
+                + "                left join [dbo].[Employee] e on e.eid = eu.eid\n"
+                + "                left join [dbo].[Department] d on d.did = e.did\n"
+                + "                left join [dbo].[DepartmentFeature] df on df.did = d.did\n"
+                + "                left join [dbo].[Feature] f on  f.fid = df.fid\n"
+                + "                order by u.uid asc , d.did asc , f.fid asc";
 
         PreparedStatement stm = null;
         try {
@@ -130,8 +130,7 @@ public class UserDBContext extends DBContext<User> {
 
         return depts;
     }
-    
-    
+
     public User get(String username, String password) {
         String sql = "SELECT [uid]\n"
                 + "      ,[username]\n"
@@ -165,56 +164,105 @@ public class UserDBContext extends DBContext<User> {
         return user;
     }
 
-//    public void insertUser(User user) {
-//        String sql = "INSERT INTO [dbo].[User]\n"
-//                + "           ([username]\n"
-//                + "           ,[password]\n"
-//                + "           ,[isLocked])\n"
-//                + "     VALUES\n"
-//                + "           (?>\n"
-//                + "           ,?>\n"
-//                + "           ,?)";
-//        
-//        PreparedStatement stm = null;
-//        try {
-//            connection.setAutoCommit(false);
-//            stm = connection.prepareStatement(sql);
-//            stm.setString(1, user.getUsername());
-//            stm.setString(2, user.getPassword());
-//            stm.setInt(3, plan.getDid().getDid()); // Sử dụng trực tiếp getDid() để lấy giá trị int
-//            stm.executeUpdate();
-//
-//            // Lấy khóa tự động sinh ra
-//            try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
-//                if (generatedKeys.next()) {
-//                    plan.setPlid(generatedKeys.getInt(1)); // Giả sử bạn có một phương thức setPlid trong Plan
-//                } else {
-//                    throw new SQLException("Inserting plan failed, no ID obtained.");
-//                }
-//            }
-//
-//            connection.commit(); // Commit transaction
-//
-//        } catch (SQLException ex) {
-//            try {
-//                connection.rollback(); // Rollback transaction nếu có lỗi
-//            } catch (SQLException rollbackEx) {
-//                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Rollback failed: " + rollbackEx.getMessage(), rollbackEx);
-//            }
-//            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Error inserting plan: " + ex.getMessage(), ex);
-//        } finally {
-//            try {
-//                if (stm != null) {
-//                    stm.close();
-//                }
-//                if (connection != null) {
-//                    connection.close();
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//    }
+    public User insertUser(String username, String password) throws SQLException {
+        String insertSql = "INSERT INTO [dbo].[User] ([username], [password], [isLocked]) VALUES (?, ?, ?)";
+        String selectSql = "SELECT TOP 1 [uid]\n"
+                + "  FROM [dbo].[User]\n"
+                + "  WHERE [username] = ? \n"
+                + "  ORDER BY [uid] DESC";
+
+        User user = new User();
+
+        try (PreparedStatement insertStm = connection.prepareStatement(insertSql); PreparedStatement selectStm = connection.prepareStatement(selectSql)) {
+
+            // Chèn User
+            insertStm.setString(1, username);
+            insertStm.setString(2, password);
+            insertStm.setInt(3, 1);
+            insertStm.executeUpdate();
+
+            // Lấy ID của user vừa được thêm
+            selectStm.setString(1, username);
+            try (ResultSet rs = selectStm.executeQuery()) {
+                if (rs.next()) {
+                    user.setUid(rs.getInt("uid"));
+                }
+            }
+
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setIsLocked(true);
+
+            return user;
+        } catch (SQLException ex) {
+            throw new SQLException("Lỗi khi chèn User: " + ex.getMessage(), ex);
+        }
+    }
+
+    public void insertEmployee_User(int eid, int uid) throws SQLException {
+        String sql = "INSERT INTO [dbo].[Employee_User] ([eid], [uid], [isAction]) VALUES (?, ?, ?)";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+            stm.setInt(1, eid);  // Chèn Employee ID
+            stm.setInt(2, uid);  // Chèn UID đã lấy từ insertUser
+            stm.setInt(3, 0); // isAction có thể là giá trị mặc định, ở đây giả định là 0
+
+            stm.executeUpdate(); // Thực thi lệnh chèn dữ liệu
+
+            System.out.println("Chèn vào Employee_User thành công!");
+        } catch (SQLException ex) {
+            throw new SQLException("Lỗi khi chèn Employee_User: " + ex.getMessage(), ex);
+        }
+    }
+
+    public void insertUserFeature(int uid, int eid, String ename) throws SQLException {
+        EmployeeDBContext employeeDB = new EmployeeDBContext(); // Truyền kết nối hiện tại
+        Employee employee = employeeDB.getAEmployee(eid, ename);
+
+        if (employee != null && employee.getFeatures() != null) {
+            ArrayList<Feature> features = employee.getFeatures();
+
+            if (features == null || features.isEmpty()) {
+                System.out.println("User không có Feature nào để gán, bỏ qua bước chèn vào UserFeature.");
+                return; // Không có Feature để chèn, thoát hàm
+            }
+
+            String sql = "INSERT INTO [dbo].[UserFeature] ([uid], [fid]) VALUES (?, ?)";
+
+            try (PreparedStatement stm = connection.prepareStatement(sql)) {
+                for (Feature feature : features) {
+                    int fid = feature.getFid();
+
+                    // Kiểm tra xem Feature ID có hợp lệ trước khi chèn
+                    if (!isValidFeature(fid)) {
+                        System.out.println("Feature ID " + fid + " không tồn tại trong bảng Feature. Bỏ qua.");
+                        continue;
+                    }
+                    stm.setInt(1, uid);  // Sử dụng UID vừa được chèn từ hàm insertUser
+                    stm.setInt(2, fid);
+                    stm.executeUpdate(); // Chèn dữ liệu vào UserFeature
+                }
+            } catch (SQLException ex) {
+                throw new SQLException("Lỗi khi chèn UserFeature: " + ex.getMessage(), ex);
+            }
+        } else {
+            System.out.println("Không tìm thấy Employee hoặc không có Feature.");
+        }
+    }
+
+    // Hàm kiểm tra Feature ID có tồn tại trong bảng Feature không
+    private boolean isValidFeature(int fid) throws SQLException {
+        String sqlCheck = "SELECT COUNT(*) FROM [dbo].[Feature] WHERE fid = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sqlCheck)) {
+            stm.setInt(1, fid);
+            try (ResultSet rs = stm.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Trả về true nếu Feature ID tồn tại
+                }
+            }
+        }
+        return false; // Trả về false nếu Feature ID không tồn tại
+    }
 
     @Override
     public void create(User model) {

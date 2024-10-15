@@ -98,7 +98,7 @@
             width: 30%;
             display: grid;
             grid-template-columns: auto;
-            grid-template-rows: 100px 250px auto;
+            grid-template-rows: 100px 250px 300px;
         }
 
         /* Label và input */
@@ -229,6 +229,120 @@
             font-size: 12px; /* Kích thước chữ cho thông báo lỗi nhỏ hơn */
         }
 
+        #formAccount {
+            display: block; /* Đảm bảo form được hiển thị */
+            padding: 20px; /* Thêm padding xung quanh nội dung */
+            border: 1px solid #ccc; /* Đường viền cho form */
+            border-radius: 5px; /* Bo tròn các góc */
+            background-color: #f9f9f9; /* Màu nền nhẹ cho form */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng cho form */
+            margin-top: 20px; /* Khoảng cách từ phần tử phía trên */
+            max-width: 400px; /* Đặt chiều rộng tối đa cho form */
+        }
+
+        #formAccount label {
+            display: block; /* Hiển thị label dưới dạng khối */
+            margin-bottom: 5px; /* Khoảng cách dưới mỗi label */
+            font-weight: bold; /* Làm đậm văn bản label */
+        }
+
+        #formAccount input[type="text"],
+        #formAccount input[type="password"] {
+            width: 100%; /* Chiều rộng của input là 100% */
+            padding: 10px; /* Padding bên trong input */
+            border: 1px solid #ccc; /* Đường viền cho input */
+            border-radius: 4px; /* Bo tròn các góc của input */
+            margin-bottom: 15px; /* Khoảng cách dưới mỗi input */
+            font-size: 16px; /* Kích thước chữ trong input */
+        }
+
+        #formAccount button {
+            background-color: #28a745; /* Màu nền cho nút */
+            color: white; /* Màu chữ cho nút */
+            border: none; /* Ẩn đường viền của nút */
+            border-radius: 4px; /* Bo tròn các góc của nút */
+            padding: 10px 15px; /* Padding cho nút */
+            cursor: pointer; /* Con trỏ thay đổi khi hover */
+            font-size: 16px; /* Kích thước chữ trong nút */
+        }
+
+        #formAccount button:hover {
+            background-color: #218838; /* Màu nền cho nút khi hover */
+        }
+
+        /* Định dạng tổng quan cho container của form delete account */
+        #formDeleteAccount {
+            width: 100%;
+            max-width: 800px;
+            margin-left: 20%;
+            padding: 20px;
+        }
+
+        /* Định dạng cho tiêu đề của form delete account */
+        #formDeleteAccount h3 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho form delete account */
+        #formDeleteAccount form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Định dạng cho các trường input trong form delete account */
+        #formDeleteAccount form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Định dạng cho các nhãn (label) trong form delete account */
+        #formDeleteAccount form label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Định dạng cho nút submit trong form delete account */
+        #formDeleteAccount form button {
+            width: 100%;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Hiệu ứng hover cho nút submit */
+        #formDeleteAccount form button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Định dạng cho các trường input bị thiếu dữ liệu khi required */
+        #formDeleteAccount form input:required:invalid {
+            border-color: #e74c3c;
+        }
+
+        /* Định dạng cho thông báo lỗi (nếu có) */
+        #formDeleteAccount form .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+
 
     </style>
 
@@ -301,39 +415,70 @@
                             </c:forEach>
                         </tbody>
                     </table>
-
                 </c:if>
 
                 <!-- Hiển thị thông báo nếu không có users -->
                 <c:if test="${empty sessionScope.users}">
                     <p>No users found in session.</p>
                 </c:if>
+                <!-- Hiển thị thông báo -->
+                <c:if test="${not empty sessionScope.error}">
+                    <script>
+                        alert("${sessionScope.error}");
+                        <c:set var="sessionScope.error" value="" />
+                    </script>
+                </c:if>
             </div>
+
             <div class="form-container">
                 <div class="button-container">
                     <button class="btn add-user" id="addAccountBtn">ADD ACCOUNT</button>
-                    <button class="btn delete-user">DELETE ACCOUNT</button>
+                    <button class="btn delete-user" id="deleteAccountBtn">DELETE ACCOUNT</button>
                 </div>
 
                 <!-- Form 1: Add Account For Employee -->
-                <div id="formEmployee" style="display: none;">
-                    <h3>Add Account For Employee</h3>
-                    <label for="eid">Employee ID:</label>
-                    <input type="text" id="eid" placeholder="Enter Employee ID" required><br>
-                    <label for="ename">Employee Name:</label>
-                    <input type="text" id="ename" placeholder="Enter Employee Name" required><br>
-                    <button id="checkEmployeeBtn">OK</button>
-                    <p id="employeeError" style="color: red; display: none;">Not found this employee</p>
+                <div id="formEmployee" style="display: block;">
+                    <form action="../user/create" method="post">
+                        <h3>Add Account For Employee</h3>
+                        <label for="eid">Employee ID:</label>
+                        <input type="text" name="eid" placeholder="Enter Employee ID" required><br>
+                        <label for="ename">Employee Name:</label>
+                        <input type="text" name="ename" placeholder="Enter Employee Name" required><br>
+                        <input type="hidden" name="step" value="1">
+                        <button type="submit" id="checkEmployeeBtn">OK</button>
+                    </form>
                 </div>
 
                 <!-- Form 2: Create Account -->
-                <div id="formAccount" style="display: none;">
-                    <h3>Create Account</h3>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" placeholder="Enter Username" required><br>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" placeholder="Enter Password" required><br>
-                    <button id="createAccountBtn">Create Account</button>
+                <c:if test="${not empty sessionScope.employee}">
+                    <div id="formAccount" style="${not empty employee ? 'display:block;' : 'display:none;'}">
+                        <div id="employeeInfo" style="color: green;">
+                            <p>Create Account for Employee: </p>
+                            <p>ID: ${employee.eid} | ${employee.ename}</p>
+                        </div>
+                        <form action="../user/create" method="post">
+                            <label for="username">Username:</label>
+                            <input type="text" name="username" placeholder="Enter Username" required><br>
+                            <label for="password">Password:</label>
+                            <input type="password" name="password" placeholder="Enter Password" required><br>
+                            <input type="hidden" name="step" value="2">
+                            <input type="hidden" name="eid" value="${employee.eid}">
+                            <button type="submit" id="createAccountBtn">Create Account</button>
+                        </form>
+
+                    </div>
+                </c:if>
+
+                <!-- Form Delete Account (ẩn ban đầu) -->
+                <div id="formDeleteAccount" style="display: none;">
+                    <form action="../user/delete" method="post">
+                        <h3>Delete Account</h3>
+                        <label for="userID">User ID:</label>
+                        <input type="text" name="userID" placeholder="Enter User ID" required><br>
+                        <label for="username">Username:</label>
+                        <input type="text" name="username" placeholder="Enter Username" required><br>
+                        <button type="submit">Delete Account</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -366,51 +511,32 @@
                             document.getElementById('formAccount').style.display = 'none'; // Ẩn form tạo account nếu có
                         });
 
-                        document.getElementById('checkEmployeeBtn').addEventListener('click', function () {
-                            var eid = document.getElementById('eid').value;
-                            var ename = document.getElementById('ename').value;
-
-                            // Giả lập kiểm tra nhân viên có tồn tại hay không bằng hàm checkEmployee(eid, ename)
-                            if (checkEmployee(eid, ename)) {
-                                // Nhân viên tồn tại, chuyển sang form tạo account
-                                document.getElementById('formEmployee').style.display = 'none';
-                                document.getElementById('formAccount').style.display = 'block';
-                                document.getElementById('employeeError').style.display = 'none'; // Ẩn thông báo lỗi nếu có
-                            } else {
-                                // Nhân viên không tồn tại, hiển thị thông báo lỗi
-                                document.getElementById('employeeError').style.display = 'block';
+                        // Khi nhấn nút "ADD ACCOUNT"
+                        document.getElementById("addAccountBtn").addEventListener("click", function () {
+                            // Hiển thị Form tạo tài khoản cho nhân viên
+                            document.getElementById("formEmployee").style.display = "block";
+                            // Hiển thị Form tạo tài khoản cho người dùng (nếu có)
+                            var formAccount = document.getElementById("formAccount");
+                            if (formAccount) {
+                                formAccount.style.display = "block";
                             }
+                            // Ẩn Form xóa tài khoản
+                            document.getElementById("formDeleteAccount").style.display = "none";
                         });
 
-// Hàm giả lập kiểm tra nhân viên trong cơ sở dữ liệu
-                        function checkEmployee(eid, ename) {
-                            // Đây là hàm giả lập, thay thế bằng gọi API hoặc AJAX để kiểm tra trong database
-                            // Giả sử có nhân viên với eid là "123" và ename là "John"
-                            if (eid === "123" && ename.toLowerCase() === "john") {
-                                return true; // Nhân viên tồn tại
+                        // Khi nhấn nút "DELETE ACCOUNT"
+                        document.getElementById("deleteAccountBtn").addEventListener("click", function () {
+                            // Ẩn Form tạo tài khoản cho nhân viên
+                            document.getElementById("formEmployee").style.display = "none";
+                            // Ẩn Form tạo tài khoản cho người dùng (nếu có)
+                            var formAccount = document.getElementById("formAccount");
+                            if (formAccount) {
+                                formAccount.style.display = "none";
                             }
-                            return false; // Nhân viên không tồn tại
-                        }
-
-                        document.getElementById('createAccountBtn').addEventListener('click', function () {
-                            var username = document.getElementById('username').value;
-                            var password = document.getElementById('password').value;
-
-                            // Kiểm tra dữ liệu và tạo tài khoản
-                            if (username && password) {
-                                // Giả lập tạo tài khoản
-                                alert('Account created for username: ' + username);
-                                // Reset lại form sau khi tạo tài khoản thành công
-                                document.getElementById('formEmployee').style.display = 'none';
-                                document.getElementById('formAccount').style.display = 'none';
-                                document.getElementById('eid').value = '';
-                                document.getElementById('ename').value = '';
-                                document.getElementById('username').value = '';
-                                document.getElementById('password').value = '';
-                            } else {
-                                alert('Please fill in all required fields');
-                            }
+                            // Hiển thị Form xóa tài khoản
+                            document.getElementById("formDeleteAccount").style.display = "block";
                         });
+
 
         </script>
     </body>
