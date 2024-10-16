@@ -427,6 +427,19 @@
                         alert("${sessionScope.error}");
                         <c:set var="sessionScope.error" value="" />
                     </script>
+                    <c:remove var="error" scope="session" />
+                </c:if>
+                <c:if test="${not empty sessionScope.successMessage}">
+                    <div class="alert alert-success">
+                        ${sessionScope.successMessage}
+                    </div>
+                    <c:remove var="successMessage" scope="session" />
+                </c:if>
+                <c:if test="${not empty sessionScope.successDelete}">
+                    <div class="alert alert-success">
+                        ${sessionScope.successDelete}
+                    </div>
+                    <c:remove var="successDelete" scope="session" />
                 </c:if>
             </div>
 

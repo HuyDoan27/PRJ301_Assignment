@@ -13,8 +13,17 @@ import java.util.ArrayList;
 public class Department {
     private int did;
     private String dname;
+    private String type;
     private ArrayList<Employee> employees = new ArrayList<>();
     private ArrayList<Feature> features = new ArrayList<>(); 
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public int getDid() {
         return did;

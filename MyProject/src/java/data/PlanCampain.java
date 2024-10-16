@@ -10,9 +10,10 @@ package data;
  */
 public class PlanCampain {
     private int camid;
-    private Plan pid;
+    private Plan plan;
     private int quantity;
-    private double unitEffort;
+    private float estimatedeffort;
+    private Product product;
 
     public int getCamid() {
         return camid;
@@ -22,13 +23,15 @@ public class PlanCampain {
         this.camid = camid;
     }
 
-    public Plan getPid() {
-        return pid;
+    public Plan getPlan() {
+        return plan;
     }
 
-    public void setPid(Plan pid) {
-        this.pid = pid;
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
+
+    
 
     public int getQuantity() {
         return quantity;
@@ -38,13 +41,23 @@ public class PlanCampain {
         this.quantity = quantity;
     }
 
-    public double getUnitEffort() {
-        return unitEffort;
+    public float getEstimatedeffort() {
+        return estimatedeffort;
     }
 
-    public void setUnitEffort(double unitEffort) {
-        this.unitEffort = unitEffort;
+    public void setEstimatedeffort(float estimatedeffort) {
+        this.estimatedeffort = estimatedeffort;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+
     
     
 }

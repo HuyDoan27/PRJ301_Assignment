@@ -5,6 +5,7 @@
 package dal;
 
 import data.Plan;
+import data.PlanCampain;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,69 +21,67 @@ public class PlanDBContext extends DBContext<Plan> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public boolean isDidExists(int did) {
-        String sql = "SELECT COUNT(*) FROM Department WHERE did = ?";
-        try (PreparedStatement stm = connection.prepareStatement(sql)) {
-            stm.setInt(1, did);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0; // Trả về true nếu did tồn tại
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return false; // Trả về false nếu did không tồn tại
-    }
-
     public void insertPlan(Plan plan) {
-        String sql = "INSERT INTO [dbo].[Plan]\n"
-                + "           ([start]\n"
-                + "           ,[end]\n"
-                + "           ,[did])\n"
-                + "     VALUES\n"
-                + "           (?\n"
-                + "           ,?\n"
-                + "           ,?)";
-        PreparedStatement stm = null;
         try {
             connection.setAutoCommit(false);
-            stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stm.setDate(1, plan.getStart_day());
-            stm.setDate(2, plan.getEnd_day());
-            stm.setInt(3, plan.getDid().getDid()); // Sử dụng trực tiếp getDid() để lấy giá trị int
-            stm.executeUpdate();
+            String sql_insert_plan = "INSERT INTO [Plan]\n"
+                    + "           ([start]\n"
+                    + "           ,[end]\n"
+                    + "           ,[did])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+            String sql_select_plan = "SELECT @@IDENTITY as plid";
+            String sql_insert_campain = "INSERT INTO [PlanCampaign]\n"
+                    + "           ([plid]\n"
+                    + "           ,[pid]\n"
+                    + "           ,[quantity]\n"
+                    + "           ,[estimatedeffort])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+            PreparedStatement stm_insert_plan = connection.prepareStatement(sql_insert_plan);
+            stm_insert_plan.setDate(1, plan.getStart_day());
+            stm_insert_plan.setDate(2, plan.getEnd_day());
+            stm_insert_plan.setInt(3, plan.getDept().getDid());
+            stm_insert_plan.executeUpdate();
 
-            // Lấy khóa tự động sinh ra
-            try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    plan.setPlid(generatedKeys.getInt(1)); // Giả sử bạn có một phương thức setPlid trong Plan
-                } else {
-                    throw new SQLException("Inserting plan failed, no ID obtained.");
-                }
+            PreparedStatement stm_select_plan = connection.prepareStatement(sql_select_plan);
+            ResultSet rs = stm_select_plan.executeQuery();
+            if (rs.next()) {
+                plan.setPlid(rs.getInt("plid"));
             }
-
-            connection.commit(); // Commit transaction
+            for (PlanCampain campain : plan.getCampains()) {
+                PreparedStatement stm_insert_campain = connection.prepareStatement(sql_insert_campain);
+                stm_insert_campain.setInt(1, plan.getPlid());
+                stm_insert_campain.setInt(2, campain.getProduct().getId());
+                stm_insert_campain.setInt(3, campain.getQuantity());
+                stm_insert_campain.setFloat(4, campain.getEstimatedeffort());
+                stm_insert_campain.executeUpdate();
+            }
+            connection.commit();
 
         } catch (SQLException ex) {
+            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
             try {
-                connection.rollback(); // Rollback transaction nếu có lỗi
-            } catch (SQLException rollbackEx) {
-                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Rollback failed: " + rollbackEx.getMessage(), rollbackEx);
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex1);
             }
-            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, "Error inserting plan: " + ex.getMessage(), ex);
         } finally {
             try {
-                if (stm != null) {
-                    stm.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                connection.close();
             } catch (SQLException ex) {
                 Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-
-
 }

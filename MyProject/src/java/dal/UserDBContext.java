@@ -265,7 +265,8 @@ public class UserDBContext extends DBContext<User> {
     }
 
     public void deleteUserFeature(int uid) throws SQLException {
-        String sql = "DELETE FROM UserFeature WHERE uid = ?";
+        String sql = "DELETE FROM [dbo].[UserFeature]\n"
+                + "      WHERE [uid] = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, uid);
             stm.executeUpdate();
@@ -275,7 +276,8 @@ public class UserDBContext extends DBContext<User> {
     }
 
     public void deleteEmployeeUser(int uid) throws SQLException {
-        String sql = "DELETE FROM Employee_User WHERE uid = ?";
+        String sql = "DELETE FROM [dbo].[Employee_User]\n"
+                + "      WHERE [uid] = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, uid);
             stm.executeUpdate();
@@ -285,7 +287,8 @@ public class UserDBContext extends DBContext<User> {
     }
 
     public void deleteUser(int uid) throws SQLException {
-        String sql = "DELETE FROM User WHERE uid = ?";
+        String sql = "DELETE FROM [dbo].[User]\n"
+                + "      WHERE [uid] = ?";
         try (PreparedStatement stm = connection.prepareStatement(sql)) {
             stm.setInt(1, uid);
             stm.executeUpdate();

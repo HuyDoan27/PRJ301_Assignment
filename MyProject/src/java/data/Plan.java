@@ -5,6 +5,7 @@
 package data;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,7 +15,9 @@ public class Plan {
     private int plid;
     private Date start_day;
     private Date end_day;
-    private Department did;
+    private Department dept;
+    
+    private ArrayList<PlanCampain> campains = new ArrayList<>();
 
     public int getPlid() {
         return plid;
@@ -40,12 +43,24 @@ public class Plan {
         this.end_day = end_day;
     }
 
-    public Department getDid() {
-        return did;
+    public Department getDept() {
+        return dept;
     }
 
-    public void setDid(Department did) {
-        this.did = did;
+    public void setDept(Department dept) {
+        this.dept = dept;
     }
+
+    
+
+    public ArrayList<PlanCampain> getCampains() {
+        return campains;
+    }
+
+    public void setCampains(ArrayList<PlanCampain> campains) {
+        this.campains = campains;
+    }
+    
+    
 
 }

@@ -37,7 +37,41 @@ public class DeleteUser extends BaseRBACController {
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int userID = Integer.parseInt(req.getParameter("userID"));
+        String username = req.getParameter("usernname");
+
+        UserDBContext db = new UserDBContext();
+        try {
+            dbContext.connection.setAutoCommit(false); // Bắt đầu transaction
+
+            // 1. Xóa từ UserFeature
+            db.deleteUserFeature(userID);
+
+            // 2. Xóa từ Employee_User
+            db.deleteEmployeeUser(userID);
+
+            // 3. Xóa từ User
+            db.deleteUser(userID);
+
+            dbContext.connection.commit(); // Commit transaction sau khi xóa thành công
+        } catch (SQLException ex) {
+            try {
+                dbContext.connection.rollback(); // Rollback nếu có lỗi xảy ra
+            } catch (SQLException ex1) {
+                Logger.getLogger(DeleteUser.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            try {
+                throw new SQLException("Lỗi khi xóa user và các liên kết: " + ex.getMessage(), ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(DeleteUser.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } finally {
+            try {
+                dbContext.connection.setAutoCommit(true); // Khôi phục trạng thái tự động commit
+            } catch (SQLException ex) {
+                Logger.getLogger(DeleteUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override
@@ -59,6 +93,7 @@ public class DeleteUser extends BaseRBACController {
             db.deleteUser(userID);
 
             dbContext.connection.commit(); // Commit transaction sau khi xóa thành công
+            req.getSession().setAttribute("successDelete", "Đã xóa thành công user này.");
         } catch (SQLException ex) {
             try {
                 dbContext.connection.rollback(); // Rollback nếu có lỗi xảy ra

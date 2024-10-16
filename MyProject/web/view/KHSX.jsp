@@ -92,31 +92,32 @@
             </div>
         </header>
 
-        <main>
-            <h2>Nhập Thông Tin Kế Hoạch Sản Xuất</h2>
-            <form class="info" action="../plan/insert" method="post">
-
-                <label for="start">Thời Gian Bắt Đầu (start):</label>
-                <input type="date" id="start" name="start" required>
-
-                <label for="end">Thời Gian Kết Thúc (end):</label>
-                <input type="date" id="end" name="end" required>
-
-                <label for="did">Mã Phòng Ban (did):</label>
-                <input type="text" id="did" name="did" required>
-
-                <input type="submit" value="Save">
-            </form>
-        </main>
-
-        <c:set var="insertedPlan" value="${sessionScope.insertedPlan}" />
-
-        <c:if test="${not empty insertedPlan}">
-            <script>
-                alert("Plan inserted successfully!\nplid: ${insertedPlan.plid}\nStart Day: ${insertedPlan.start_day}\nEnd Day: ${insertedPlan.end_day}\nDepartment ID: ${insertedPlan.did.did}");
-            </script>
-            <c:remove var="insertedPlan" scope="session" /> <!-- Xóa đối tượng khỏi session sau khi đã hiển thị -->
-        </c:if>
+        <form action="../plan/insert" method="POST"> 
+            From: <input type="date" name="from" /> 
+            To: <input type="date" name="to"/>
+            <br/>
+            Workshop: <select name="did">
+                <c:forEach items="${requestScope.depts}" var="d">
+                    <option value="${d.id}">${d.name}</option>
+                </c:forEach>
+            </select>
+            <br/>
+            <table border="1px">
+                <tr>
+                    <td>Product</td>
+                    <td>Quantity</td>
+                    <td>Estimated Effort</td>
+                </tr>
+                <c:forEach items="${requestScope.products}" var="p">
+                    <tr>
+                        <td>${p.name}<input type="hidden" name="pid" value="${p.id}"/></td>
+                        <td><input type="text" name="quantity${p.id}"/></td>
+                        <td><input type="text" name="effort${p.id}"/></td>
+                    </tr>   
+                </c:forEach>
+            </table>
+            <input type="submit" name="Save"/>
+        </form>
 
         <footer>
             <div class="footer-container">
