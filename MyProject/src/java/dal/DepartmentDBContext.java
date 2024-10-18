@@ -19,14 +19,15 @@ public class DepartmentDBContext extends DBContext<Department> {
     public ArrayList<Department> get(String type) {
         ArrayList<Department> depts = new ArrayList<>();
 
-        String sql = "SELECT [did]\n"
-                + "      ,[dname]\n"
-                + "      ,[type]\n"
-                + "  FROM [dbo].[Department]\n"
-                + "  WHERE [type] = ?";
+        String sql = "SELECT [did], [dname], [type] FROM [dbo].[Department] WHERE type = ?";
 
         PreparedStatement stm = null;
         try {
+            if (connection == null) {
+                System.out.println("Database connection is null.");
+                return depts;
+            }
+
             stm = connection.prepareStatement(sql);
             stm.setString(1, type);
             ResultSet rs = stm.executeQuery();
@@ -39,13 +40,22 @@ public class DepartmentDBContext extends DBContext<Department> {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("An SQL exception occurred: " + ex.getMessage());
         } finally {
             try {
-                stm.close();
-                connection.close();
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+
+        if (depts.isEmpty()) {
+            System.out.println("No departments found for the specified type.");
         }
         return depts;
     }

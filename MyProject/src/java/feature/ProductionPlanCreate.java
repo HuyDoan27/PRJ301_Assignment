@@ -27,6 +27,7 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class ProductionPlanCreate extends BaseRBACController {
+    
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
@@ -42,8 +43,8 @@ public class ProductionPlanCreate extends BaseRBACController {
         String[] pids = req.getParameterValues("pid");
 
         Plan plan = new Plan();
-        plan.setStart_day(Date.valueOf("from"));
-        plan.setEnd_day(Date.valueOf("to"));
+        plan.setStart_day(Date.valueOf(req.getParameter("from")));
+        plan.setEnd_day(Date.valueOf(req.getParameter("to")));
 
         Department d = new Department();
         d.setDid(Integer.parseInt(req.getParameter("did")));

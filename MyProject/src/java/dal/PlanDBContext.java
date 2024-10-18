@@ -7,6 +7,7 @@ package dal;
 import data.Plan;
 import data.PlanCampain;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,5 +84,46 @@ public class PlanDBContext extends DBContext<Plan> {
                 Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public ArrayList<Plan> planList(String inputDateStr) {
+        ArrayList<Plan> plans = new ArrayList<>();
+        PreparedStatement stm = null;
+        try {
+            String sql = "SELECT P.plid, P.start, P.[end], "
+                    + "(SELECT SUM(PC.quantity) FROM [dbo].[PlanCampainn] PC WHERE PC.plid = P.plid) AS total_quantity, "
+                    + "SUM(CASE WHEN SC.date <= ? THEN WS.quantity ELSE 0 END) AS cumulative_quantity "
+                    + "FROM [dbo].[Plan] P "
+                    + "JOIN [dbo].[PlanCampainn] PC ON P.plid = PC.plid "
+                    + "JOIN [dbo].[ScheduleCampain] SC ON PC.camid = SC.camid "
+                    + "JOIN [dbo].[WorkerSchedule] WS ON SC.scid = WS.scid "
+                    + "WHERE SC.date <= ? "
+                    + "GROUP BY P.plid, P.start, P.[end];";
+            
+            stm = connection.prepareStatement(sql);
+            
+            Date inputDate = Date.valueOf(inputDateStr);
+
+            stm.setDate(1, inputDate); // Tham số thứ nhất
+            stm.setDate(2, inputDate); // Tham số thứ hai
+
+            try (ResultSet rs = stm.executeQuery()) {
+                // Duyệt qua kết quả truy vấn
+                while (rs.next()) {
+                    Plan p = new Plan();
+                    
+                    p.setPlid(rs.getInt("plid"));
+                    p.setStart_day(Date.valueOf(rs.getString("start")));
+                    p.setEnd_day(Date.valueOf(rs.getString("end")));
+                    p.setTotalQuantity(rs.getInt("total_quantity"));
+                    p.setCumulativeQuantity(rs.getInt("cumulative_quantity"));
+                    plans.add(p);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return plans;
     }
 }

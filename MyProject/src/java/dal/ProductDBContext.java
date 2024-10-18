@@ -23,11 +23,14 @@ public class ProductDBContext extends DBContext<Product> {
         ArrayList<Product> products = new ArrayList<>();
         PreparedStatement stm = null;
         try {
-            String sql = "SELECT [pid]\n"
-                    + "      ,[pname]\n"
-                    + "  FROM [dbo].[Product]";
+            if (connection == null) {
+                System.out.println("Database connection is null.");
+                return products;
+            }
 
+            String sql = "SELECT [pid], [pname] FROM [Product]";
             stm = connection.prepareStatement(sql);
+
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
@@ -37,13 +40,23 @@ public class ProductDBContext extends DBContext<Product> {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("An SQL exception occurred: " + ex.getMessage());
         } finally {
             try {
-                stm.close();
-                connection.close();
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("An exception occurred while closing resources: " + ex.getMessage());
             }
+        }
+
+        if (products.isEmpty()) {
+            System.out.println("No products found.");
         }
         return products;
     }

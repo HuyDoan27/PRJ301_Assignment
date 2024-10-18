@@ -355,7 +355,7 @@
                         <li><a href="../view/home.html">Home</a></li>
                         <li><a href="../view/order.html">Đặt hàng</a></li>
                         <li><a href="#">Đơn hàng</a></li>
-                        <li><a href="../view/KHSX.jsp">KHSX</a></li>
+                        <li><a href="../plan/insert">KHSX</a></li>
                         <li><a href="#">Xưởng</a></li>                   
                         <li><a href="#" class="active">Nhân sự</a></li>
                     </ul>

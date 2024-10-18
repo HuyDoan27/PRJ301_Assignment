@@ -17,8 +17,8 @@
         <servlet-class>feature.listAllUser</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InsertPlan</servlet-name>
-        <servlet-class>feature.InsertPlan</servlet-class>
+        <servlet-name>ProductionPlanCreate</servlet-name>
+        <servlet-class>feature.ProductionPlanCreate</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CreateUser</servlet-name>
@@ -31,6 +31,10 @@
     <servlet>
         <servlet-name>DeleteUser</servlet-name>
         <servlet-class>feature.DeleteUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListPlan</servlet-name>
+        <servlet-class>feature.ListPlan</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -45,7 +49,7 @@
         <url-pattern>/user/list</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InsertPlan</servlet-name>
+        <servlet-name>ProductionPlanCreate</servlet-name>
         <url-pattern>/plan/insert</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -59,5 +63,9 @@
     <servlet-mapping>
         <servlet-name>DeleteUser</servlet-name>
         <url-pattern>/user/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListPlan</servlet-name>
+        <url-pattern>/plan/list</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -62,6 +62,82 @@
             input[type="submit"]:active {
                 background-color: #3e8e41;
             }
+            /* Đặt kiểu cho toàn bộ biểu mẫu */
+            .form-container {
+                width: 50%;
+                margin: 20px auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                background-color: #f9f9f9;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+                font-family: Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Kiểu cho nhãn và ô nhập liệu */
+            .form-container label {
+                font-weight: bold;
+                margin-top: 15px;
+            }
+
+            .form-container input[type="date"],
+            .form-container input[type="text"],
+            .form-container select {
+                padding: 8px;
+                margin-top: 5px;
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Kiểu cho nút gửi */
+            .form-container input[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                font-size: 16px;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+                margin-top: 20px;
+                width: 150px;
+                align-self: center;
+            }
+
+            .form-container input[type="submit"]:hover {
+                background-color: #45a049;
+            }
+
+            /* Kiểu cho bảng sản phẩm */
+            .product-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+
+            .product-table th,
+            .product-table td {
+                padding: 10px;
+                border: 1px solid #ddd;
+                text-align: left;
+            }
+
+            .product-table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+            .product-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+
         </style>
 
     </head>
@@ -71,10 +147,10 @@
                 <nav>
                     <img class="logo" src="https://www.shutterstock.com/image-vector/3d-abc-cubes-multicolored-vector-600nw-2374071877.jpg" alt="ABC">
                     <ul>
-                        <li><a href="home.html">Home</a></li>
+                        <li><a href="../view/home.html">Home</a></li>
                         <li><a href="order.html">Đặt hàng</a></li>
                         <li><a href="#">Đơn hàng</a></li>
-                        <li><a href="KHSX.jsp" class="active">KHSX</a></li>
+                        <li><a href="../plan/insert" class="active">KHSX</a></li>
                         <li><a href="#">Xưởng</a></li>                   
                         <li><a href="../user/list">Nhân sự</a></li>
                     </ul>
@@ -92,31 +168,40 @@
             </div>
         </header>
 
-        <form action="../plan/insert" method="POST"> 
-            From: <input type="date" name="from" /> 
-            To: <input type="date" name="to"/>
-            <br/>
-            Workshop: <select name="did">
-                <c:forEach items="${requestScope.depts}" var="d">
-                    <option value="${d.id}">${d.name}</option>
-                </c:forEach>
+        <form action="../plan/insert" method="POST" class="form-container"> 
+            <label for="from">From:</label>
+            <input type="date" name="from" id="from" required /> 
+
+            <label for="to">To:</label>
+            <input type="date" name="to" id="to" required />
+
+            <label for="did">Workshop:</label>
+            <select name="did" id="did" required>
+                <c:if test="${not empty requestScope.depts}">
+                    <c:forEach items="${requestScope.depts}" var="d">
+                        <option value="${d.did}">${d.dname}</option>
+                    </c:forEach>
+                </c:if>
             </select>
-            <br/>
-            <table border="1px">
+
+            <table class="product-table">
                 <tr>
-                    <td>Product</td>
-                    <td>Quantity</td>
-                    <td>Estimated Effort</td>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Estimated Effort</th>
                 </tr>
-                <c:forEach items="${requestScope.products}" var="p">
-                    <tr>
-                        <td>${p.name}<input type="hidden" name="pid" value="${p.id}"/></td>
-                        <td><input type="text" name="quantity${p.id}"/></td>
-                        <td><input type="text" name="effort${p.id}"/></td>
-                    </tr>   
-                </c:forEach>
+                <c:if test="${not empty requestScope.products}">
+                    <c:forEach items="${requestScope.products}" var="p">
+                        <tr>
+                            <td>${p.name}<input type="hidden" name="pid[]" value="${p.id}"/></td>
+                            <td><input type="text" name="quantity${p.id}" pattern="\\d*" required/></td>
+                            <td><input type="text" name="effort${p.id}" pattern="\\d*" required/></td>
+                        </tr>   
+                    </c:forEach>
+                </c:if>
             </table>
-            <input type="submit" name="Save"/>
+
+            <input type="submit" value="Save"/>
         </form>
 
         <footer>

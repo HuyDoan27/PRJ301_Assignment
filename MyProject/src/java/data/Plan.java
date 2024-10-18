@@ -12,12 +12,30 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class Plan {
+
     private int plid;
     private Date start_day;
     private Date end_day;
     private Department dept;
-    
     private ArrayList<PlanCampain> campains = new ArrayList<>();
+    private int totalQuantity;
+    private int cumulativeQuantity;
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
+
+    public int getCumulativeQuantity() {
+        return cumulativeQuantity;
+    }
+
+    public void setCumulativeQuantity(int cumulativeQuantity) {
+        this.cumulativeQuantity = cumulativeQuantity;
+    }
 
     public int getPlid() {
         return plid;
@@ -51,8 +69,6 @@ public class Plan {
         this.dept = dept;
     }
 
-    
-
     public ArrayList<PlanCampain> getCampains() {
         return campains;
     }
@@ -60,7 +76,5 @@ public class Plan {
     public void setCampains(ArrayList<PlanCampain> campains) {
         this.campains = campains;
     }
-    
-    
 
 }
