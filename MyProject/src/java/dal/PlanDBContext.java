@@ -99,9 +99,9 @@ public class PlanDBContext extends DBContext<Plan> {
                     + "JOIN [dbo].[WorkerSchedule] WS ON SC.scid = WS.scid "
                     + "WHERE SC.date <= ? "
                     + "GROUP BY P.plid, P.start, P.[end];";
-            
+
             stm = connection.prepareStatement(sql);
-            
+
             Date inputDate = Date.valueOf(inputDateStr);
 
             stm.setDate(1, inputDate); // Tham số thứ nhất
@@ -111,7 +111,7 @@ public class PlanDBContext extends DBContext<Plan> {
                 // Duyệt qua kết quả truy vấn
                 while (rs.next()) {
                     Plan p = new Plan();
-                    
+
                     p.setPlid(rs.getInt("plid"));
                     p.setStart_day(Date.valueOf(rs.getString("start")));
                     p.setEnd_day(Date.valueOf(rs.getString("end")));
@@ -123,6 +123,9 @@ public class PlanDBContext extends DBContext<Plan> {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if (plans == null || plans.isEmpty()) {
+            System.out.println("No plans were found.");
         }
         return plans;
     }
