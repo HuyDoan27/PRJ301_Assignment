@@ -167,16 +167,20 @@
                 </nav>
             </div>
         </header>
+        
+        <c:if test="${not empty message}">
+            <p class="success">${message}</p>
+        </c:if>
 
-        <form action="../plan/insert" method="POST" class="form-container"> 
+        <form action="../plan/insert" method="post" class="form-container"> 
             <label for="from">From:</label>
-            <input type="date" name="from" id="from" required /> 
+            <input type="date" name="from" id="from" /> 
 
             <label for="to">To:</label>
-            <input type="date" name="to" id="to" required />
+            <input type="date" name="to" id="to" />
 
             <label for="did">Workshop:</label>
-            <select name="did" id="did" required>
+            <select name="did" id="did">
                 <c:if test="${not empty requestScope.depts}">
                     <c:forEach items="${requestScope.depts}" var="d">
                         <option value="${d.did}">${d.dname}</option>
@@ -193,9 +197,9 @@
                 <c:if test="${not empty requestScope.products}">
                     <c:forEach items="${requestScope.products}" var="p">
                         <tr>
-                            <td>${p.name}<input type="hidden" name="pid[]" value="${p.id}"/></td>
-                            <td><input type="text" name="quantity${p.id}" pattern="\\d*" required/></td>
-                            <td><input type="text" name="effort${p.id}" pattern="\\d*" required/></td>
+                            <td>${p.name}<input type="hidden" name="pid" value="${p.id}"/></td>
+                            <td><input type="text" name="quantity${p.id}"/></td>
+                            <td><input type="text" name="effort${p.id}"/></td>
                         </tr>   
                     </c:forEach>
                 </c:if>

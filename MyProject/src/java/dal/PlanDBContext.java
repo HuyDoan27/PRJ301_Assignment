@@ -6,6 +6,7 @@ package dal;
 
 import data.Plan;
 import data.PlanCampain;
+import data.ScheduleCampain;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -25,7 +26,7 @@ public class PlanDBContext extends DBContext<Plan> {
     public void insertPlan(Plan plan) {
         try {
             connection.setAutoCommit(false);
-            String sql_insert_plan = "INSERT INTO [Plan]\n"
+            String sql_insert_plan = "INSERT INTO [dbo].[Plan]\n"
                     + "           ([start]\n"
                     + "           ,[end]\n"
                     + "           ,[did])\n"
@@ -34,7 +35,7 @@ public class PlanDBContext extends DBContext<Plan> {
                     + "           ,?\n"
                     + "           ,?)";
             String sql_select_plan = "SELECT @@IDENTITY as plid";
-            String sql_insert_campain = "INSERT INTO [PlanCampaign]\n"
+            String sql_insert_campain = "INSERT INTO [PlanCampainn]\n"
                     + "           ([plid]\n"
                     + "           ,[pid]\n"
                     + "           ,[quantity]\n"
@@ -90,14 +91,21 @@ public class PlanDBContext extends DBContext<Plan> {
         ArrayList<Plan> plans = new ArrayList<>();
         PreparedStatement stm = null;
         try {
-            String sql = "SELECT P.plid, P.start, P.[end], "
-                    + "(SELECT SUM(PC.quantity) FROM [dbo].[PlanCampainn] PC WHERE PC.plid = P.plid) AS total_quantity, "
-                    + "SUM(CASE WHEN SC.date <= ? THEN WS.quantity ELSE 0 END) AS cumulative_quantity "
-                    + "FROM [dbo].[Plan] P "
-                    + "JOIN [dbo].[PlanCampainn] PC ON P.plid = PC.plid "
-                    + "JOIN [dbo].[ScheduleCampain] SC ON PC.camid = SC.camid "
-                    + "JOIN [dbo].[WorkerSchedule] WS ON SC.scid = WS.scid "
-                    + "WHERE SC.date <= ? "
+            String sql = "SELECT P.plid, \n"
+                    + "       P.start, \n"
+                    + "       P.[end], \n"
+                    + "       (SELECT SUM(PC.quantity) \n"
+                    + "        FROM [dbo].[PlanCampainn] PC \n"
+                    + "        WHERE PC.plid = P.plid) AS total_quantity, \n"
+                    + "       SUM(CASE \n"
+                    + "               WHEN SC.date <= ? THEN A.quantity \n"
+                    + "               ELSE 0 \n"
+                    + "           END) AS cumulative_quantity\n"
+                    + "FROM [dbo].[Plan] P\n"
+                    + "LEFT JOIN [dbo].[PlanCampainn] PC ON P.plid = PC.plid\n"
+                    + "LEFT JOIN [dbo].[ScheduleCampain] SC ON PC.camid = SC.camid\n"
+                    + "LEFT JOIN [dbo].[WorkerSchedule] WS ON SC.scid = WS.scid\n"
+                    + "LEFT JOIN [dbo].[Attendent] A ON WS.wsid = A.wsid\n"
                     + "GROUP BY P.plid, P.start, P.[end];";
 
             stm = connection.prepareStatement(sql);
@@ -105,7 +113,6 @@ public class PlanDBContext extends DBContext<Plan> {
             Date inputDate = Date.valueOf(inputDateStr);
 
             stm.setDate(1, inputDate); // Tham số thứ nhất
-            stm.setDate(2, inputDate); // Tham số thứ hai
 
             try (ResultSet rs = stm.executeQuery()) {
                 // Duyệt qua kết quả truy vấn
@@ -117,6 +124,15 @@ public class PlanDBContext extends DBContext<Plan> {
                     p.setEnd_day(Date.valueOf(rs.getString("end")));
                     p.setTotalQuantity(rs.getInt("total_quantity"));
                     p.setCumulativeQuantity(rs.getInt("cumulative_quantity"));
+
+                    // Xác định trạng thái của kế hoạch
+                    if (p.getEnd_day().before(inputDate)) {
+                        p.setStatus("late");
+                    } else if (p.getStart_day().before(inputDate) && p.getEnd_day().after(inputDate)) {
+                        p.setStatus("on-going");
+                    } else {
+                        p.setStatus("not started");
+                    }
                     plans.add(p);
                 }
             }
@@ -129,4 +145,5 @@ public class PlanDBContext extends DBContext<Plan> {
         }
         return plans;
     }
+
 }

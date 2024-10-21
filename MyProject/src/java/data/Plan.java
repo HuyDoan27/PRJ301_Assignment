@@ -20,6 +20,15 @@ public class Plan {
     private ArrayList<PlanCampain> campains = new ArrayList<>();
     private int totalQuantity;
     private int cumulativeQuantity;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getTotalQuantity() {
         return totalQuantity;

@@ -27,7 +27,6 @@ import java.util.ArrayList;
  * @author Admin
  */
 public class ProductionPlanCreate extends BaseRBACController {
-    
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
@@ -41,6 +40,10 @@ public class ProductionPlanCreate extends BaseRBACController {
     @Override
     protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
         String[] pids = req.getParameterValues("pid");
+        if (pids == null || pids.length == 0) {
+            resp.getWriter().println("Không có sản phẩm nào được chọn.");
+            return;
+        }
 
         Plan plan = new Plan();
         plan.setStart_day(Date.valueOf(req.getParameter("from")));
@@ -71,7 +74,8 @@ public class ProductionPlanCreate extends BaseRBACController {
         if (plan.getCampains().size() > 0) {
             PlanDBContext db = new PlanDBContext();
             db.insertPlan(plan);
-            resp.getWriter().println("created a new plan!");
+            req.setAttribute("message", "Kế hoạch đã được tạo thành công!");
+            req.getRequestDispatcher("../view/KHSX.jsp").forward(req, resp);
         } else {
             resp.getWriter().println("your plan did not have any campains");
         }

@@ -4,6 +4,8 @@
  */
 package data;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Admin
@@ -14,6 +16,16 @@ public class PlanCampain {
     private int quantity;
     private float estimatedeffort;
     private Product product;
+    private ArrayList<ScheduleCampain> schedules = new ArrayList<>();
+
+    public ArrayList<ScheduleCampain> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(ArrayList<ScheduleCampain> schedules) {
+        this.schedules = schedules;
+    }
+
 
     public int getCamid() {
         return camid;
@@ -55,9 +67,5 @@ public class PlanCampain {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-
-    
-    
+    } 
 }

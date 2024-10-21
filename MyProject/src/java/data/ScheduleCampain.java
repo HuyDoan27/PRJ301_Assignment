@@ -53,7 +53,5 @@ public class ScheduleCampain {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-    
-    
+    } 
 }

@@ -33,7 +33,7 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (isAuthenticated(req)) {
-            doPost(req, resp,(User)req.getSession().getAttribute("account"));
+            doGet(req, resp,(User)req.getSession().getAttribute("account"));
         }else{
             resp.sendError(403, "You do not have right to access this page.");
         }

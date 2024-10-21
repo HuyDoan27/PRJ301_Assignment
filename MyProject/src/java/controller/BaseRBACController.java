@@ -21,42 +21,6 @@ import java.util.ArrayList;
  */
 public abstract class BaseRBACController extends BaseRequiredAuthenticationController {
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
-        if (isAuthorized(req, loggeduser)) {
-            doAuthorizedGet(req, resp, loggeduser);
-        } else {
-            resp.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = resp.getWriter();
-            out.println("<html>");
-            out.println("<head><title>Access Denied</title></head>");
-            out.println("<body>");
-            out.println("<script type='text/javascript'>");
-            out.println("alert('Bạn không được phép sử dụng chức năng này!');");
-            out.println("window.history.back();"); // Quay lại trang trước
-            out.println("</script>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
-        if (isAuthorized(req, loggeduser)) {
-            doAuthorizedGet(req, resp, loggeduser);
-        } else {
-            resp.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = resp.getWriter();
-            out.println("<html>");
-            out.println("<head><title>Access Denied</title></head>");
-            out.println("<body>");
-            out.println("<script type='text/javascript'>");
-            out.println("alert('Bạn không được phép sử dụng chức năng này!');");
-            out.println("window.history.back();"); // Quay lại trang trước
-            out.println("</script>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
     private boolean isAuthorized(HttpServletRequest req, User loggeduser) {
         UserDBContext db = new UserDBContext();
 
@@ -83,5 +47,45 @@ public abstract class BaseRBACController extends BaseRequiredAuthenticationContr
     protected abstract void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException;
 
     protected abstract void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException;
+    
+    
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
+        if (isAuthorized(req, loggeduser)) {
+            doAuthorizedGet(req, resp, loggeduser);
+        } else {
+            resp.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.println("<html>");
+            out.println("<head><title>Access Denied</title></head>");
+            out.println("<body>");
+            out.println("<script type='text/javascript'>");
+            out.println("alert('Bạn không được phép sử dụng chức năng này!');");
+            out.println("window.history.back();"); // Quay lại trang trước
+            out.println("</script>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
+        if (isAuthorized(req, loggeduser)) {
+            doAuthorizedPost(req, resp, loggeduser);
+        } else {
+            resp.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.println("<html>");
+            out.println("<head><title>Access Denied</title></head>");
+            out.println("<body>");
+            out.println("<script type='text/javascript'>");
+            out.println("alert('Bạn không được phép sử dụng chức năng này!');");
+            out.println("window.history.back();"); // Quay lại trang trước
+            out.println("</script>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }  
 
 }

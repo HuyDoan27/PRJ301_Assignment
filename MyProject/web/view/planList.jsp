@@ -58,6 +58,7 @@
                         <th>Ngày kết thúc</th>
                         <th>Tổng số lượng</th>
                         <th>Số lượng lũy kế</th>
+                        <th>Trạng thái</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +69,7 @@
                             <td>${result.end_day}</td>
                             <td>${result.totalQuantity}</td>
                             <td>${result.cumulativeQuantity}</td>
+                            <td>${result.status}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
