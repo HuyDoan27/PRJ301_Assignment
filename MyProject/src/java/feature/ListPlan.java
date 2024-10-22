@@ -4,7 +4,9 @@
  */
 package feature;
 
+import dal.DepartmentDBContext;
 import dal.PlanDBContext;
+import dal.ProductDBContext;
 import data.Plan;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,12 +30,21 @@ public class ListPlan extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String inputDate = "2024-09-02";
+        String inputDate = req.getParameter("inputDate");
         PlanDBContext db = new PlanDBContext();
-        ArrayList<Plan> plans = new ArrayList<>();
+        ArrayList<Plan> plans = new ArrayList<>();       
         plans = db.planList(inputDate);
+        
+        req.setAttribute("inputDate", inputDate);
         req.setAttribute("plans", plans);
-        req.getRequestDispatcher("../view/planList.jsp").forward(req, resp);
+
+        ProductDBContext dbProduct = new ProductDBContext();
+        DepartmentDBContext dbDept = new DepartmentDBContext();
+        req.setAttribute("products", dbProduct.list());
+        req.setAttribute("depts", dbDept.get("WS"));
+        
+        
+        req.getRequestDispatcher("../view/KHSX.jsp").forward(req, resp);
     }
 
 }
