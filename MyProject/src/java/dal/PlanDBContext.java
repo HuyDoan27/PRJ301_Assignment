@@ -8,7 +8,9 @@ import data.Plan;
 import data.PlanCampain;
 import data.ScheduleCampain;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -144,6 +146,30 @@ public class PlanDBContext extends DBContext<Plan> {
             System.out.println("No plans were found.");
         }
         return plans;
+    }
+
+    public List<String> getDateRangeByPlanId(int planId) {
+        List<String> dateRange = new ArrayList<>();
+        try {
+            String sql = "SELECT [start], [end] FROM [dbo].[Plan] WHERE plid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, planId);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                LocalDate startDate = rs.getDate("start").toLocalDate();
+                LocalDate endDate = rs.getDate("end").toLocalDate();
+
+                // Tính toán khoảng ngày từ ngày bắt đầu đến ngày kết thúc
+                while (!startDate.isAfter(endDate)) {
+                    dateRange.add(startDate.toString()); // Định dạng yyyy-MM-dd
+                    startDate = startDate.plusDays(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dateRange;
     }
 
 }

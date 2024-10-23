@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,6 +60,29 @@ public class ProductDBContext extends DBContext<Product> {
             System.out.println("No products found.");
         }
         return products;
+    }
+
+    public List<Product> getProductsByPlanId(int planId) {
+        List<Product> productList = new ArrayList<>();
+        try {
+            String sql = "SELECT p.pid, p.pname \n"
+                    + "FROM [dbo].[Product] p \n"
+                    + "JOIN [dbo].[PlanCampainn] pc ON p.pid = pc.pid \n"
+                    + "WHERE pc.plid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, planId);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(Integer.parseInt(rs.getString("pid")));
+                p.setName(rs.getString("pname"));
+                productList.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
 
     @Override

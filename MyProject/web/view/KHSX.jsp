@@ -284,7 +284,7 @@
                     <img class="logo" src="https://www.shutterstock.com/image-vector/3d-abc-cubes-multicolored-vector-600nw-2374071877.jpg" alt="ABC">
                     <ul>
                         <li><a href="../view/home.html">Home</a></li>
-                        <li><a href="order.html">Đặt hàng</a></li>
+                        <li><a href="../view/order.html">Đặt hàng</a></li>
                         <li><a href="#">Đơn hàng</a></li>
                         <li><a href="../plan/insert" class="active">KHSX</a></li>
                         <li><a href="#">Xưởng</a></li>                   
