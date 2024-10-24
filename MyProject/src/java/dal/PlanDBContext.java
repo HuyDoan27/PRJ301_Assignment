@@ -6,6 +6,7 @@ package dal;
 
 import data.Plan;
 import data.PlanCampain;
+import data.Product;
 import data.ScheduleCampain;
 import java.sql.*;
 import java.time.LocalDate;
@@ -106,7 +107,7 @@ public class PlanDBContext extends DBContext<Plan> {
                     + "FROM [dbo].[Plan] P\n"
                     + "LEFT JOIN [dbo].[PlanCampainn] PC ON P.plid = PC.plid\n"
                     + "LEFT JOIN [dbo].[ScheduleCampain] SC ON PC.camid = SC.camid\n"
-                    + "LEFT JOIN [dbo].[WorkerSchedule] WS ON SC.scid = WS.scid\n"
+                    + "LEFT JOIN [dbo].[WorkerSchedule] WS ON SC.scid_new = WS.scid\n"
                     + "LEFT JOIN [dbo].[Attendent] A ON WS.wsid = A.wsid\n"
                     + "GROUP BY P.plid, P.start, P.[end];";
 
@@ -117,15 +118,14 @@ public class PlanDBContext extends DBContext<Plan> {
             stm.setDate(1, inputDate); // Tham số thứ nhất
 
             try (ResultSet rs = stm.executeQuery()) {
-                // Duyệt qua kết quả truy vấn
                 while (rs.next()) {
                     Plan p = new Plan();
 
                     p.setPlid(rs.getInt("plid"));
                     p.setStart_day(Date.valueOf(rs.getString("start")));
                     p.setEnd_day(Date.valueOf(rs.getString("end")));
-                    p.setTotalQuantity(rs.getInt("total_quantity"));
-                    p.setCumulativeQuantity(rs.getInt("cumulative_quantity"));
+                    p.setTotalProductQuantities(getProductsByPlanId(rs.getInt("plid")));
+                    p.setCumulativeProductQuantities(getCumulativeProductQuantitiesByPlanId(rs.getInt("plid")));
 
                     // Xác định trạng thái của kế hoạch
                     if (p.getEnd_day().before(inputDate)) {
@@ -146,6 +146,59 @@ public class PlanDBContext extends DBContext<Plan> {
             System.out.println("No plans were found.");
         }
         return plans;
+    }
+
+    public List<Product> getProductsByPlanId(int planId) {
+        List<Product> productList = new ArrayList<>();
+        try {
+            String sql = "SELECT pc.camid, p.pid, p.pname, pc.quantity\n"
+                    + "FROM [dbo].[Product] p \n"
+                    + "JOIN [dbo].[PlanCampainn] pc ON p.pid = pc.pid \n"
+                    + "WHERE pc.plid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, planId);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setCamid(rs.getInt("camid"));
+                p.setId(Integer.parseInt(rs.getString("pid")));
+                p.setName(rs.getString("pname"));
+                p.setQuantity(rs.getInt("quantity"));
+                productList.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+
+    public List<Product> getCumulativeProductQuantitiesByPlanId(int planId) {
+        List<Product> cumulativeList = new ArrayList<>();
+        try {
+            String sql = "SELECT p.pid, p.pname, SUM(a.quantity) as cumulativeQuantity \n"
+                    + "FROM [dbo].[Product] p \n"
+                    + "left JOIN [dbo].[PlanCampainn] pc ON p.pid = pc.pid \n"
+                    + "left JOIN [dbo].[ScheduleCampain] sc ON pc.camid = sc.camid \n"
+                    + "left JOIN [dbo].[WorkerSchedule] ws ON sc.scid_new = ws.scid \n"
+                    + "left JOIN [dbo].[Attendent] a ON a.wsid = ws.wsid \n"
+                    + "WHERE pc.plid = ?\n"
+                    + "GROUP BY p.pid, p.pname";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, planId);
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("pid"));
+                p.setName(rs.getString("pname"));
+                p.setQuantity(rs.getInt("cumulativeQuantity")); // Lấy số lượng lũy kế
+                cumulativeList.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cumulativeList;
     }
 
     public List<String> getDateRangeByPlanId(int planId) {

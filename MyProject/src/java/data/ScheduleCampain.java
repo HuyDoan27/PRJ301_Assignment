@@ -9,27 +9,20 @@ import java.sql.*;
  * @author Admin
  */
 public class ScheduleCampain {
-    private int scid;
-    private PlanCampain camid;
+    private int camid;
     private Date date;
     private String shift;
     private int quantity;
 
-    public int getScid() {
-        return scid;
-    }
-
-    public void setScid(int scid) {
-        this.scid = scid;
-    }
-
-    public PlanCampain getCamid() {
+    public int getCamid() {
         return camid;
     }
 
-    public void setCamid(PlanCampain camid) {
+    public void setCamid(int camid) {
         this.camid = camid;
     }
+
+    
 
     public Date getDate() {
         return date;

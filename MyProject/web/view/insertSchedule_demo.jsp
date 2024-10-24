@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -45,9 +46,8 @@
     <body>
         <h2>Phân công</h2>
 
-        <form action="/insertSchedule" method="post">
-            <input type="hidden" name="planId" value="1" />
-
+        <form action="../plan/assignwork" method="post">
+            <input type="hidden" name="planId" value="${planId}" />
             <!-- Bảng hiển thị thông tin nhập liệu theo ngày và sản phẩm -->
             <table class="schedule-table">
                 <!-- Duyệt qua các ngày theo nhóm 3 ngày -->
@@ -76,18 +76,51 @@
                                     <td>${product.name}</td>
                                     <!-- Lặp qua nhóm 3 ngày, tạo các ô nhập liệu -->
                                     <c:forEach var="d" begin="${status.index}" end="${Math.min(status.index + 2, dateRange.size() - 1)}">
-                                        <td><input type="number" name="quantity[${product.id}][${dateRange[d]}][K1]" /></td>
-                                        <td><input type="number" name="quantity[${product.id}][${dateRange[d]}][K2]" /></td>
-                                        <td><input type="number" name="quantity[${product.id}][${dateRange[d]}][K3]" /></td>
-                                        </c:forEach>
+                                        <c:set var="keyK1" value="${product.camid}_${dateRange[d]}_K1_${product.id}" />
+                                        <c:set var="keyK2" value="${product.camid}_${dateRange[d]}_K2_${product.id}" />
+                                        <c:set var="keyK3" value="${product.camid}_${dateRange[d]}_K3_${product.id}" />
+
+                                        <td>
+                                            <input type="number" 
+                                                   name="quantity[${product.camid}][${dateRange[d]}][K1][${product.id}]" 
+                                                   id="input-${product.camid}-${dateRange[d]}-K1-${product.id}"
+                                                   value="${preAssignedQuantities[keyK1] != null ? preAssignedQuantities[keyK1] : ''}" />
+                                        </td>
+                                        <td>
+                                            <input type="number" 
+                                                   name="quantity[${product.camid}][${dateRange[d]}][K2][${product.id}]" 
+                                                   id="input-${product.camid}-${dateRange[d]}-K2-${product.id}"
+                                                   value="${preAssignedQuantities[keyK2] != null ? preAssignedQuantities[keyK2] : ''}" />
+                                        </td>
+                                        <td>
+                                            <input type="number" 
+                                                   name="quantity[${product.camid}][${dateRange[d]}][K3][${product.id}]" 
+                                                   id="input-${product.camid}-${dateRange[d]}-K3-${product.id}"
+                                                   value="${preAssignedQuantities[keyK3] != null ? preAssignedQuantities[keyK3] : ''}" />
+                                        </td>
+                                    </c:forEach>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </c:if>
                 </c:forEach>
             </table>
-
             <button type="submit">Lưu lịch</button>
         </form>
+
+        <script>
+            document.querySelector('form').addEventListener('submit', function (e) {
+                const inputs = document.querySelectorAll('input[type="number"]');
+
+                // Loại bỏ các input không có giá trị để tránh gửi lên server
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        input.disabled = true; // Đặt thành disabled để không gửi đi
+                    }
+                });
+
+                console.log("Form is being submitted.");
+            });
+        </script>
     </body>
 </html>

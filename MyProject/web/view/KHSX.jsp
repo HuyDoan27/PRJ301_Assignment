@@ -230,12 +230,12 @@
             }
 
             .plan-section {
-                width: 80%;
+                width: 100%;
                 margin-top: 20px;
             }
 
             #planSection {
-                width: 80%;
+                width: 100%;
                 border-collapse: collapse;
                 margin: 20px 0;
                 background-color: #fff;
@@ -386,8 +386,16 @@
                                         <td>${result.plid}</td>
                                         <td>${result.start_day}</td>
                                         <td>${result.end_day}</td>
-                                        <td>${result.totalQuantity}</td>
-                                        <td>${result.cumulativeQuantity}</td>
+                                        <td>
+                                            <c:forEach var="product" items="${result.totalProductQuantities}">
+                                                ${product.name}: ${product.quantity}<br/>
+                                            </c:forEach>
+                                        </td>
+                                        <td>
+                                            <c:forEach var="cumulativeProduct" items="${result.cumulativeProductQuantities}">
+                                                ${cumulativeProduct.name}: ${cumulativeProduct.quantity}<br/>
+                                            </c:forEach>
+                                        </td>
                                         <td>${result.status}</td>
                                     </tr>
                                 </c:forEach>
@@ -427,13 +435,15 @@
 
         <script src="../js/home.js"></script>
         <script>
-                function hidePlanSection() {
-                    document.getElementById("planSection").style.display = "none";
-                };
-                
-                function showDateForm() {
-                    document.getElementById("dateForm").style.display = "flex";
-                };
+                                function hidePlanSection() {
+                                    document.getElementById("planSection").style.display = "none";
+                                }
+                                ;
+
+                                function showDateForm() {
+                                    document.getElementById("dateForm").style.display = "flex";
+                                }
+                                ;
         </script>
     </body>
 </html>

@@ -6,6 +6,7 @@ package data;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,8 +19,8 @@ public class Plan {
     private Date end_day;
     private Department dept;
     private ArrayList<PlanCampain> campains = new ArrayList<>();
-    private int totalQuantity;
-    private int cumulativeQuantity;
+    private List<Product> totalProductQuantities; 
+    private List<Product> cumulativeProductQuantities;
     private String status;
 
     public String getStatus() {
@@ -30,21 +31,23 @@ public class Plan {
         this.status = status;
     }
 
-    public int getTotalQuantity() {
-        return totalQuantity;
+    public List<Product> getTotalProductQuantities() {
+        return totalProductQuantities;
     }
 
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
+    public void setTotalProductQuantities(List<Product> totalProductQuantities) {
+        this.totalProductQuantities = totalProductQuantities;
     }
 
-    public int getCumulativeQuantity() {
-        return cumulativeQuantity;
+    public List<Product> getCumulativeProductQuantities() {
+        return cumulativeProductQuantities;
     }
 
-    public void setCumulativeQuantity(int cumulativeQuantity) {
-        this.cumulativeQuantity = cumulativeQuantity;
+    public void setCumulativeProductQuantities(List<Product> cumulativeProductQuantities) {
+        this.cumulativeProductQuantities = cumulativeProductQuantities;
     }
+
+    
 
     public int getPlid() {
         return plid;

@@ -32,14 +32,16 @@ public class ListPlan extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String inputDate = req.getParameter("inputDate");
         PlanDBContext db = new PlanDBContext();
-        ArrayList<Plan> plans = new ArrayList<>();       
+        ProductDBContext dbProduct = new ProductDBContext();
+        DepartmentDBContext dbDept = new DepartmentDBContext();
+        
+        ArrayList<Plan> plans = new ArrayList<>(); 
+        ArrayList<Plan> cumulativeList = new ArrayList<>(); 
+        
         plans = db.planList(inputDate);
         
         req.setAttribute("inputDate", inputDate);
         req.setAttribute("plans", plans);
-
-        ProductDBContext dbProduct = new ProductDBContext();
-        DepartmentDBContext dbDept = new DepartmentDBContext();
         req.setAttribute("products", dbProduct.list());
         req.setAttribute("depts", dbDept.get("WS"));
         

@@ -65,7 +65,7 @@ public class ProductDBContext extends DBContext<Product> {
     public List<Product> getProductsByPlanId(int planId) {
         List<Product> productList = new ArrayList<>();
         try {
-            String sql = "SELECT p.pid, p.pname \n"
+            String sql = "SELECT p.pid, p.pname, pc.quantity\n"
                     + "FROM [dbo].[Product] p \n"
                     + "JOIN [dbo].[PlanCampainn] pc ON p.pid = pc.pid \n"
                     + "WHERE pc.plid = ?";
@@ -77,6 +77,7 @@ public class ProductDBContext extends DBContext<Product> {
                 Product p = new Product();
                 p.setId(Integer.parseInt(rs.getString("pid")));
                 p.setName(rs.getString("pname"));
+                p.setQuantity(rs.getInt("quantity"));
                 productList.add(p);
             }
         } catch (SQLException e) {
@@ -85,6 +86,7 @@ public class ProductDBContext extends DBContext<Product> {
         return productList;
     }
 
+    
     @Override
     public void create(Product model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

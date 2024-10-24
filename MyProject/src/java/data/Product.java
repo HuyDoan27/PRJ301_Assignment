@@ -9,9 +9,27 @@ package data;
  * @author Admin
  */
 public class Product {
+    private int camid;
     private int id;
     private String name;
+    private int quantity;
 
+    public int getCamid() {
+        return camid;
+    }
+
+    public void setCamid(int camid) {
+        this.camid = camid;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
     public int getId() {
         return id;
     }
