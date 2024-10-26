@@ -16,9 +16,36 @@ public class Employee {
     private String ename;
     private String salaryLevel;
     private int did;
-    private ArrayList<User> user = new ArrayList<>();
-    private ArrayList<Department> departments = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
+    private Department department ;
     private ArrayList<Feature> features = new ArrayList<>();
+    private int rowspan;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+    
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+
+    public int getRowspan() {
+        return rowspan;
+    }
+
+    public void setRowspan(int rowspan) {
+        this.rowspan = rowspan;
+    }
+    
+    
 
     public ArrayList<Feature> getFeatures() {
         return features;
@@ -34,14 +61,6 @@ public class Employee {
 
     public void setSalaryLevel(String salaryLevel) {
         this.salaryLevel = salaryLevel;
-    }
-
-    public ArrayList<Department> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(ArrayList<Department> departments) {
-        this.departments = departments;
     }
 
     public Employee() {
@@ -72,11 +91,15 @@ public class Employee {
     }
 
     public ArrayList<User> getUser() {
-        return user;
+        return users;
     }
 
-    public void setUser(ArrayList<User> user) {
-        this.user = user;
+    public void setUser(ArrayList<User> users) {
+        this.users = users;
+    }
+    
+    public void addUser(User user) {
+        this.users.add(user);
     }
 
 }

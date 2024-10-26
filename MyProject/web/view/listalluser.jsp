@@ -64,7 +64,7 @@
         }
 
         .button-container {
-            width: 30%; /* Chiếm 20% chiều rộng */
+            width: 70%; /* Chiếm 20% chiều rộng */
             display: flex; /* Sử dụng Flexbox để căn chỉnh các nút */
             flex-direction: row; /* Sắp xếp các nút theo chiều dọc */
             margin: auto;
@@ -133,11 +133,11 @@
         #formEmployee, #formAccount {
             display: none; /* Ẩn form ban đầu */
             padding: 10px;
-            margin-left: 15%;
+            margin-left: 10%;
             background-color: #f2f2f2;
             border: 1px solid #ccc;
             border-radius: 5px;
-            width: 100%;
+            width: 80%;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ để tạo sự rõ ràng */
             clear: both;
         }
@@ -150,7 +150,7 @@
             background-color: #f9f9f9; /* Màu nền sáng cho form */
             border: 1px solid #ccc; /* Viền xám cho form */
             border-radius: 8px; /* Bo tròn các góc */
-            width: 100%; /* Chiếm toàn bộ chiều rộng */
+            width: 80%; /* Chiếm toàn bộ chiều rộng */
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho form */
             max-height: 250px; /* Giới hạn chiều cao của form */
             overflow: auto; /* Thêm cuộn nếu nội dung vượt quá chiều cao */
@@ -272,9 +272,9 @@
 
         /* Định dạng tổng quan cho container của form delete account */
         #formDeleteAccount {
-            width: 100%;
+            width: 80%;
             max-width: 800px;
-            margin-left: 20%;
+            margin-left: 10%;
             padding: 20px;
         }
 
@@ -342,6 +342,72 @@
             margin-top: 5px;
         }
 
+        .button-container .btn.update-user {
+            background-color: #4a90e2; /* Màu nền xanh lá cây */
+            color: white; /* Màu chữ trắng */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .button-container .btn.update-user:hover {
+            background-color: #45a049; /* Màu nền khi hover */
+        }
+
+        #updateForm {
+            display: none; /* Mặc định ẩn form */
+            width: 100%; /* Đặt chiều rộng theo nhu cầu */
+            padding: 20px; /* Khoảng cách bên trong form */
+            background-color: #e0f0ff; /* Nền xanh dương nhạt */
+            border: 1px solid #4a90e2; /* Viền xanh dương đậm */
+            border-radius: 8px; /* Bo góc cho form */
+            color: #333; /* Màu chữ */
+            margin-top: 15px; /* Khoảng cách với phần tử phía trên */
+        }
+
+        #updateForm h3 {
+            color: #4a90e2; /* Màu tiêu đề xanh dương đậm */
+            margin-bottom: 15px;
+        }
+
+        #updateForm label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #4a90e2; /* Màu nhãn xanh dương đậm */
+        }
+
+        #updateForm input[type="text"] {
+            width: 100%; /* Độ rộng đầy đủ */
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #4a90e2; /* Viền xanh dương đậm */
+            border-radius: 5px;
+            background-color: #ffffff; /* Nền trắng cho input */
+            color: #333; /* Màu chữ */
+        }
+
+        #updateForm input[type="text"]:focus {
+            border-color: #337ab7; /* Màu viền khi focus */
+            outline: none; /* Loại bỏ outline mặc định */
+        }
+
+        #submitUpdateBtn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4a90e2; /* Nền nút xanh dương đậm */
+            color: #fff; /* Màu chữ trắng */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #submitUpdateBtn:hover {
+            background-color: #337ab7; /* Màu nền khi hover */
+        }
 
 
     </style>
@@ -372,6 +438,7 @@
                 </nav>
             </div>
         </header>
+
         <div class="user-container">
             <div class="content">
                 <!-- Kiểm tra xem users có tồn tại trong session hay không -->
@@ -447,6 +514,7 @@
                 <div class="button-container">
                     <button class="btn add-user" id="addAccountBtn">ADD ACCOUNT</button>
                     <button class="btn delete-user" id="deleteAccountBtn">DELETE ACCOUNT</button>
+                    <button class="btn update-user" id="updateAccountBtn" onclick="toggleUpdateForm()">UPDATE ACCOUNT</button>
                 </div>
 
                 <!-- Form 1: Add Account For Employee -->
@@ -493,7 +561,40 @@
                         <button type="submit">Delete Account</button>
                     </form>
                 </div>
-            </div>
+                <!-- Form Update Account, ban đầu được ẩn -->
+                <div class="update-form" id="updateForm" style="display: none;">
+                    <form action="../user/update" method="post">
+                        <h3>Update Account</h3>
+                        <label for="employeeID">Employee ID:</label>
+                        <input type="number" id="employeeID" name="employeeID" placeholder="Enter Employee ID" required>
+
+                        <label for="userID">User ID:</label>
+                        <input type="number" id="userID" name="userID" placeholder="Enter User ID" required>
+
+                        <button class="btn submit-update" id="submitUpdateBtn" >Find user</button>
+                    </form>             
+                </div>
+
+                <!-- Form mới, mặc định là ẩn -->
+                <div id="newUpdateFormContainer" style="display: none;">
+                    <form action="UpdateUserServlet" method="post" id="newUpdateForm">
+                        <!-- Ô input cho Username (không chỉnh sửa) -->
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" value="${user != null ? user.username : ''}" readonly>
+
+                        <!-- Ô input cho Password (không chỉnh sửa) -->
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" value="${user != null ? user.password : ''}" readonly>
+
+                        <!-- Ô input cho New Password (người dùng nhập mật khẩu mới) -->
+                        <label for="newPassword">New Password:</label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="Enter New Password" required>
+
+                        <!-- Nút Submit -->
+                        <button type="submit" class="btn submit-update">Update Password</button>
+                    </form>
+                </div>
+            </div>          
         </div>
 
         <footer>
@@ -535,12 +636,14 @@
                             }
                             // Ẩn Form xóa tài khoản
                             document.getElementById("formDeleteAccount").style.display = "none";
+                            document.getElementById("updateForm").style.display = "none";
                         });
 
                         // Khi nhấn nút "DELETE ACCOUNT"
                         document.getElementById("deleteAccountBtn").addEventListener("click", function () {
                             // Ẩn Form tạo tài khoản cho nhân viên
                             document.getElementById("formEmployee").style.display = "none";
+                            document.getElementById("updateForm").style.display = "none";
                             // Ẩn Form tạo tài khoản cho người dùng (nếu có)
                             var formAccount = document.getElementById("formAccount");
                             if (formAccount) {
@@ -550,7 +653,41 @@
                             document.getElementById("formDeleteAccount").style.display = "block";
                         });
 
+                        function toggleUpdateForm() {
+                            // Lấy các phần tử form theo ID
+                            var formDeleteAccount = document.getElementById("formDeleteAccount");
+                            var formAccount = document.getElementById("formAccount");
+                            var formEmployee = document.getElementById("formEmployee");
+                            var updateForm = document.getElementById("updateForm");
 
+                            // Kiểm tra và ẩn các form nếu chúng đang hiển thị
+                            if (formDeleteAccount && formDeleteAccount.style.display !== "none") {
+                                formDeleteAccount.style.display = "none";
+                            }
+                            if (formAccount && formAccount.style.display !== "none") {
+                                formAccount.style.display = "none";
+                            }
+                            if (formEmployee && formEmployee.style.display !== "none") {
+                                formEmployee.style.display = "none";
+                            }
+
+                            // Hiển thị form updateForm
+                            if (updateForm) {
+                                updateForm.style.display = "block";
+                            }
+                        }
+                        ;
+
+                        var userExists = ${u != null ? "true" : "false"};
+                        window.onload = function () {
+                            if (userExists === "true") {
+                                // Hiển thị form nếu user tồn tại
+                                document.getElementById("newUpdateFormContainer").style.display = "block";
+                            } else {
+                                // Hiển thị thông báo lỗi nếu user không tồn tại
+                                document.getElementById("userNotFoundMessage").style.display = "block";
+                            }
+                        };
         </script>
     </body>
 </html>

@@ -46,7 +46,6 @@ public class Feature {
 
     public void setDept(ArrayList<Department> dept) {
         this.dept = dept;
-    }
-    
+    }  
     
 }

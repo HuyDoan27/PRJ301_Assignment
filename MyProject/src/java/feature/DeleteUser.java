@@ -42,7 +42,7 @@ public class DeleteUser extends BaseRBACController {
 
         UserDBContext db = new UserDBContext();
         try {
-            dbContext.connection.setAutoCommit(false); // Bắt đầu transaction
+            dbContext.connection.setAutoCommit(false);
 
             // 1. Xóa từ UserFeature
             db.deleteUserFeature(userID);
@@ -53,10 +53,10 @@ public class DeleteUser extends BaseRBACController {
             // 3. Xóa từ User
             db.deleteUser(userID);
 
-            dbContext.connection.commit(); // Commit transaction sau khi xóa thành công
+            dbContext.connection.commit();
         } catch (SQLException ex) {
             try {
-                dbContext.connection.rollback(); // Rollback nếu có lỗi xảy ra
+                dbContext.connection.rollback(); 
             } catch (SQLException ex1) {
                 Logger.getLogger(DeleteUser.class.getName()).log(Level.SEVERE, null, ex1);
             }
@@ -67,7 +67,7 @@ public class DeleteUser extends BaseRBACController {
             }
         } finally {
             try {
-                dbContext.connection.setAutoCommit(true); // Khôi phục trạng thái tự động commit
+                dbContext.connection.setAutoCommit(true); 
             } catch (SQLException ex) {
                 Logger.getLogger(DeleteUser.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -81,7 +81,7 @@ public class DeleteUser extends BaseRBACController {
 
         UserDBContext db = new UserDBContext();
         try {
-            dbContext.connection.setAutoCommit(false); // Bắt đầu transaction
+            dbContext.connection.setAutoCommit(false); 
 
             // 1. Xóa từ UserFeature
             db.deleteUserFeature(userID);
@@ -92,11 +92,11 @@ public class DeleteUser extends BaseRBACController {
             // 3. Xóa từ User
             db.deleteUser(userID);
 
-            dbContext.connection.commit(); // Commit transaction sau khi xóa thành công
+            dbContext.connection.commit(); 
             req.getSession().setAttribute("successDelete", "Đã xóa thành công user này.");
         } catch (SQLException ex) {
             try {
-                dbContext.connection.rollback(); // Rollback nếu có lỗi xảy ra
+                dbContext.connection.rollback();
             } catch (SQLException ex1) {
                 Logger.getLogger(DeleteUser.class.getName()).log(Level.SEVERE, null, ex1);
             }

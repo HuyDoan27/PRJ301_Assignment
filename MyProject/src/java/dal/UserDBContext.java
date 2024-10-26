@@ -13,6 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,16 +24,74 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class UserDBContext extends DBContext<User> {
+    
+     public User getUserByEidUid(int eid, int uid) {
+        User user = null;
+
+        // Câu lệnh SQL để truy vấn dữ liệu từ cơ sở dữ liệu
+        String sql = "SELECT e.eid, e.ename, u.uid, u.username, u.[password], u.isLocked, " +
+                     "d.dept_id, d.dept_name, " +
+                     "f.feature_id, f.feature_name " +
+                     "FROM [dbo].[Employee] e " +
+                     "JOIN [dbo].[Employee_User] eu ON eu.eid = e.eid " +
+                     "JOIN [dbo].[User] u ON u.uid = eu.uid " +
+                     "LEFT JOIN [dbo].[Department] d ON e.dept_id = d.dept_id " +
+                     "LEFT JOIN [dbo].[Feature] f ON u.feature_id = f.feature_id " +
+                     "WHERE e.eid = ? AND u.uid = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            // Thiết lập các tham số cho câu truy vấn
+            pstmt.setInt(1, eid);
+            pstmt.setInt(2, uid);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Khởi tạo đối tượng User từ dữ liệu kết quả
+                    user = new User();
+                    user.setUid(rs.getInt("uid"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setIsLocked(rs.getBoolean("isLocked"));
+
+                    // Khởi tạo đối tượng Employee bên trong User
+                    Employee employee = new Employee();
+                    employee.setEid(rs.getInt("eid"));
+                    employee.setEname(rs.getString("ename"));
+                    user.setEmployees(employee);
+
+                    // Khởi tạo đối tượng Department bên trong User
+                    Department dept = new Department();
+                    dept.setDid(rs.getInt("dept_id"));
+                    dept.setDname(rs.getString("dept_name"));
+                    user.setDepts(dept);
+
+                    // Khởi tạo đối tượng Feature bên trong User (nếu có)
+                    Feature feature = new Feature();
+                    feature.setFid(rs.getInt("feature_id"));
+                    feature.setFname(rs.getString("feature_name"));
+                    user.setFeatures(feature);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
 
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
-        String sql = "SELECT e.eid,e.ename,e.salaryLevel,u.[uid], u.username,u.[password], d.dname,f.fid,f.fname, u.isLocked FROM [dbo].[User] u\n"
-                + "                left join [dbo].[Employee_User] eu on eu.uid = u.uid\n"
-                + "                left join [dbo].[Employee] e on e.eid = eu.eid\n"
-                + "                left join [dbo].[Department] d on d.did = e.did\n"
-                + "                left join [dbo].[DepartmentFeature] df on df.did = d.did\n"
-                + "                left join [dbo].[Feature] f on  f.fid = df.fid\n"
-                + "                order by u.uid asc , d.did asc , f.fid asc";
+        String sql = "SELECT e.eid, e.ename, e.salaryLevel, u.[uid], u.username, u.[password], \n"
+                + "       d.dname, f.fid, f.fname, u.isLocked\n"
+                + "FROM [dbo].[Employee] e\n"
+                + "    LEFT JOIN [dbo].[Employee_User] eu ON e.eid = eu.eid\n"
+                + "    LEFT JOIN [dbo].[User] u ON u.uid = eu.uid\n"
+                + "    LEFT JOIN [dbo].[Department] d ON d.did = e.did\n"
+                + "    LEFT JOIN [dbo].[DepartmentFeature] df ON df.did = d.did\n"
+                + "    LEFT JOIN [dbo].[Feature] f ON f.fid = df.fid\n"
+                + "ORDER BY e.eid ASC, d.did ASC, f.fid ASC;";
 
         PreparedStatement stm = null;
         try {
@@ -127,7 +188,6 @@ public class UserDBContext extends DBContext<User> {
                 Logger.getLogger(EmployeeDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         return depts;
     }
 

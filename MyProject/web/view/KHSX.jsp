@@ -308,6 +308,17 @@
             <p class="success">${message}</p>
         </c:if>
 
+        <c:if test="${not empty successMessage}">
+            <script>
+                // Chỉ hiển thị alert nếu chưa hiển thị trong phiên làm việc hiện tại
+                if (!sessionStorage.getItem("alertShown")) {
+                    alert("${successMessage}");
+                    sessionStorage.setItem("alertShown", "true");
+                }
+            </script>
+        </c:if>
+
+
         <div class="content">
             <div class="left-panel">
                 <form action="../plan/insert" method="post" class="form-container"> 
@@ -350,7 +361,16 @@
             <div class="right-panel">
                 <div class="button-container">
                     <div class="button" onclick="showDateForm()">Theo dõi tiến độ kế hoạch</div>
-                    <div class="button">Phân công</div>
+                    <div class="button" onclick="showPlanIdForm()">Phân công</div>
+                </div>
+
+                <!-- Form nhập PlanID -->
+                <div id="planIdForm" class="date-form" style="display: none;">
+                    <form action="../plan/assignwork" method="get" onsubmit="return validatePlanId()">
+                        <label for="planIdInput">Nhập PlanID:</label>
+                        <input type="text" id="planIdInput" name="plid" pattern="\d*" required />
+                        <input type="submit" value="Gửi" />
+                    </form>
                 </div>
 
                 <!-- Form nhập ngày (được căn chỉnh bên trong right-panel) -->
@@ -444,6 +464,21 @@
                                     document.getElementById("dateForm").style.display = "flex";
                                 }
                                 ;
+
+                                function showPlanIdForm() {
+                                    document.getElementById("planIdForm").style.display = "flex";
+                                }
+
+                                function validatePlanId() {
+                                    const planIdInput = document.getElementById("planIdInput").value;
+                                    const isValid = /^\d+$/.test(planIdInput); // Kiểm tra xem có phải số không
+
+                                    if (!isValid) {
+                                        alert("Vui lòng nhập PlanID hợp lệ (chỉ chấp nhận số).");
+                                    }
+                                    return isValid; // Ngăn chặn gửi form nếu không hợp lệ
+                                }
+
         </script>
     </body>
 </html>

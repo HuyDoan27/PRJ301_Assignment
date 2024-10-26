@@ -43,7 +43,7 @@ public class ScheduleCampainDBContext extends DBContext<ScheduleCampainDBContext
         return assignedQuantities;
     }
 
-    public void insertSchedulesToDatabase(List<ScheduleCampain> schedules) {
+    public int insertSchedulesToDatabase(List<ScheduleCampain> schedules) {
         String sql = "INSERT INTO [dbo].[ScheduleCampain]\n"
                 + "           ([camid]\n"
                 + "           ,[date]\n"
@@ -55,10 +55,9 @@ public class ScheduleCampainDBContext extends DBContext<ScheduleCampainDBContext
                 + "           ,?\n"
                 + "           ,?)";
         PreparedStatement stm = null;
+        int insertCount = 0;
 
         try {
-            connection.setAutoCommit(false);
-
             stm = connection.prepareStatement(sql);
             for (ScheduleCampain schedule : schedules) {
                 stm.setInt(1, schedule.getCamid());
@@ -66,81 +65,56 @@ public class ScheduleCampainDBContext extends DBContext<ScheduleCampainDBContext
                 stm.setString(3, schedule.getShift());
                 stm.setInt(4, schedule.getQuantity());
 
-                // Chèn từng bản ghi với executeUpdate
-                stm.executeUpdate();
-            }
-
-            connection.commit(); // Xác nhận giao dịch, tất cả các bản ghi sẽ được chèn
-        } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback(); // Nếu có lỗi, hủy bỏ giao dịch
-                    System.out.println("Transaction rolled back due to an error.");
-                } catch (SQLException rollbackException) {
-                    rollbackException.printStackTrace();
+                int rowsInserted = stm.executeUpdate();
+                if (rowsInserted > 0) {
+                    insertCount++; // Đếm số bản ghi được chèn thành công
                 }
             }
+        } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Error inserting schedules into the database.", e);
         } finally {
             try {
                 if (stm != null) {
-                    stm.close(); // Đóng PreparedStatement
-                }
-                if (connection != null) {
-                    connection.setAutoCommit(true); // Khôi phục lại chế độ auto-commit
-                    connection.close(); // Đóng kết nối
+                    stm.close(); // Đảm bảo đóng PreparedStatement
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return insertCount;
     }
 
-    public void updateSchedulesInDatabase(List<ScheduleCampain> schedules) {
-        String sql = "UPDATE [dbo].[ScheduleCampain] SET quantity = ? WHERE camid = ? AND date = ? AND shift = ? AND pid = ?";
+    public int updateSchedulesInDatabase(List<ScheduleCampain> schedules) {
+        String sql = "UPDATE [dbo].[ScheduleCampain] SET [quantity] = ? WHERE camid = ? AND date = ? AND shift = ?";
+        PreparedStatement stm = null;
+        int updateCount = 0;
         try {
-            // Tắt chế độ auto-commit để thực hiện commit thủ công
-            connection.setAutoCommit(false);
-            PreparedStatement stm = connection.prepareStatement(sql);
-
+            stm = connection.prepareStatement(sql);
             for (ScheduleCampain schedule : schedules) {
                 stm.setInt(1, schedule.getQuantity());
                 stm.setInt(2, schedule.getCamid());
                 stm.setDate(3, schedule.getDate());
                 stm.setString(4, schedule.getShift());
 
-                // Sử dụng executeUpdate thay vì addBatch
                 int rowsAffected = stm.executeUpdate();
-                if (rowsAffected == 0) {
-                    System.err.println("No rows updated for Schedule: " + schedule);
+                if (rowsAffected > 0) {
+                    updateCount++; // Đếm số bản ghi được cập nhật thành công
                 }
             }
-
-            // Thực hiện commit tất cả các cập nhật
-            connection.commit();
-            System.out.println("All updates committed successfully.");
-
         } catch (SQLException e) {
-            // Nếu có lỗi, rollback lại tất cả các thay đổi
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                    System.err.println("Transaction rolled back due to an error.");
-                }
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
-            }
             e.printStackTrace();
+            throw new RuntimeException("Error updating schedules in the database.", e);
         } finally {
-            // Bật lại chế độ auto-commit
             try {
-                if (connection != null) {
-                    connection.setAutoCommit(true);
+                if (stm != null) {
+                    stm.close(); // Đảm bảo đóng PreparedStatement
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
+        return updateCount;
     }
 
     @Override

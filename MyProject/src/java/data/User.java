@@ -5,19 +5,21 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Admin
  */
 public class User {
+
     private int uid;
     private String username;
     private String password;
     private boolean isLocked;
     private Department depts = new Department();
     private Employee employees = new Employee();
-    private Feature features = new Feature(); 
+    private Feature features;
 
     public Department getDepts() {
         return depts;
@@ -42,8 +44,6 @@ public class User {
     public void setFeatures(Feature features) {
         this.features = features;
     }
-
-    
 
     public int getUid() {
         return uid;
@@ -77,5 +77,4 @@ public class User {
         this.isLocked = isLocked;
     }
 
-    
 }

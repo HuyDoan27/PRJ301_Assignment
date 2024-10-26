@@ -144,10 +144,11 @@ public class EmployeeDBContext extends DBContext<Employee> {
         return employee;
     }
 
+
+
     @Override
     public void create(Employee model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
 
 }
