@@ -514,7 +514,7 @@
                 <div class="button-container">
                     <button class="btn add-user" id="addAccountBtn">ADD ACCOUNT</button>
                     <button class="btn delete-user" id="deleteAccountBtn">DELETE ACCOUNT</button>
-                    <button class="btn update-user" id="updateAccountBtn" onclick="toggleUpdateForm()">UPDATE ACCOUNT</button>
+                    <button class="btn update-user" id="updateAccountBtn" onclick="window.location.href='updateUser.jsp'">UPDATE ACCOUNT</button>
                 </div>
 
                 <!-- Form 1: Add Account For Employee -->
@@ -560,40 +560,9 @@
                         <input type="text" name="username" placeholder="Enter Username" required><br>
                         <button type="submit">Delete Account</button>
                     </form>
-                </div>
-                <!-- Form Update Account, ban đầu được ẩn -->
-                <div class="update-form" id="updateForm" style="display: none;">
-                    <form action="../user/update" method="post">
-                        <h3>Update Account</h3>
-                        <label for="employeeID">Employee ID:</label>
-                        <input type="number" id="employeeID" name="employeeID" placeholder="Enter Employee ID" required>
+                </div>                
 
-                        <label for="userID">User ID:</label>
-                        <input type="number" id="userID" name="userID" placeholder="Enter User ID" required>
-
-                        <button class="btn submit-update" id="submitUpdateBtn" >Find user</button>
-                    </form>             
-                </div>
-
-                <!-- Form mới, mặc định là ẩn -->
-                <div id="newUpdateFormContainer" style="display: none;">
-                    <form action="UpdateUserServlet" method="post" id="newUpdateForm">
-                        <!-- Ô input cho Username (không chỉnh sửa) -->
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" value="${user != null ? user.username : ''}" readonly>
-
-                        <!-- Ô input cho Password (không chỉnh sửa) -->
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" value="${user != null ? user.password : ''}" readonly>
-
-                        <!-- Ô input cho New Password (người dùng nhập mật khẩu mới) -->
-                        <label for="newPassword">New Password:</label>
-                        <input type="password" id="newPassword" name="newPassword" placeholder="Enter New Password" required>
-
-                        <!-- Nút Submit -->
-                        <button type="submit" class="btn submit-update">Update Password</button>
-                    </form>
-                </div>
+                
             </div>          
         </div>
 
@@ -643,7 +612,6 @@
                         document.getElementById("deleteAccountBtn").addEventListener("click", function () {
                             // Ẩn Form tạo tài khoản cho nhân viên
                             document.getElementById("formEmployee").style.display = "none";
-                            document.getElementById("updateForm").style.display = "none";
                             // Ẩn Form tạo tài khoản cho người dùng (nếu có)
                             var formAccount = document.getElementById("formAccount");
                             if (formAccount) {
@@ -653,41 +621,6 @@
                             document.getElementById("formDeleteAccount").style.display = "block";
                         });
 
-                        function toggleUpdateForm() {
-                            // Lấy các phần tử form theo ID
-                            var formDeleteAccount = document.getElementById("formDeleteAccount");
-                            var formAccount = document.getElementById("formAccount");
-                            var formEmployee = document.getElementById("formEmployee");
-                            var updateForm = document.getElementById("updateForm");
-
-                            // Kiểm tra và ẩn các form nếu chúng đang hiển thị
-                            if (formDeleteAccount && formDeleteAccount.style.display !== "none") {
-                                formDeleteAccount.style.display = "none";
-                            }
-                            if (formAccount && formAccount.style.display !== "none") {
-                                formAccount.style.display = "none";
-                            }
-                            if (formEmployee && formEmployee.style.display !== "none") {
-                                formEmployee.style.display = "none";
-                            }
-
-                            // Hiển thị form updateForm
-                            if (updateForm) {
-                                updateForm.style.display = "block";
-                            }
-                        }
-                        ;
-
-                        var userExists = ${u != null ? "true" : "false"};
-                        window.onload = function () {
-                            if (userExists === "true") {
-                                // Hiển thị form nếu user tồn tại
-                                document.getElementById("newUpdateFormContainer").style.display = "block";
-                            } else {
-                                // Hiển thị thông báo lỗi nếu user không tồn tại
-                                document.getElementById("userNotFoundMessage").style.display = "block";
-                            }
-                        };
         </script>
     </body>
 </html>

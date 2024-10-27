@@ -24,20 +24,53 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class UserDBContext extends DBContext<User> {
+
+    public boolean updatePassword(int userId, String newPassword) {
+        PreparedStatement stmt = null;
+        boolean isUpdated = false;
+
+        try {
+            // Câu truy vấn SQL chỉ cập nhật password
+            String sql = "UPDATE [dbo].[User] SET [password] = ? WHERE uid = ?";
+            stmt = connection.prepareStatement(sql);
+
+            // Thiết lập tham số
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, userId);
+
+            // Thực hiện truy vấn
+            int rowsAffected = stmt.executeUpdate();
+            isUpdated = (rowsAffected > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return isUpdated;
+    }
     
-     public User getUserByEidUid(int eid, int uid) {
+
+    public User getUserByEidUid(int eid, int uid) {
         User user = null;
 
         // Câu lệnh SQL để truy vấn dữ liệu từ cơ sở dữ liệu
-        String sql = "SELECT e.eid, e.ename, u.uid, u.username, u.[password], u.isLocked, " +
-                     "d.dept_id, d.dept_name, " +
-                     "f.feature_id, f.feature_name " +
-                     "FROM [dbo].[Employee] e " +
-                     "JOIN [dbo].[Employee_User] eu ON eu.eid = e.eid " +
-                     "JOIN [dbo].[User] u ON u.uid = eu.uid " +
-                     "LEFT JOIN [dbo].[Department] d ON e.dept_id = d.dept_id " +
-                     "LEFT JOIN [dbo].[Feature] f ON u.feature_id = f.feature_id " +
-                     "WHERE e.eid = ? AND u.uid = ?";
+        String sql = "SELECT e.eid, e.ename, u.uid, u.username, u.[password], u.isLocked, d.did, d.dname,f.fid, f.fname \n"
+                + "FROM [dbo].[Employee] e \n"
+                + "JOIN [dbo].[Employee_User] eu ON eu.eid = e.eid \n"
+                + "JOIN [dbo].[User] u ON u.uid = eu.uid \n"
+                + "LEFT JOIN [dbo].[Department] d ON e.did = d.did \n"
+                + "left join [dbo].[UserFeature] uf on uf.uid = u.uid\n"
+                + "LEFT JOIN [dbo].[Feature] f ON f.fid = uf.fid \n"
+                + " WHERE e.eid = ? AND u.uid = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
@@ -79,7 +112,6 @@ public class UserDBContext extends DBContext<User> {
 
         return user;
     }
-
 
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
