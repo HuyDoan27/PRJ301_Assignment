@@ -513,7 +513,7 @@
             <div class="form-container">
                 <div class="button-container">
                     <button class="btn add-user" id="addAccountBtn">ADD ACCOUNT</button>
-                    <button class="btn delete-user" id="deleteAccountBtn">DELETE ACCOUNT</button>
+                    <button class="btn delete-user" id="deleteAccountBtn" onclick="window.location.href='deleteUser.jsp'">DELETE ACCOUNT</button>
                     <button class="btn update-user" id="updateAccountBtn" onclick="window.location.href='updateUser.jsp'">UPDATE ACCOUNT</button>
                 </div>
 
@@ -548,21 +548,7 @@
                         </form>
 
                     </div>
-                </c:if>
-
-                <!-- Form Delete Account (ẩn ban đầu) -->
-                <div id="formDeleteAccount" style="display: none;">
-                    <form action="../user/delete" method="post">
-                        <h3>Delete Account</h3>
-                        <label for="userID">User ID:</label>
-                        <input type="text" name="userID" placeholder="Enter User ID" required><br>
-                        <label for="username">Username:</label>
-                        <input type="text" name="username" placeholder="Enter Username" required><br>
-                        <button type="submit">Delete Account</button>
-                    </form>
-                </div>                
-
-                
+                </c:if>                            
             </div>          
         </div>
 
@@ -603,24 +589,7 @@
                             if (formAccount) {
                                 formAccount.style.display = "block";
                             }
-                            // Ẩn Form xóa tài khoản
-                            document.getElementById("formDeleteAccount").style.display = "none";
-                            document.getElementById("updateForm").style.display = "none";
                         });
-
-                        // Khi nhấn nút "DELETE ACCOUNT"
-                        document.getElementById("deleteAccountBtn").addEventListener("click", function () {
-                            // Ẩn Form tạo tài khoản cho nhân viên
-                            document.getElementById("formEmployee").style.display = "none";
-                            // Ẩn Form tạo tài khoản cho người dùng (nếu có)
-                            var formAccount = document.getElementById("formAccount");
-                            if (formAccount) {
-                                formAccount.style.display = "none";
-                            }
-                            // Hiển thị Form xóa tài khoản
-                            document.getElementById("formDeleteAccount").style.display = "block";
-                        });
-
         </script>
     </body>
 </html>

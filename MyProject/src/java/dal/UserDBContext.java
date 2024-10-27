@@ -57,7 +57,6 @@ public class UserDBContext extends DBContext<User> {
         }
         return isUpdated;
     }
-    
 
     public User getUserByEidUid(int eid, int uid) {
         User user = null;
@@ -111,6 +110,27 @@ public class UserDBContext extends DBContext<User> {
         }
 
         return user;
+    }
+
+    public User getUser(int uid) {
+        String sql = "SELECT [uid], [username], [password], [isLocked] FROM [dbo].[User] WHERE uid = ?";
+
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+
+            stm.setInt(1, uid);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                User user = new User();
+                user.setUid(rs.getInt("uid"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ArrayList<User> getUsers() {
