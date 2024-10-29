@@ -225,4 +225,26 @@ public class PlanDBContext extends DBContext<Plan> {
         return dateRange;
     }
 
+    public List<String> getStartAndEndByPlanId(int planId) {
+        List<String> startEndDates = new ArrayList<>();
+        try {
+            String sql = "SELECT [start], [end] FROM [dbo].[Plan] WHERE plid = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, planId);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                LocalDate startDate = rs.getDate("start").toLocalDate();
+                LocalDate endDate = rs.getDate("end").toLocalDate();
+
+                // Thêm start và end vào danh sách
+                startEndDates.add(startDate.toString());
+                startEndDates.add(endDate.toString());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return startEndDates;
+    }
+
 }

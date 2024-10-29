@@ -49,7 +49,7 @@ public class AssignWorkPlan extends HttpServlet {
                     }
                 };
             }
-            dbContext.connection.setAutoCommit(false); // Bắt đầu giao dịch
+            dbContext.connection.setAutoCommit(false);
 
             ScheduleCampainDBContext scheduleDB = new ScheduleCampainDBContext();
 
@@ -115,7 +115,6 @@ public class AssignWorkPlan extends HttpServlet {
                 }
             }
             
-
             // Insert các giá trị mới vào dtb
              int insertCount = scheduleDB.insertSchedulesToDatabase(schedulesToInsert);
 
@@ -128,7 +127,7 @@ public class AssignWorkPlan extends HttpServlet {
                     + "Đã cập nhật " + updateCount + " bản ghi.";
 
             req.setAttribute("successMessage", successMessage);
-            req.getRequestDispatcher("../view/KHSX.jsp").forward(req, resp);
+            req.getRequestDispatcher("../view/listPlanDetail.jsp").forward(req, resp);
 
         } catch (SQLException e) {
             if (connection != null) {

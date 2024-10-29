@@ -148,7 +148,6 @@
         <div class="container">
             <div class="header">Xóa Tài Khoản</div>
 
-            <!-- Thông báo khi không tìm thấy user -->
             <c:if test="${not empty message}">
                 <p class="message">${message}</p>
             </c:if>
@@ -158,7 +157,6 @@
                 <c:remove var="errorMessage" scope="session"/>
             </c:if>   
 
-            <!-- Form nhập thông tin xóa tài khoản luôn hiển thị -->
             <div id="formDeleteAccount">
                 <form action="../user/delete" method="post">
                     <label for="userID">User ID:</label>
@@ -167,7 +165,6 @@
                 </form>
             </div>
 
-            <!-- Form xác nhận xóa, chỉ hiển thị khi tìm thấy user -->
             <c:if test="${not empty user}">
                 <div id="confirmDeleteForm">
                     <p style="font-weight: bold; margin-bottom: 20px;">

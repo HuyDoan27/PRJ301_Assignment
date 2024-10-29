@@ -8,6 +8,7 @@ import data.ScheduleCampain;
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,31 @@ import java.util.List;
  * @author Admin
  */
 public class ScheduleCampainDBContext extends DBContext<ScheduleCampainDBContext> {
+
+    public List<ScheduleCampain> getScheduleCampainByCamid(int camid) {
+        List<ScheduleCampain> scheduleCampainList = new ArrayList<>();
+        String sql = "SELECT [camid], [date], [shift], [quantity], [scid_new] FROM [dbo].[ScheduleCampain] WHERE camid = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, camid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ScheduleCampain scheduleCampain = new ScheduleCampain();
+                scheduleCampain.setCamid(resultSet.getInt("camid"));
+                scheduleCampain.setDate(resultSet.getDate("date"));
+                scheduleCampain.setShift(resultSet.getString("shift"));
+                scheduleCampain.setQuantity(resultSet.getInt("quantity"));
+                scheduleCampain.setScid(resultSet.getInt("scid_new"));
+                scheduleCampainList.add(scheduleCampain);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return scheduleCampainList;
+    }
 
     public Map<String, Integer> getPreAssignedQuantities(int planId) {
         Map<String, Integer> assignedQuantities = new HashMap<>();

@@ -35,15 +35,7 @@ public class PlanCampain {
         this.camid = camid;
     }
 
-    public Plan getPlan() {
-        return plan;
-    }
 
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
-
-    
 
     public int getQuantity() {
         return quantity;
@@ -68,4 +60,14 @@ public class PlanCampain {
     public void setProduct(Product product) {
         this.product = product;
     } 
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+    
+    
 }

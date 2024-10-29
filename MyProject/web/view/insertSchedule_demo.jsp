@@ -63,7 +63,7 @@
                                     </c:forEach>
                             </tr>
                             <tr>
-                                <th></th> <!-- Để trống ô dưới sản phẩm -->
+                                <th></th> 
                                     <c:forEach var="d" begin="${status.index}" end="${Math.min(status.index + 2, dateRange.size() - 1)}">
                                     <th>K1</th><th>K2</th><th>K3</th>
                                     </c:forEach>

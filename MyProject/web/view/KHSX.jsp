@@ -366,9 +366,9 @@
 
                 <!-- Form nhập PlanID -->
                 <div id="planIdForm" class="date-form" style="display: none;">
-                    <form action="../plan/assignwork" method="get" onsubmit="return validatePlanId()">
+                    <form action="../planCampain/list" method="post" onsubmit="return validatePlanId()">
                         <label for="planIdInput">Nhập PlanID:</label>
-                        <input type="text" id="planIdInput" name="plid" pattern="\d*" required />
+                        <input type="number" id="planIdInput" name="plid" pattern="\d*" required />
                         <input type="submit" value="Gửi" />
                     </form>
                 </div>
@@ -425,7 +425,6 @@
                 </c:if>
             </div>
 
-            <!-- Hiển thị thông báo nếu không có kế hoạch nào được tìm thấy -->
             <c:if test="${empty plans}">
                 <div id="noPlanMessage" style="display: none;">
                     <p>Không có kế hoạch nào được tìm thấy cho ngày đã chọn.</p>
