@@ -192,7 +192,7 @@ public class PlanDBContext extends DBContext<Plan> {
                 Product p = new Product();
                 p.setId(rs.getInt("pid"));
                 p.setName(rs.getString("pname"));
-                p.setQuantity(rs.getInt("cumulativeQuantity")); // Lấy số lượng lũy kế
+                p.setQuantity(rs.getInt("cumulativeQuantity")); 
                 cumulativeList.add(p);
             }
         } catch (SQLException e) {
@@ -213,9 +213,8 @@ public class PlanDBContext extends DBContext<Plan> {
                 LocalDate startDate = rs.getDate("start").toLocalDate();
                 LocalDate endDate = rs.getDate("end").toLocalDate();
 
-                // Tính toán khoảng ngày từ ngày bắt đầu đến ngày kết thúc
                 while (!startDate.isAfter(endDate)) {
-                    dateRange.add(startDate.toString()); // Định dạng yyyy-MM-dd
+                    dateRange.add(startDate.toString()); 
                     startDate = startDate.plusDays(1);
                 }
             }

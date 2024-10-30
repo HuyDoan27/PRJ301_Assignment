@@ -35,7 +35,7 @@ public class AssignWorkPlan extends HttpServlet {
     private DBContext<ScheduleCampain> dbContext;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int planId = Integer.parseInt(req.getParameter("planId"));
         Connection connection = null;
         PreparedStatement stm = null;
@@ -152,7 +152,7 @@ public class AssignWorkPlan extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String planIdStr = req.getParameter("plid");
         int planId = Integer.parseInt(planIdStr);
         PlanDBContext planDB = new PlanDBContext();

@@ -14,15 +14,16 @@ import java.sql.*;
  *
  * @author Admin
  */
-public class WorkerScheduleDBContext extends DBContext<WorkerSchedule>{
+public class WorkerScheduleDBContext extends DBContext<WorkerSchedule> {
 
     public List<WorkerSchedule> getWorkerScheduleByScid(int scid) {
         List<WorkerSchedule> workerScheduleList = new ArrayList<>();
-        String sql = "SELECT ws.wsid, ws.scid, ws.eid, e.ename, ws.quantity, a.quantity as luyke, a.anphal "
-                + "FROM [dbo].[WorkerSchedule] ws "
-                + "LEFT JOIN [dbo].[Attendent] a ON a.wsid = ws.wsid "
-                + "LEFT JOIN [dbo].[Employee] e ON e.eid = ws.eid "
-                + "WHERE ws.scid = ?";
+        String sql = "SELECT sc.scid_new, ws.wsid_new , ws.eid, e.ename, ws.quantity, a.quantity as attendentQuantity, a.anphal \n"
+                + "		   From [dbo].[ScheduleCampain] sc\n"
+                + "                left join [dbo].[WorkerSchedule] ws on ws.scid = sc.scid_new\n"
+                + "                LEFT JOIN [dbo].[Attendent] a ON a.wsid = ws.wsid_new \n"
+                + "                LEFT JOIN [dbo].[Employee] e ON e.eid = ws.eid \n"
+                + "                WHERE sc.scid_new = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, scid);
@@ -30,13 +31,25 @@ public class WorkerScheduleDBContext extends DBContext<WorkerSchedule>{
 
             while (resultSet.next()) {
                 WorkerSchedule workerSchedule = new WorkerSchedule();
-                workerSchedule.setWsid(resultSet.getInt("wsid"));
-                workerSchedule.setScid(resultSet.getInt("scid"));
+                workerSchedule.setWsid(resultSet.getInt("wsid_new"));
+                workerSchedule.setScid(resultSet.getInt("scid_new"));
                 workerSchedule.setEid(resultSet.getInt("eid"));
-                workerSchedule.setEname(resultSet.getString("ename")); // Tên nhân viên
-                workerSchedule.setQuantity(resultSet.getInt("quantity")); // Số lượng từ WorkerSchedule
-                workerSchedule.setAttendentQuantity(resultSet.getInt("attendentQuantity")); // Số lượng từ Attendent
-                workerSchedule.setAnphal(resultSet.getFloat("anphal")); // anphal từ Attendent
+                workerSchedule.setEname(resultSet.getString("ename"));
+
+                int quantity = resultSet.getObject("quantity") != null ? resultSet.getInt("quantity") : 0;
+                workerSchedule.setQuantity(quantity);
+
+                int attendentQuantity = resultSet.getObject("attendentQuantity") != null ? resultSet.getInt("attendentQuantity") : 0;
+                workerSchedule.setAttendentQuantity(attendentQuantity);
+
+                float anphal = resultSet.getObject("anphal") != null ? resultSet.getFloat("anphal") : 0.0f;
+                workerSchedule.setAnphal(anphal);
+
+                if (quantity > 0) {
+                    workerSchedule.setAnphal((float) attendentQuantity / quantity);
+                } else {
+                    workerSchedule.setAnphal(0.0f); 
+                }
 
                 workerScheduleList.add(workerSchedule);
             }

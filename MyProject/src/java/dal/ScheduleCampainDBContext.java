@@ -56,7 +56,7 @@ public class ScheduleCampainDBContext extends DBContext<ScheduleCampainDBContext
             while (rs.next()) {
                 int camid = rs.getInt("camid");
                 String date = rs.getDate("date").toString();
-                String shift = rs.getString("shift"); // K1, K2, K3
+                String shift = rs.getString("shift"); 
                 int quantity = rs.getInt("quantity");
                 int pid = rs.getInt("pid");
                 // Tạo khóa duy nhất dựa trên camid, ngày, và shift

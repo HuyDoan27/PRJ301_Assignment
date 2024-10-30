@@ -143,20 +143,19 @@ public class EmployeeDBContext extends DBContext<Employee> {
         }
         return employee;
     }
-    
+
     public ArrayList<Employee> getEmployeeAtWS() {
         ArrayList<Employee> employees = new ArrayList<>();
-        String sql = "SELECT e.eid, e.ename, e.salaryLevel, e.did " +
-                     "FROM dbo.Employee e " +
-                     "JOIN dbo.Department d ON d.did = e.did " +
-                     "WHERE d.type = 'WS'";
+        String sql = "SELECT e.eid, e.ename, e.salaryLevel, e.did "
+                + "FROM dbo.Employee e "
+                + "JOIN dbo.Department d ON d.did = e.did "
+                + "WHERE d.type = 'WS'";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql); ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 Employee e = new Employee();
-                
+
                 e.setEid(resultSet.getInt("eid"));
                 e.setEname(resultSet.getString("ename"));
                 int did = resultSet.getInt("did");
@@ -164,13 +163,29 @@ public class EmployeeDBContext extends DBContext<Employee> {
                 employees.add(e);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
 
         return employees;
     }
 
+    public String getEmployeeNameById(int eid) {
+        String employeeName = null;
+        String sql = "SELECT ename FROM Employee WHERE eid = ?";
 
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, eid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                employeeName = resultSet.getString("ename");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employeeName;
+    }
 
     @Override
     public void create(Employee model) {

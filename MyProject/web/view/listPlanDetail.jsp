@@ -70,7 +70,7 @@
         <c:set var="plid" value="${sessionScope.planCampainList[0].plan.plid}" />
 
 
-        <form action="../plan/assignwork" method="GET" id="plidForm">
+        <form action="../plan/assignwork" method="Post" id="plidForm">
             <input type="hidden" name="plid" value="${plid}">
             <button type="submit">Assign Work for Plan ${plid}</button>
         </form>
@@ -95,8 +95,7 @@
                         <td>${schedule.shift}</td>
                         <td>${schedule.quantity}</td>
                         <td>
-                            <a onclick="sendScid(${schedule.scid})" style="text-decoration: none; color: blue;">
-                                ${schedule.scid}
+                            <a onclick="sendScid(${schedule.scid})" style="text-decoration: none; color: blue;">${schedule.scid}
                             </a>
                         </td>
                     </tr>
@@ -118,10 +117,9 @@
                                 <c:forEach var="schedule" items="${scheduleCampainList}">
                                     <c:if test="${schedule.camid == planCampain.camid}">
                                         <c:set var="calculatedQuantity" value="${calculatedQuantity - totalQuantity}" />
-                                        <c:set var="found" value="true" /> <!-- Đánh dấu đã tìm thấy -->
+                                        <c:set var="found" value="true" /> 
                                     </c:if>
                                 </c:forEach>
-                                <!-- Cập nhật remainingQuantity nếu tìm thấy -->
                                 <c:if test="${found}">
                                     <c:set var="remainingQuantity" value="${calculatedQuantity <= 0 ? 0 : calculatedQuantity}" />
                                 </c:if>
@@ -139,7 +137,6 @@
 
         <script>
             function sendCamid(camid) {
-                // Tạo form động để gửi yêu cầu POST
                 var form = document.createElement('form');
                 form.method = 'POST';
                 form.action = '../schedule/list';
@@ -152,12 +149,12 @@
                 form.appendChild(input);
                 document.body.appendChild(form);
                 form.submit();
-            }
+            };
 
             function sendScid(scid) {
                 var form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '../plan/assignworkwoker';
+                form.action = '../plan/assignworkworker';
 
                 var input = document.createElement('input');
                 input.type = 'hidden';
@@ -166,8 +163,9 @@
 
                 form.appendChild(input);
                 document.body.appendChild(form);
+                console.log("Submitting to URL:", form.action); 
                 form.submit();
-            }
+            };
 
             function showScheduleTable() {
                 document.getElementById('scheduleTable').style.display = 'table'; // Hiện bảng
