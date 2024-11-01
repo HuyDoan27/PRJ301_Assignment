@@ -25,6 +25,24 @@ public class PlanDBContext extends DBContext<Plan> {
     public void create(Plan model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public void updatePlan(int plid, Date start, Date end, int did) {
+        String sql = "UPDATE [dbo].[Plan] " +
+                     "SET [start] = ?, " +
+                     "[end] = ?, " +
+                     "[did] = ? " +
+                     "WHERE plid = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {           
+            stmt.setDate(1, start);
+            stmt.setDate(2, end);
+            stmt.setInt(3, did);
+            stmt.setInt(4, plid);
+            
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void insertPlan(Plan plan) {
         try {
@@ -108,7 +126,7 @@ public class PlanDBContext extends DBContext<Plan> {
                     + "LEFT JOIN [dbo].[PlanCampainn] PC ON P.plid = PC.plid\n"
                     + "LEFT JOIN [dbo].[ScheduleCampain] SC ON PC.camid = SC.camid\n"
                     + "LEFT JOIN [dbo].[WorkerSchedule] WS ON SC.scid_new = WS.scid\n"
-                    + "LEFT JOIN [dbo].[Attendent] A ON WS.wsid = A.wsid\n"
+                    + "LEFT JOIN [dbo].[Attendent] A ON WS.wsid_new = A.wsid\n"
                     + "GROUP BY P.plid, P.start, P.[end];";
 
             stm = connection.prepareStatement(sql);
@@ -181,7 +199,7 @@ public class PlanDBContext extends DBContext<Plan> {
                     + "left JOIN [dbo].[PlanCampainn] pc ON p.pid = pc.pid \n"
                     + "left JOIN [dbo].[ScheduleCampain] sc ON pc.camid = sc.camid \n"
                     + "left JOIN [dbo].[WorkerSchedule] ws ON sc.scid_new = ws.scid \n"
-                    + "left JOIN [dbo].[Attendent] a ON a.wsid = ws.wsid \n"
+                    + "left JOIN [dbo].[Attendent] a ON a.wsid = ws.wsid_new \n"
                     + "WHERE pc.plid = ?\n"
                     + "GROUP BY p.pid, p.pname";
             PreparedStatement stm = connection.prepareStatement(sql);

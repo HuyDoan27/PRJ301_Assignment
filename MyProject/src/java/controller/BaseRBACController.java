@@ -24,16 +24,13 @@ public abstract class BaseRBACController extends BaseRequiredAuthenticationContr
     private boolean isAuthorized(HttpServletRequest req, User loggeduser) {
         UserDBContext db = new UserDBContext();
 
-        // Lấy danh sách Department và gán cho loggeduser
-        ArrayList<Department> depts = db.getDepts(loggeduser.getUsername());  // Giả sử hàm getDepts trả về danh sách Department
-        loggeduser.setDepts(depts.get(0));  // Nếu chỉ cần gán 1 Department cho loggeduser
+        ArrayList<Department> depts = db.getDepts(loggeduser.getUsername());  
+        loggeduser.setDepts(depts.get(0)); 
 
-        // Lấy URL hiện tại
         String c_url = req.getServletPath();
 
-        // Duyệt qua từng Department trong danh sách
         for (Department dept : depts) {
-            ArrayList<Feature> features = dept.getFeatures();  // Lấy danh sách Feature từ Department
+            ArrayList<Feature> features = dept.getFeatures();  
             for (Feature feature : features) {
                 if (feature.getUrl().equals(c_url)) {
                     return true;

@@ -17,6 +17,53 @@ import java.util.List;
  */
 public class PlanCampainDBContext extends DBContext<PlanCampain> {
 
+    public boolean isProductInPlanCampain(int plid, int pid) {
+        String sql = "SELECT COUNT(*) FROM PlanCampainn WHERE plid = ? AND pid = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+
+            stm.setInt(1, plid);
+            stm.setInt(2, pid);
+            ResultSet rs = stm.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void updateProductInPlan(int plid, int pid, int quantity, int estimatedEffort) {
+        String sql = "UPDATE PlanCampainn SET quantity = ?, estimatedeffort = ? WHERE plid = ? AND pid = ?";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+
+            stm.setInt(1, quantity);
+            stm.setInt(2, estimatedEffort);
+            stm.setInt(3, plid);
+            stm.setInt(4, pid);
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertProductInPlan(int plid, int pid, int quantity, int estimatedEffort) {
+        String sql = "INSERT INTO PlanCampainn (plid, pid, quantity, estimatedeffort) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stm = connection.prepareStatement(sql)) {
+
+            stm.setInt(1, plid);
+            stm.setInt(2, pid);
+            stm.setInt(3, quantity);
+            stm.setInt(4, estimatedEffort);
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<PlanCampain> getPlanCampainByPid(int planID) {
         List<PlanCampain> planCampainList = new ArrayList<>();
         String sql = "SELECT [camid], [plid], [pid], [quantity], [estimatedeffort] "

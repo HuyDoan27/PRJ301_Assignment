@@ -34,9 +34,34 @@
             .clear {
                 clear: both; /* Để phân tách các phần tử khác nhau */
             }
+            
+            .close-button-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+            /* Nút đóng (dấu X) */
+            .close-button {
+                font-size: 24px;
+                color: #333;
+                text-decoration: none;
+                font-weight: bold;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+            }
+
+            .close-button:hover {
+                color: #ff0000; /* Đổi màu khi hover để dễ nhận biết */
+            }
         </style>
     </head>
     <body>
+        
+        <div class="close-button-container">
+            <a href="../plan/insert" class="close-button">×</a>
+        </div>
 
         <h2>Plan Campaign Detail List</h2>
         <c:set var="startEndDates" value="${sessionScope.startEndDates}" />
@@ -168,8 +193,8 @@
             };
 
             function showScheduleTable() {
-                document.getElementById('scheduleTable').style.display = 'table'; // Hiện bảng
-                document.getElementById('scheduleSection').style.display = 'block'; // Hiện tiêu đề bảng
+                document.getElementById('scheduleTable').style.display = 'table';
+                document.getElementById('scheduleSection').style.display = 'block';
             }
         </script>
 

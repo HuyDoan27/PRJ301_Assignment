@@ -25,11 +25,6 @@ public class ListPlan extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String inputDate = req.getParameter("inputDate");
         PlanDBContext db = new PlanDBContext();
         ProductDBContext dbProduct = new ProductDBContext();
@@ -47,6 +42,11 @@ public class ListPlan extends HttpServlet {
         
         
         req.getRequestDispatcher("../view/KHSX.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 
 }

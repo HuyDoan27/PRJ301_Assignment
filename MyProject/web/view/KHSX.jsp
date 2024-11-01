@@ -274,6 +274,90 @@
             .close-btn:hover {
                 color: #b30000;
             }
+
+            /* Update Form Section Styling */
+            #updateFormSection {
+                display: none;
+                margin-top: 20px;
+                padding: 20px;
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                font-family: Arial, sans-serif;
+            }
+
+            #updateFormSection h3 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+                color: #333;
+            }
+
+            #updateFormSection label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: #555;
+            }
+
+            #updateFormSection input[type="text"],
+            #updateFormSection input[type="date"],
+            #updateFormSection select {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 1em;
+                color: #333;
+            }
+
+            #updateFormSection input[readonly] {
+                background-color: #eee;
+                color: #777;
+                cursor: not-allowed;
+            }
+
+            #updateFormSection button[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                margin-right: 10px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1em;
+            }
+
+            #updateFormSection button[type="submit"]:hover {
+                background-color: #45a049;
+            }
+
+            #updateFormSection button[type="button"] {
+                background-color: #f44336;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1em;
+            }
+
+            #updateFormSection button[type="button"]:hover {
+                background-color: #e53935;
+            }
+
+            /* Ensure the form displays in the right position */
+            .right-panel {
+                position: relative;
+            }
+
+            .plan-section + #updateFormSection {
+                display: block; /* To ensure it displays right below the plan-section */
+                margin-top: 20px;
+            }
+
         </style>
 
     </head>
@@ -375,7 +459,7 @@
 
                 <!-- Form nhập ngày (được căn chỉnh bên trong right-panel) -->
                 <div id="dateForm" class="date-form">
-                    <form action="../plan/list" method="get">
+                    <form action="../plan/list" method="post">
                         <label for="inputDate">Chọn ngày:</label>
                         <input type="date" id="inputDate" name="inputDate" required />
                         <input type="submit" value="Xem kế hoạch" />
@@ -398,6 +482,7 @@
                                     <th>Tổng số lượng</th>
                                     <th>Số lượng lũy kế</th>
                                     <th>Trạng thái</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -417,12 +502,61 @@
                                             </c:forEach>
                                         </td>
                                         <td>${result.status}</td>
+                                        <td>
+                                            <button onclick="showUpdateForm('${result.plid}')">Update</button>
+                                            <button onclick="deletePlan(${result.plid})">Delete</button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
                     </div>
                 </c:if>
+
+                <div id="updateFormSection" style="display: none;">
+                    <h3>Cập nhật Kế hoạch</h3>
+                    <form action="../plan/update" method="POST">
+                        <input type="text" id="plid" name="plid" readonly/>
+
+                        <label for="startDate">Ngày bắt đầu:</label>
+                        <input type="date" id="startDate" name="startDate" placeholder="Enter new start date" required/><br/>
+
+                        <label for="endDate">Ngày kết thúc:</label>
+                        <input type="date" id="endDate" name="endDate" placeholder="Enter new end date" required/><br/>
+
+                        <label for="did">Department:</label>
+                        <select name="did" id="did">
+                            <c:if test="${not empty requestScope.depts}">
+                                <c:forEach items="${requestScope.depts}" var="d">
+                                    <option value="${d.did}">${d.dname}</option>
+                                </c:forEach>
+                            </c:if>
+                        </select>
+
+                        <h4>Product Quantities</h4>
+                        <table boder="1">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Effort</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${requestScope.products}" var="p">
+                                    <tr>
+                                        <td>${p.name}<input type="hidden" name="productIds" value="${p.id}"/></td>
+                                        <td><input type="text" name="quantity${p.id}" placeholder="Enter quantity"/></td>
+                                        <td><input type="text" name="effort${p.id}" placeholder="Enter effort"/></td>
+                                    </tr>   
+                                </c:forEach>
+                            </tbody>
+                        </table>
+
+                        <button type="submit">Submit</button>
+                        <button type="button" onclick="hideUpdateForm()">Cancel</button>
+                    </form>
+                </div>
             </div>
 
             <c:if test="${empty plans}">
@@ -454,30 +588,52 @@
 
         <script src="../js/home.js"></script>
         <script>
-                                function hidePlanSection() {
-                                    document.getElementById("planSection").style.display = "none";
+                            function hidePlanSection() {
+                                document.getElementById("planSection").style.display = "none";
+                            }
+                            ;
+
+                            function showDateForm() {
+                                document.getElementById("dateForm").style.display = "flex";
+                            }
+                            ;
+
+                            function showPlanIdForm() {
+                                document.getElementById("planIdForm").style.display = "flex";
+                            }
+
+                            function validatePlanId() {
+                                const planIdInput = document.getElementById("planIdInput").value;
+                                const isValid = /^\d+$/.test(planIdInput); // Kiểm tra xem có phải số không
+
+                                if (!isValid) {
+                                    alert("Vui lòng nhập PlanID hợp lệ (chỉ chấp nhận số).");
                                 }
-                                ;
+                                return isValid;
+                            }
 
-                                function showDateForm() {
-                                    document.getElementById("dateForm").style.display = "flex";
-                                }
-                                ;
+                            function showUpdateForm(plid) {
+                                // Đặt giá trị plid vào form
+                                document.getElementById("plid").value = plid;
 
-                                function showPlanIdForm() {
-                                    document.getElementById("planIdForm").style.display = "flex";
-                                }
-
-                                function validatePlanId() {
-                                    const planIdInput = document.getElementById("planIdInput").value;
-                                    const isValid = /^\d+$/.test(planIdInput); // Kiểm tra xem có phải số không
-
-                                    if (!isValid) {
-                                        alert("Vui lòng nhập PlanID hợp lệ (chỉ chấp nhận số).");
+                                // Duyệt qua tất cả các sản phẩm và chỉ hiển thị sản phẩm có plid tương ứng
+                                const productEntries = document.querySelectorAll(".product-entry");
+                                productEntries.forEach(entry => {
+                                    // Nếu sản phẩm có data-plid khớp với plid hiện tại, thì hiển thị
+                                    if (entry.getAttribute("data-plid") == plid) {
+                                        entry.style.display = "block";
+                                    } else {
+                                        entry.style.display = "none";
                                     }
-                                    return isValid; // Ngăn chặn gửi form nếu không hợp lệ
-                                }
+                                });
 
+                                // Hiển thị form
+                                document.getElementById("updateFormSection").style.display = "block";
+                            }
+
+                            function hideUpdateForm() {
+                                document.getElementById("updateFormSection").style.display = "none";
+                            }
         </script>
     </body>
 </html>

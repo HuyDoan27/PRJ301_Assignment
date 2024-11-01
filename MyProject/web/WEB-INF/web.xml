@@ -56,6 +56,10 @@
         <servlet-name>AssignWokerAndAttendent</servlet-name>
         <servlet-class>feature.AssignWokerAndAttendent</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdatePlan</servlet-name>
+        <servlet-class>feature.UpdatePlan</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -107,5 +111,9 @@
     <servlet-mapping>
         <servlet-name>AssignWokerAndAttendent</servlet-name>
         <url-pattern>/plan/assignworkworker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdatePlan</servlet-name>
+        <url-pattern>/plan/update</url-pattern>
     </servlet-mapping>
 </web-app>
