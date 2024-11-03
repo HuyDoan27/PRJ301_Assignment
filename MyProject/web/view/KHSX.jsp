@@ -19,9 +19,7 @@
                     <ul>
                         <li><a href="../view/home.html">Home</a></li>
                         <li><a href="../view/order.html">Đặt hàng</a></li>
-                        <li><a href="#">Đơn hàng</a></li>
                         <li><a href="../plan/insert" class="active">KHSX</a></li>
-                        <li><a href="#">Xưởng</a></li>                   
                         <li><a href="../user/list">Nhân sự</a></li>
                     </ul>
                     <div class="login-container" onclick="toggleDropdown()"> 

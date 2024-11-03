@@ -63,15 +63,15 @@ ul {
     justify-content: space-around; /* Căn đều khoảng cách giữa các mục */
     align-items: center;
     list-style: none;
-    padding: 0;
+    padding-right: 200px;
     margin: 0;
     margin-left: 15%;
 }
 
 ul li {
     text-align: center;
-    margin: 0 15px; /* Tạo khoảng cách giữa các mục */
-    padding: 10px 20px;
+    margin: 0 60px; /* Tạo khoảng cách giữa các mục */
+    padding: 10px 60px;
     white-space: nowrap;
 }
 
@@ -92,7 +92,7 @@ ul li a {
     font-weight: bold;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 10px 60px;
     border-radius: 30px;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -111,7 +111,7 @@ ul li a.active {
 .login-container {
     position: relative;
     cursor: pointer;
-    margin-left: auto;
+    margin-left: 80%;
 }
 
 .login-icon {

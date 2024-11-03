@@ -25,12 +25,22 @@ public abstract class BaseRBACController extends BaseRequiredAuthenticationContr
         UserDBContext db = new UserDBContext();
 
         ArrayList<Department> depts = db.getDepts(loggeduser.getUsername());  
+        
+        if (depts == null || depts.isEmpty()) {
+            return false;
+        }
+        
         loggeduser.setDepts(depts.get(0)); 
 
         String c_url = req.getServletPath();
 
         for (Department dept : depts) {
-            ArrayList<Feature> features = dept.getFeatures();  
+            ArrayList<Feature> features = dept.getFeatures(); 
+            
+            if (features == null || features.isEmpty()) {
+                continue;
+            }
+            
             for (Feature feature : features) {
                 if (feature.getUrl().equals(c_url)) {
                     return true;
