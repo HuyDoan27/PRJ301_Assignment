@@ -197,13 +197,12 @@
                 const actualQuantityInput = document.getElementById(actualQuantityInputId);
                 const anphalDisplay = document.getElementById(anphalDisplayId);
 
-                // Chuyển đổi giá trị input thành số và kiểm tra giá trị
                 const quantity = parseFloat(quantityInput.value) || 0;
                 const actualQuantity = parseFloat(actualQuantityInput.value) || 0;
 
                 // Tính anphal
                 const anphal = (quantity > 0) ? (actualQuantity / quantity) : 0;
-                anphalDisplay.value = anphal.toFixed(2); // Định dạng số
+                anphalDisplay.value = anphal.toFixed(2);
             }
 
             function updateEmployeeName(selectElement, nameDisplayId) {

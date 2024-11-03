@@ -1,0 +1,408 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 3, 2024, 2:36:04 PM
+    Author     : Admin
+*/
+
+.content {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        p {
+            text-align: center;
+            color: #777;
+            font-size: 18px;
+        }
+
+        .user-container {
+            display: flex; /* Sử dụng Flexbox */
+            justify-content: space-between; /* Căn chỉnh không gian giữa các phần tử */
+        }
+
+        .content {
+            width: 70%; /* Chiếm 80% chiều rộng */
+        }
+
+        .button-container {
+            width: 70%; /* Chiếm 20% chiều rộng */
+            display: flex; /* Sử dụng Flexbox để căn chỉnh các nút */
+            flex-direction: row; /* Sắp xếp các nút theo chiều dọc */
+            margin: auto;
+            margin-top: 20px; /* Khoảng cách giữa bảng và nút */
+        }
+
+        .btn {
+            padding: 10px 20px; /* Padding cho nút */
+            margin-left: 15px; /* Khoảng cách giữa hai nút */
+            border: none; /* Xóa đường viền */
+            border-radius: 5px; /* Bo góc */
+            cursor: pointer; /* Con trỏ khi hover */
+            font-size: 16px; /* Kích thước chữ */
+        }
+
+        .add-user {
+            background-color: #4CAF50; /* Màu xanh lá */
+            color: white; /* Màu chữ */
+        }
+
+        .delete-user {
+            background-color: #f44336; /* Màu đỏ */
+            color: white; /* Màu chữ */
+        }
+
+        .btn:hover {
+            opacity: 0.8; /* Hiệu ứng khi hover */
+        }
+
+        .form-container {
+            width: 30%;
+            display: grid;
+            grid-template-columns: auto;
+            grid-template-rows: 100px 250px 300px;
+        }
+
+        /* Label và input */
+        form label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Ẩn form ban đầu */
+        #formEmployee, #formAccount {
+            display: none; /* Ẩn form ban đầu */
+            padding: 10px;
+            margin-left: 10%;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ để tạo sự rõ ràng */
+            clear: both;
+        }
+
+        /* Form cho employee */
+        #formEmployee {
+            display: none; /* Ẩn form ban đầu */
+            margin-top: 10px; /* Khoảng cách từ các phần tử trên */
+            padding: 15px; /* Giảm padding để tối ưu không gian */
+            background-color: #f9f9f9; /* Màu nền sáng cho form */
+            border: 1px solid #ccc; /* Viền xám cho form */
+            border-radius: 8px; /* Bo tròn các góc */
+            width: 80%; /* Chiếm toàn bộ chiều rộng */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho form */
+            max-height: 250px; /* Giới hạn chiều cao của form */
+            overflow: auto; /* Thêm cuộn nếu nội dung vượt quá chiều cao */
+        }
+
+        /* Tiêu đề cho form */
+        #formEmployee h3 {
+            font-size: 18px; /* Giảm kích thước chữ tiêu đề */
+            color: #333; /* Màu chữ đen cho tiêu đề */
+            margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+            font-weight: bold; /* Chữ đậm */
+            text-transform: uppercase; /* Viết hoa chữ */
+            letter-spacing: 1px; /* Khoảng cách giữa các chữ cái */
+            border-bottom: 2px solid #007BFF; /* Đường gạch dưới màu xanh */
+            padding-bottom: 5px; /* Khoảng cách dưới đường gạch */
+        }
+
+        /* Nhãn trong form */
+        #formEmployee label {
+            font-weight: 600; /* Chữ đậm cho nhãn */
+            margin-bottom: 5px; /* Khoảng cách dưới nhãn */
+            display: block; /* Hiển thị theo dạng khối */
+            color: #555; /* Màu xám cho nhãn */
+            text-transform: uppercase; /* Viết hoa chữ */
+            font-size: 12px; /* Kích thước chữ nhỏ hơn */
+            letter-spacing: 0.5px; /* Khoảng cách giữa các chữ cái */
+        }
+
+        /* Input trong form */
+        #formEmployee input[type="text"] {
+            width: 100%; /* Chiếm toàn bộ chiều rộng */
+            padding: 10px; /* Giảm padding */
+            margin-bottom: 10px; /* Khoảng cách dưới input */
+            border: 1px solid #ccc; /* Viền xám cho input */
+            border-radius: 6px; /* Bo tròn các góc */
+            box-sizing: border-box; /* Bao gồm padding và border trong chiều rộng */
+            font-size: 14px; /* Kích thước chữ trong input nhỏ hơn */
+            background-color: #fff; /* Màu nền trắng cho input */
+            color: #333; /* Màu chữ đen cho input */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển tiếp */
+        }
+
+        /* Hiệu ứng khi focus vào input */
+        #formEmployee input[type="text"]:focus {
+            border-color: #007BFF; /* Đổi màu viền khi focus */
+            outline: none; /* Ẩn outline mặc định */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng bóng nhẹ */
+        }
+
+        /* Nút OK */
+        #formEmployee button#checkEmployeeBtn {
+            background-color: #28a745; /* Màu nền xanh lá cho nút */
+            color: white; /* Màu chữ trắng */
+            padding: 10px; /* Giảm padding cho nút */
+            border: none; /* Ẩn viền */
+            border-radius: 6px; /* Bo tròn các góc */
+            cursor: pointer; /* Con trỏ chuột thành hình bàn tay */
+            font-size: 14px; /* Kích thước chữ trong nút nhỏ hơn */
+            font-weight: 600; /* Chữ đậm */
+            text-transform: uppercase; /* Viết hoa chữ */
+            width: 100%; /* Chiếm toàn bộ chiều rộng */
+            transition: background-color 0.3s ease; /* Hiệu ứng chuyển tiếp */
+        }
+
+        /* Hiệu ứng hover cho nút */
+        #formEmployee button#checkEmployeeBtn:hover {
+            background-color: #218838; /* Đổi màu khi hover */
+        }
+
+        /* Thông báo lỗi */
+        #employeeError {
+            margin-top: 5px; /* Khoảng cách trên thông báo lỗi */
+            font-weight: bold; /* Chữ đậm cho thông báo lỗi */
+            text-align: center; /* Căn giữa thông báo lỗi */
+            display: none; /* Ẩn thông báo lỗi ban đầu */
+            font-size: 12px; /* Kích thước chữ cho thông báo lỗi nhỏ hơn */
+        }
+
+        #formAccount {
+            display: block; /* Đảm bảo form được hiển thị */
+            padding: 20px; /* Thêm padding xung quanh nội dung */
+            border: 1px solid #ccc; /* Đường viền cho form */
+            border-radius: 5px; /* Bo tròn các góc */
+            background-color: #f9f9f9; /* Màu nền nhẹ cho form */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng cho form */
+            margin-top: 20px; /* Khoảng cách từ phần tử phía trên */
+            max-width: 400px; /* Đặt chiều rộng tối đa cho form */
+        }
+
+        #formAccount label {
+            display: block; /* Hiển thị label dưới dạng khối */
+            margin-bottom: 5px; /* Khoảng cách dưới mỗi label */
+            font-weight: bold; /* Làm đậm văn bản label */
+        }
+
+        #formAccount input[type="text"],
+        #formAccount input[type="password"] {
+            width: 100%; /* Chiều rộng của input là 100% */
+            padding: 10px; /* Padding bên trong input */
+            border: 1px solid #ccc; /* Đường viền cho input */
+            border-radius: 4px; /* Bo tròn các góc của input */
+            margin-bottom: 15px; /* Khoảng cách dưới mỗi input */
+            font-size: 16px; /* Kích thước chữ trong input */
+        }
+
+        #formAccount button {
+            background-color: #28a745; /* Màu nền cho nút */
+            color: white; /* Màu chữ cho nút */
+            border: none; /* Ẩn đường viền của nút */
+            border-radius: 4px; /* Bo tròn các góc của nút */
+            padding: 10px 15px; /* Padding cho nút */
+            cursor: pointer; /* Con trỏ thay đổi khi hover */
+            font-size: 16px; /* Kích thước chữ trong nút */
+        }
+
+        #formAccount button:hover {
+            background-color: #218838; /* Màu nền cho nút khi hover */
+        }
+
+        /* Định dạng tổng quan cho container của form delete account */
+        #formDeleteAccount {
+            width: 80%;
+            max-width: 800px;
+            margin-left: 10%;
+            padding: 20px;
+        }
+
+        /* Định dạng cho tiêu đề của form delete account */
+        #formDeleteAccount h3 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho form delete account */
+        #formDeleteAccount form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Định dạng cho các trường input trong form delete account */
+        #formDeleteAccount form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Định dạng cho các nhãn (label) trong form delete account */
+        #formDeleteAccount form label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Định dạng cho nút submit trong form delete account */
+        #formDeleteAccount form button {
+            width: 100%;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Hiệu ứng hover cho nút submit */
+        #formDeleteAccount form button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Định dạng cho các trường input bị thiếu dữ liệu khi required */
+        #formDeleteAccount form input:required:invalid {
+            border-color: #e74c3c;
+        }
+
+        /* Định dạng cho thông báo lỗi (nếu có) */
+        #formDeleteAccount form .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .button-container .btn.update-user {
+            background-color: #4a90e2; /* Màu nền xanh lá cây */
+            color: white; /* Màu chữ trắng */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .button-container .btn.update-user:hover {
+            background-color: #45a049; /* Màu nền khi hover */
+        }
+
+        #updateForm {
+            display: none; /* Mặc định ẩn form */
+            width: 100%; /* Đặt chiều rộng theo nhu cầu */
+            padding: 20px; /* Khoảng cách bên trong form */
+            background-color: #e0f0ff; /* Nền xanh dương nhạt */
+            border: 1px solid #4a90e2; /* Viền xanh dương đậm */
+            border-radius: 8px; /* Bo góc cho form */
+            color: #333; /* Màu chữ */
+            margin-top: 15px; /* Khoảng cách với phần tử phía trên */
+        }
+
+        #updateForm h3 {
+            color: #4a90e2; /* Màu tiêu đề xanh dương đậm */
+            margin-bottom: 15px;
+        }
+
+        #updateForm label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #4a90e2; /* Màu nhãn xanh dương đậm */
+        }
+
+        #updateForm input[type="text"] {
+            width: 100%; /* Độ rộng đầy đủ */
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #4a90e2; /* Viền xanh dương đậm */
+            border-radius: 5px;
+            background-color: #ffffff; /* Nền trắng cho input */
+            color: #333; /* Màu chữ */
+        }
+
+        #updateForm input[type="text"]:focus {
+            border-color: #337ab7; /* Màu viền khi focus */
+            outline: none; /* Loại bỏ outline mặc định */
+        }
+
+        #submitUpdateBtn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4a90e2; /* Nền nút xanh dương đậm */
+            color: #fff; /* Màu chữ trắng */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #submitUpdateBtn:hover {
+            background-color: #337ab7; /* Màu nền khi hover */
+        }

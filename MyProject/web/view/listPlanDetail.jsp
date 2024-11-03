@@ -34,7 +34,7 @@
             .clear {
                 clear: both; /* Để phân tách các phần tử khác nhau */
             }
-            
+
             .close-button-container {
                 position: absolute;
                 top: 10px;
@@ -58,7 +58,7 @@
         </style>
     </head>
     <body>
-        
+
         <div class="close-button-container">
             <a href="../plan/insert" class="close-button">×</a>
         </div>
@@ -107,7 +107,7 @@
                     <th>CamID</th>
                     <th>Date</th>
                     <th>Shift</th>
-                    <th>Quantity</th>
+                    <th>Quantity (Đã phân công)</th>
                     <th>SCID</th>
                 </tr>
             </thead>
@@ -125,36 +125,16 @@
                         </td>
                     </tr>
                     <c:set var="totalQuantity" value="${totalQuantity + schedule.quantity}" />
+                    <c:if test="${empty camid1}">
+                        <c:set var="camid1" value="${schedule.camid}" scope="page" />
+                    </c:if>
                 </c:forEach>
-                <tr>
-                    <td colspan="3" style="text-align: right; font-weight: bold;">Total Quantity:</td>
-                    <td>${totalQuantity}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="3" style="text-align: right; font-weight: bold;">Còn:</td>
-                    <td>
-                        <c:set var="remainingQuantity" value="0" />
-                        <c:set var="found" value="false" />
-                        <c:forEach var="planCampain" items="${sessionScope.planCampainList}">
-                            <c:if test="${!found}">
-                                <c:set var="calculatedQuantity" value="${planCampain.quantity}" />
-                                <c:forEach var="schedule" items="${scheduleCampainList}">
-                                    <c:if test="${schedule.camid == planCampain.camid}">
-                                        <c:set var="calculatedQuantity" value="${calculatedQuantity - totalQuantity}" />
-                                        <c:set var="found" value="true" /> 
-                                    </c:if>
-                                </c:forEach>
-                                <c:if test="${found}">
-                                    <c:set var="remainingQuantity" value="${calculatedQuantity <= 0 ? 0 : calculatedQuantity}" />
-                                </c:if>
-                            </c:if>
-                        </c:forEach>
-
-                        ${remainingQuantity}
-                    </td>
-                    <td></td>
-                </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: right; font-weight: bold;">Total Quantity:</td>
+                        <td>${totalQuantity}</td>
+                        <td></td>
+                    </tr>
+                
             </tbody>
         </table>
 
@@ -174,7 +154,8 @@
                 form.appendChild(input);
                 document.body.appendChild(form);
                 form.submit();
-            };
+            }
+            ;
 
             function sendScid(scid) {
                 var form = document.createElement('form');
@@ -188,9 +169,10 @@
 
                 form.appendChild(input);
                 document.body.appendChild(form);
-                console.log("Submitting to URL:", form.action); 
+                console.log("Submitting to URL:", form.action);
                 form.submit();
-            };
+            }
+            ;
 
             function showScheduleTable() {
                 document.getElementById('scheduleTable').style.display = 'table';

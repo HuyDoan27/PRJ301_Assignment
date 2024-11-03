@@ -369,11 +369,11 @@ public class UserDBContext extends DBContext<User> {
             stm.setInt(1, fid);
             try (ResultSet rs = stm.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1) > 0; // Trả về true nếu Feature ID tồn tại
+                    return rs.getInt(1) > 0; 
                 }
             }
         }
-        return false; // Trả về false nếu Feature ID không tồn tại
+        return false; 
     }
 
     public void deleteUserFeature(int uid) throws SQLException {

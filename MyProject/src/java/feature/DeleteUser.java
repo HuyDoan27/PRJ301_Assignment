@@ -84,8 +84,8 @@ public class DeleteUser extends HttpServlet {
         User user = new UserDBContext().getUser(userId);
 
         if (user != null) {
-            req.setAttribute("user", user);
-            req.getRequestDispatcher("../view/deleteUser.jsp").forward(req, resp);
+            req.getSession().setAttribute("user", user);
+            resp.sendRedirect("../view/deleteUser.jsp");
         } else {
             req.getSession().setAttribute("errorMessage", "Không tìm thấy user");
             resp.sendRedirect("../view/deleteUser.jsp");

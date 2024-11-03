@@ -44,9 +44,9 @@
         </style>
     </head>
     <body>
-        <h2>Phân công</h2>
+        <h2>Phân công PlanID ${planId}</h2>
 
-        <form action="../plan/assignwork" method="post">
+        <form action="../plan/assignwork" method="get">
             <input type="hidden" name="planId" value="${planId}" />
             <!-- Bảng hiển thị thông tin nhập liệu theo ngày và sản phẩm -->
             <table class="schedule-table">

@@ -1,0 +1,355 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 3, 2024, 4:36:17 PM
+    Author     : Admin
+*/
+.info {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 120px ;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+input[type="submit"]:active {
+    background-color: #3e8e41;
+}
+/* Đặt kiểu cho toàn bộ biểu mẫu */
+.form-container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Kiểu cho nhãn và ô nhập liệu */
+.form-container label {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.form-container input[type="date"],
+.form-container input[type="text"],
+.form-container select {
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Kiểu cho nút gửi */
+.form-container input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    width: 150px;
+    align-self: center;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Kiểu cho bảng sản phẩm */
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.product-table th,
+.product-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.product-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.product-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: flex-start; /* Align panels at the top */
+}
+
+.left-panel, .right-panel {
+    flex: 1;
+    max-width: 50%;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #3e8e41;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.date-form {
+    width: 80%;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: none; /* Ẩn đi ban đầu */
+    flex-direction: column;
+    align-items: center;
+}
+
+.date-form label {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.date-form input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 200px;
+}
+
+.date-form input[type="submit"] {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
+}
+
+.date-form input[type="submit"]:hover {
+    background-color: #3e8e41;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.plan-section {
+    width: 100%;
+    margin-top: 20px;
+}
+
+#planSection {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#planSection table, #planSection th, #planSection td {
+    border: 1px solid #ddd;
+}
+
+#planSection th, #planSection td {
+    padding: 10px;
+    text-align: left;
+}
+
+#planSection th {
+    background-color: #f2f2f2;
+}
+
+/* CSS cho phần lỗi */
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.close-btn {
+    float: right;
+    font-size: 18px;
+    cursor: pointer;
+    color: #ff0000;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.close-btn:hover {
+    color: #b30000;
+}
+
+/* Update Form Section Styling */
+#updateFormSection {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+#updateFormSection h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#updateFormSection label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+#updateFormSection input[type="text"],
+#updateFormSection input[type="date"],
+#updateFormSection select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    color: #333;
+}
+
+#updateFormSection input[readonly] {
+    background-color: #eee;
+    color: #777;
+    cursor: not-allowed;
+}
+
+#updateFormSection button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#updateFormSection button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#updateFormSection button[type="button"] {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#updateFormSection button[type="button"]:hover {
+    background-color: #e53935;
+}
+
+/* Ensure the form displays in the right position */
+.right-panel {
+    position: relative;
+}
+
+.plan-section + #updateFormSection {
+    display: block; /* To ensure it displays right below the plan-section */
+    margin-top: 20px;
+}
