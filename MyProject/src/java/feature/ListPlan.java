@@ -4,10 +4,12 @@
  */
 package feature;
 
+import controller.BaseRBACController;
 import dal.DepartmentDBContext;
 import dal.PlanDBContext;
 import dal.ProductDBContext;
 import data.Plan;
+import data.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -21,32 +23,56 @@ import java.sql.*;
  *
  * @author Admin
  */
-public class ListPlan extends HttpServlet {
+public class ListPlan extends BaseRBACController {
+
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String inputDate = req.getParameter("inputDate");
+//        PlanDBContext db = new PlanDBContext();
+//        ProductDBContext dbProduct = new ProductDBContext();
+//        DepartmentDBContext dbDept = new DepartmentDBContext();
+//
+//        ArrayList<Plan> plans = new ArrayList<>();
+//        ArrayList<Plan> cumulativeList = new ArrayList<>();
+//
+//        plans = db.planList(inputDate);
+//
+//        req.setAttribute("inputDate", inputDate);
+//        req.setAttribute("plans", plans);
+//        req.setAttribute("products", dbProduct.list());
+//        req.setAttribute("depts", dbDept.get("WS"));
+//
+//        req.getRequestDispatcher("../view/KHSX.jsp").forward(req, resp);
+//    }
+//
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//
+//    }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User loggeduser) throws ServletException, IOException {
         String inputDate = req.getParameter("inputDate");
         PlanDBContext db = new PlanDBContext();
         ProductDBContext dbProduct = new ProductDBContext();
         DepartmentDBContext dbDept = new DepartmentDBContext();
-        
-        ArrayList<Plan> plans = new ArrayList<>(); 
-        ArrayList<Plan> cumulativeList = new ArrayList<>(); 
-        
+
+        ArrayList<Plan> plans = new ArrayList<>();
+        ArrayList<Plan> cumulativeList = new ArrayList<>();
+
         plans = db.planList(inputDate);
-        
+
         req.setAttribute("inputDate", inputDate);
         req.setAttribute("plans", plans);
         req.setAttribute("products", dbProduct.list());
         req.setAttribute("depts", dbDept.get("WS"));
-        
-        
+
         req.getRequestDispatcher("../view/KHSX.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 
 }
